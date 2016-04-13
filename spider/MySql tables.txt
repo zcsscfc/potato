@@ -1,21 +1,21 @@
 
-table name: sys user		// ÓÃ»§±í    
+table name: sys user		// ç”¨æˆ·è¡¨    
 
-table name: user post		// ÓÃ»§ÎÄÕÂ±í
+table name: user post		// ç”¨æˆ·æ–‡ç« è¡¨
 
-table name: raw post		// Ô­Ê¼ÎÄÕÂ±í
+table name: raw post		// åŸå§‹æ–‡ç« è¡¨
 
-table name: post detail		// ÎÄÕÂÏêÏ¸ÄÚÈİ±í
+table name: post detail		// æ–‡ç« è¯¦ç»†å†…å®¹è¡¨
 
-table name: bd meta			// ¹Ø¼ü×Ö
+table name: bd meta			// å…³é”®å­—
 
-table name: post meta		// ÎÄÕÂ¹Ø¼ü×Ö
+table name: post meta		// æ–‡ç« å…³é”®å­—
 
-table name: bd origin site		// Ô­Ê¼Õ¾µãÔ´	£¨Õâ¸öÊÇ£¬Ä³Ğ©ÍøÕ¾£¬ÄÚÈİ»á¸üĞÂ£¬Í¨¹ıÃ¿Ìì¶¨Ê±¼ì²é£¬ÕâĞ©ÍøÕ¾£¬¿´·ñÓĞ¸üĞÂÄÚÈİ£©
+table name: bd origin site		// åŸå§‹ç«™ç‚¹æº	ï¼ˆè¿™ä¸ªæ˜¯ï¼ŒæŸäº›ç½‘ç«™ï¼Œå†…å®¹ä¼šæ›´æ–°ï¼Œé€šè¿‡æ¯å¤©å®šæ—¶æ£€æŸ¥ï¼Œè¿™äº›ç½‘ç«™ï¼Œçœ‹å¦æœ‰æ›´æ–°å†…å®¹ï¼‰
 
-table name: bd origin subject 	// Ô­Ê¼Ö÷ÌâÔ´ £¨Õâ¸öÊÇ£¬°ÑÔ­Ê¼Êı¾İ£¬ÓÉÎÒÃÇ¾­¹ıÉ¸Ñ¡ºó£¬½øĞĞµÄ·ÖÀà£¬Ìá¹©µÄÔ´£©
+table name: bd origin subject 	// åŸå§‹ä¸»é¢˜æº ï¼ˆè¿™ä¸ªæ˜¯ï¼ŒæŠŠåŸå§‹æ•°æ®ï¼Œç”±æˆ‘ä»¬ç»è¿‡ç­›é€‰åï¼Œè¿›è¡Œçš„åˆ†ç±»ï¼Œæä¾›çš„æºï¼‰
 
-table name: user favor		// ÓÃ»§Ô´ £¨ÓÃ»§Í¨¹ıµã»÷ÊÕ²Ø£¬½«ÎÄÕÂÊÕ²Øµ½£¬×Ô¼º½¨µÄÒ»¸öÀà±ğ£©
+table name: user favor		// ç”¨æˆ·æº ï¼ˆç”¨æˆ·é€šè¿‡ç‚¹å‡»æ”¶è—ï¼Œå°†æ–‡ç« æ”¶è—åˆ°ï¼Œè‡ªå·±å»ºçš„ä¸€ä¸ªç±»åˆ«ï¼‰
 
 
 
