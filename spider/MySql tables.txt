@@ -1,0 +1,48 @@
+
+table name: sys user		// 用户表    
+
+table name: user post		// 用户文章表
+
+table name: raw post		// 原始文章表
+
+table name: post detail		// 文章详细内容表
+
+table name: bd meta			// 关键字
+
+table name: post meta		// 文章关键字
+
+table name: bd origin site		// 原始站点源	（这个是，某些网站，内容会更新，通过每天定时检查，这些网站，看否有更新内容）
+
+table name: bd origin subject 	// 原始主题源 （这个是，把原始数据，由我们经过筛选后，进行的分类，提供的源）
+
+table name: user favor		// 用户源 （用户通过点击收藏，将文章收藏到，自己建的一个类别）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
