@@ -1,4 +1,4 @@
-package com.potato.layout;
+package com.potato.list;
 
 public interface SwipeMenuCreator {
 

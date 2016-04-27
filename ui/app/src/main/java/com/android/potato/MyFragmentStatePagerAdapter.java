@@ -1,4 +1,4 @@
-package com.potato.adapter;
+package com.android.potato;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

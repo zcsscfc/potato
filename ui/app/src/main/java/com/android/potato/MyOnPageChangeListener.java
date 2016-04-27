@@ -1,4 +1,4 @@
-package com.potato.listener;
+package com.android.potato;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -7,7 +7,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.potato.R;
 
 /**
  * Created by S1011001 on 2016/4/27.

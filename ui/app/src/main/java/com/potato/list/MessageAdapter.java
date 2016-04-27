@@ -1,4 +1,4 @@
-package com.potato.adapter;
+package com.potato.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.potato.manager;
+package com.android.potato;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

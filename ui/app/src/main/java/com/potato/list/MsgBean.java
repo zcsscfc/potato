@@ -1,4 +1,4 @@
-package com.potato.adapter;
+package com.potato.list;
 
 /**
  * Created by Hankkin on 16/4/24.

@@ -1,4 +1,4 @@
-package com.potato.layout;
+package com.potato.list;
 
 import android.content.Context;
 import android.support.v4.view.GestureDetectorCompat;

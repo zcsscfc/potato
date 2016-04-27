@@ -1,4 +1,4 @@
-package com.potato.layout;
+package com.potato.list;
 
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -7,8 +7,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.potato.listview.RefreshSwipeMenuListView;
 
 import java.util.List;
 

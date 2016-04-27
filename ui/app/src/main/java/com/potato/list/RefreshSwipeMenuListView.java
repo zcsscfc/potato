@@ -1,4 +1,4 @@
-package com.potato.listview;
+package com.potato.list;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -18,13 +18,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
-
-import com.potato.layout.RefreshListHeader;
-import com.potato.layout.RefreshTime;
-import com.potato.layout.SwipeMenu;
-import com.potato.layout.SwipeMenuCreator;
-import com.potato.layout.SwipeMenuLayout;
-import com.potato.layout.SwipeMenuView;
 
 import java.util.Date;
 

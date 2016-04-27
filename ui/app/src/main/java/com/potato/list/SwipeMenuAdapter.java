@@ -1,4 +1,4 @@
-package com.potato.adapter;
+package com.potato.list;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -8,12 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
-
-import com.potato.layout.SwipeMenu;
-import com.potato.layout.SwipeMenuItem;
-import com.potato.layout.SwipeMenuLayout;
-import com.potato.layout.SwipeMenuView;
-import com.potato.listview.RefreshSwipeMenuListView;
 
 public class SwipeMenuAdapter implements WrapperListAdapter, SwipeMenuView.OnSwipeItemClickListener {
 	

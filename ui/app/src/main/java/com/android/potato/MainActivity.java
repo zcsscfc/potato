@@ -1,12 +1,9 @@
-package com.potato.activity;
+package com.android.potato;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
-
-import com.android.potato.R;
-import com.potato.manager.SystemBarTintManager;
 
 public class MainActivity extends FragmentActivity {
     @Override

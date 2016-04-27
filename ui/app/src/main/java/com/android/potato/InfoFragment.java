@@ -1,4 +1,4 @@
-package com.potato.fragment;
+package com.android.potato;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,11 +12,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.potato.adapter.MyFragmentStatePagerAdapter;
-import com.potato.listener.MyOnPageChangeListener;
-import com.potato.application.PotatoApplication;
-import com.android.potato.R;
 
 import java.util.ArrayList;
 import java.util.List;

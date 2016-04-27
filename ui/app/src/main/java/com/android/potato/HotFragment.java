@@ -1,4 +1,4 @@
-package com.potato.fragment;
+package com.android.potato;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,17 +14,17 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.potato.R;
-import com.potato.application.PotatoApplication;
-import com.potato.layout.SwipeMenu;
-import com.potato.layout.SwipeMenuCreator;
-import com.potato.layout.SwipeMenuItem;
-import com.potato.listview.RefreshSwipeMenuListView;
+import com.potato.list.MessageAdapter;
+import com.potato.list.MsgBean;
+import com.potato.list.RefreshSwipeMenuListView;
+import com.potato.list.SwipeMenu;
+import com.potato.list.SwipeMenuCreator;
+import com.potato.list.SwipeMenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotFragment extends Fragment implements RefreshSwipeMenuListView.OnRefreshListener{
+public class HotFragment extends Fragment implements RefreshSwipeMenuListView.OnRefreshListener {
     private View view;
 
     private RefreshSwipeMenuListView rsmLv;
@@ -35,23 +35,17 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.hot_fragment_layout, container, false);
-            TextView tv_content = (TextView) view.findViewById(R.id.tv_content);
             Bundle bundle = getArguments();
             if (bundle != null) {
-                tv_content.setText(bundle.getString("extra"));
+                bundle.getString("extra");
             }
         }
-        addList();
-        return view;
-    }
-
-    private void addList(){
 
         rsmLv = (RefreshSwipeMenuListView) view.findViewById(R.id.swipe);
         data = new ArrayList<>();
         initData();
 
-        adapter = new MessageAdapter(PotatoApplication.getInstance(),data);
+        adapter = new MessageAdapter(PotatoApplication.getInstance(), data);
 
         rsmLv.setAdapter(adapter);
         rsmLv.setListViewMode(RefreshSwipeMenuListView.HEADER);
@@ -97,22 +91,14 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
                         Toast.makeText(PotatoApplication.getInstance(), "您点击的是置顶", Toast.LENGTH_SHORT).show();
                         break;
                     case 1: //第二个选项
-                        del(position,rsmLv.getChildAt(position+1-rsmLv.getFirstVisiblePosition()));
+                        del(position, rsmLv.getChildAt(position + 1 - rsmLv.getFirstVisiblePosition()));
                         break;
 
                 }
             }
         });
-    }
 
-    private void initData(){
-        for (int i=0;i<15;i++){
-            MsgBean msgBean = new MsgBean();
-            msgBean.setName("张某某"+i);
-            msgBean.setContent("你好，在么？"+i);
-            msgBean.setTime("上午10:30");
-            data.add(msgBean);
-        }
+        return view;
     }
 
     /**
@@ -144,6 +130,16 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
                 context.getResources().getDisplayMetrics());
     }
 
+    private void initData() {
+        for (int i = 0; i < 15; i++) {
+            MsgBean msgBean = new MsgBean();
+            msgBean.setName("张某某" + i);
+            msgBean.setContent("你好，在么？" + i);
+            msgBean.setTime("上午10:30");
+            data.add(msgBean);
+        }
+    }
+
     @Override
     public void onRefresh() {
         rsmLv.postDelayed(new Runnable() {
@@ -160,19 +156,17 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
         rsmLv.postDelayed(new Runnable() {
             @Override
             public void run() {
-                for (int i=0;i<10;i++){
+                for (int i = 0; i < 10; i++) {
                     MsgBean msgBean = new MsgBean();
-                    msgBean.setName("张某某"+i);
-                    msgBean.setContent("你好，在么？"+i);
+                    msgBean.setName("张某某" + i);
+                    msgBean.setContent("你好，在么？" + i);
                     msgBean.setTime("上午10:30");
                     data.add(msgBean);
                 }
                 rsmLv.complete();
                 adapter.notifyDataSetChanged();
             }
-        },2000);
+        }, 2000);
 
     }
-
-
 }
