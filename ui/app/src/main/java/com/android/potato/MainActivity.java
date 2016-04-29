@@ -21,8 +21,7 @@ public class MainActivity extends FragmentActivity {
         tintManager.setNavigationBarTintResource(R.color.color_11);
         // 设置边距，保证对齐
         SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
-        LinearLayout textViewHello = (LinearLayout) findViewById(R.id.linearLayoutTabContainer);
-        textViewHello.setPadding(0, config.getPixelInsetTop(true), 0, config.getPixelInsetBottom());
-        textViewHello.setPadding(0, config.getPixelInsetTop(true) / 3, 0, 0);
+        LinearLayout linearLayoutTitleContainer = (LinearLayout) findViewById(R.id.linearLayoutTitleContainer);
+        linearLayoutTitleContainer.setPadding(0, config.getPixelInsetTop(true)/3+10, 0, 0);
     }
 }

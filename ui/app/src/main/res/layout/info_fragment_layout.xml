@@ -6,22 +6,26 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/linearLayoutTitleContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#29B295"
         android:orientation="horizontal">
 
-        <Button
+        <ImageView
             android:layout_width="30dp"
-            android:layout_height="fill_parent"
-            android:background="@drawable/u37"
-            android:paddingBottom="3dp"
-            android:paddingLeft="3dp" />
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="0dp"
+            android:paddingBottom="7dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/u36" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#29B295"
             android:scrollbars="none">
 
             <LinearLayout
