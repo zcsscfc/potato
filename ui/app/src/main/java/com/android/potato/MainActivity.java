@@ -1,12 +1,11 @@
 package com.android.potato;
 
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.util.Log;
+import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,11 +17,12 @@ public class MainActivity extends AppCompatActivity {
         // 激活导航栏设置
         tintManager.setNavigationBarTintEnabled(true);
         // 设置颜色
-        tintManager.setStatusBarTintResource(R.color.colorPrimary);
-        tintManager.setNavigationBarTintResource(R.color.colorPrimary);
+        tintManager.setStatusBarTintResource(R.color.color_11);
+        tintManager.setNavigationBarTintResource(R.color.color_11);
         // 设置边距，保证对齐
         SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
-        TextView textViewHello = (TextView)findViewById(R.id.textViewHello);
+        LinearLayout textViewHello = (LinearLayout) findViewById(R.id.linearLayoutTabContainer);
         textViewHello.setPadding(0, config.getPixelInsetTop(true), 0, config.getPixelInsetBottom());
+        textViewHello.setPadding(0, config.getPixelInsetTop(true) / 3, 0, 0);
     }
 }
