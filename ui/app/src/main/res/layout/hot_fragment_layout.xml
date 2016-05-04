@@ -5,8 +5,8 @@
     android:orientation="vertical">
 
     <com.potato.list.RefreshSwipeMenuListView
-        android:id="@+id/swipe"
+        android:id="@+id/refreshSwipeMenuListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="2dp" />
 </LinearLayout>

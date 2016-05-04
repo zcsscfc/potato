@@ -11,25 +11,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.potato.list.MessageAdapter;
-import com.potato.list.MsgBean;
+import com.potato.list.PostItemListAdapter;
+import com.potato.list.PostItem;
 import com.potato.list.RefreshSwipeMenuListView;
 import com.potato.list.SwipeMenu;
 import com.potato.list.SwipeMenuCreator;
 import com.potato.list.SwipeMenuItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HotFragment extends Fragment implements RefreshSwipeMenuListView.OnRefreshListener {
     private View view;
-
-    private RefreshSwipeMenuListView rsmLv;
-    private List<MsgBean> data;
-    private MessageAdapter adapter;
+    private RefreshSwipeMenuListView refreshSwipeMenuListView;
+    private List<PostItem> postItemList;
+    private PostItemListAdapter messageAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,15 +41,15 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
             }
         }
 
-        rsmLv = (RefreshSwipeMenuListView) view.findViewById(R.id.swipe);
-        data = new ArrayList<>();
-        initData();
+        refreshSwipeMenuListView = (RefreshSwipeMenuListView) view.findViewById(R.id.refreshSwipeMenuListView);
+        postItemList = new ArrayList<>();
+        InitialTestData();
 
-        adapter = new MessageAdapter(PotatoApplication.getInstance(), data);
+        messageAdapter = new PostItemListAdapter(PotatoApplication.getInstance(), postItemList);
 
-        rsmLv.setAdapter(adapter);
-        rsmLv.setListViewMode(RefreshSwipeMenuListView.HEADER);
-        rsmLv.setOnRefreshListener(this);
+        refreshSwipeMenuListView.setAdapter(messageAdapter);
+        refreshSwipeMenuListView.setListViewMode(RefreshSwipeMenuListView.HEADER);
+        refreshSwipeMenuListView.setOnRefreshListener(this);
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -60,7 +60,7 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
                 // 设置选项背景
                 rejectItem.setBackground(new ColorDrawable(getResources().getColor(R.color.top)));
                 // 设置选项宽度
-                rejectItem.setWidth(dp2px(80,PotatoApplication.getInstance()));
+                rejectItem.setWidth(dp2px(80, PotatoApplication.getInstance()));
                 // 设置选项标题
                 rejectItem.setTitle("置顶");
                 // 设置选项标题
@@ -81,9 +81,9 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
             }
         };
 
-        rsmLv.setMenuCreator(creator);
+        refreshSwipeMenuListView.setMenuCreator(creator);
 
-        rsmLv.setOnMenuItemClickListener(new RefreshSwipeMenuListView.OnMenuItemClickListener() {
+        refreshSwipeMenuListView.setOnMenuItemClickListener(new RefreshSwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public void onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
@@ -91,7 +91,7 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
                         Toast.makeText(PotatoApplication.getInstance(), "您点击的是置顶", Toast.LENGTH_SHORT).show();
                         break;
                     case 1: //第二个选项
-                        del(position, rsmLv.getChildAt(position + 1 - rsmLv.getFirstVisiblePosition()));
+                        del(position, refreshSwipeMenuListView.getChildAt(position + 1 - refreshSwipeMenuListView.getFirstVisiblePosition()));
                         break;
 
                 }
@@ -103,10 +103,11 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
 
     /**
      * 删除item动画
+     *
      * @param index
      * @param v
      */
-    private void del(final int index, View v){
+    private void del(final int index, View v) {
         final Animation animation = (Animation) AnimationUtils.loadAnimation(v.getContext(), R.anim.list_anim);
         animation.setAnimationListener(new Animation.AnimationListener() {
             public void onAnimationStart(Animation animation) {
@@ -116,8 +117,8 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
             }
 
             public void onAnimationEnd(Animation animation) {
-                data.remove(index);
-                adapter.notifyDataSetChanged();
+                postItemList.remove(index);
+                messageAdapter.notifyDataSetChanged();
                 animation.cancel();
             }
         });
@@ -125,27 +126,30 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
         v.startAnimation(animation);
     }
 
-    public  int dp2px(int dp, Context context) {
+    public int dp2px(int dp, Context context) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 context.getResources().getDisplayMetrics());
     }
 
-    private void initData() {
+    private void InitialTestData() {
         for (int i = 0; i < 15; i++) {
-            MsgBean msgBean = new MsgBean();
-            msgBean.setName("张某某" + i);
-            msgBean.setContent("你好，在么？" + i);
-            msgBean.setTime("上午10:30");
-            data.add(msgBean);
+            PostItem postItem = new PostItem();
+            postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
+            postItem.setOrigin("中国农业技术网");
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+            String str = sdf.format(date);
+            postItem.setTime(str);
+            postItemList.add(postItem);
         }
     }
 
     @Override
     public void onRefresh() {
-        rsmLv.postDelayed(new Runnable() {
+        refreshSwipeMenuListView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                rsmLv.complete();
+                refreshSwipeMenuListView.complete();
                 Toast.makeText(PotatoApplication.getInstance(), "已完成", Toast.LENGTH_SHORT).show();
             }
         }, 2000);
@@ -153,20 +157,19 @@ public class HotFragment extends Fragment implements RefreshSwipeMenuListView.On
 
     @Override
     public void onLoadMore() {
-        rsmLv.postDelayed(new Runnable() {
+        refreshSwipeMenuListView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
-                    MsgBean msgBean = new MsgBean();
-                    msgBean.setName("张某某" + i);
-                    msgBean.setContent("你好，在么？" + i);
+                    PostItem msgBean = new PostItem();
+                    msgBean.setTitle("张某某" + i);
+                    msgBean.setOrigin("你好，在么？" + i);
                     msgBean.setTime("上午10:30");
-                    data.add(msgBean);
+                    postItemList.add(msgBean);
                 }
-                rsmLv.complete();
-                adapter.notifyDataSetChanged();
+                refreshSwipeMenuListView.complete();
+                messageAdapter.notifyDataSetChanged();
             }
         }, 2000);
-
     }
 }

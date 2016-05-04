@@ -57,8 +57,8 @@ public class LeftMenuListAdapter extends BaseAdapter {
             LeftMenu=new leftMenu();
             //获得组件，实例化组件
             convertView=layoutInflater.inflate(R.layout.leftmenu_item, null);
-            LeftMenu.iv_icon=(ImageView)convertView.findViewById(R.id.iv_icon);
-            LeftMenu.tv_name=(TextView)convertView.findViewById(R.id.tv_name);
+            LeftMenu.iv_icon=(ImageView)convertView.findViewById(R.id.imageViewThumb);
+            LeftMenu.tv_name=(TextView)convertView.findViewById(R.id.textViewTitle);
             convertView.setTag(LeftMenu);
         }else{
             LeftMenu=(leftMenu)convertView.getTag();
