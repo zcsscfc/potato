@@ -10,7 +10,7 @@ import com.android.potato.R;
 
 import java.util.List;
 
-public class SimpleOnMenuItemClickListener implements IOnMenuItemClickListener {
+public class SimpleOnMenuItemClickListener implements OnMenuItemClickListener {
     private RefreshSwipeMenuListView refreshSwipeMenuListView;
     private List<PostItem> postItemList;
     private PostItemListAdapter postItemListAdapter;

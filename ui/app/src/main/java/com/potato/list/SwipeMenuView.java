@@ -71,7 +71,7 @@ public class SwipeMenuView extends LinearLayout implements OnClickListener {
         tv.setTextColor(item.getTitleColor());
         return tv;
     }
-    
+
     @Override
     public void onClick(View v) {
         if (onItemClickListener != null && mLayout.isOpen()) {

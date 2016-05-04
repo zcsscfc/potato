@@ -1,6 +1,7 @@
 package com.potato.list;
 
-public interface IOnRefreshListener {
+public interface OnRefreshListener {
     public void onRefresh();
+
     public void onLoadMore();
 }

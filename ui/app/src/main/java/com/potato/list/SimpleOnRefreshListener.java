@@ -6,7 +6,7 @@ import com.android.potato.PotatoApplication;
 
 import java.util.List;
 
-public class SimpleOnRefreshListener implements IOnRefreshListener {
+public class SimpleOnRefreshListener implements OnRefreshListener {
     private RefreshSwipeMenuListView refreshSwipeMenuListView;
     private List<PostItem> postItemList;
     private PostItemListAdapter postItemListAdapter;

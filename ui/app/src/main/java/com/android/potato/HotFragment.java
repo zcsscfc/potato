@@ -49,13 +49,14 @@ public class HotFragment extends Fragment {
         );
         refreshSwipeMenuListView.setOnRefreshListener(simpleOnRefreshListener);
 
-        SimpleSwipeMenu simpleSwipeMenu = new SimpleSwipeMenu();
-        refreshSwipeMenuListView.setMenuCreator(simpleSwipeMenu);
+      //  SimpleSwipeMenu simpleSwipeMenu = new SimpleSwipeMenu();
+      //  refreshSwipeMenuListView.setMenuCreator(simpleSwipeMenu);
 
-        SimpleOnMenuItemClickListener simpleOnMenuItemClickListener = new SimpleOnMenuItemClickListener(
-                refreshSwipeMenuListView, postItemList, postItemListAdapter
-        );
-        refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
+      //  SimpleOnMenuItemClickListener simpleOnMenuItemClickListener = new SimpleOnMenuItemClickListener(
+         //       refreshSwipeMenuListView, postItemList, postItemListAdapter
+       // );
+       // refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
+
         return view;
     }
 
