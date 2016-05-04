@@ -13,7 +13,7 @@ public class SwipeMenuAdapter implements WrapperListAdapter, SwipeMenuView.OnSwi
 	
 	private ListAdapter mAdapter;
 	private Context mContext;
-	private RefreshSwipeMenuListView.OnMenuItemClickListener onMenuItemClickListener;
+	private IOnMenuItemClickListener onMenuItemClickListener;
 
 	public SwipeMenuAdapter(Context context, ListAdapter adapter) {
 		mAdapter = adapter;
@@ -80,7 +80,7 @@ public class SwipeMenuAdapter implements WrapperListAdapter, SwipeMenuView.OnSwi
 		}
 	}
 
-	public void setOnMenuItemClickListener(RefreshSwipeMenuListView.OnMenuItemClickListener onMenuItemClickListener) {
+	public void setOnMenuItemClickListener(IOnMenuItemClickListener onMenuItemClickListener) {
 		this.onMenuItemClickListener = onMenuItemClickListener;
 	}
 

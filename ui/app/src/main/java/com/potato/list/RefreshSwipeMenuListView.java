@@ -2,6 +2,7 @@ package com.potato.list;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -46,9 +47,9 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
     private float firstTouchY;  //第一次触摸y坐标
     private float lastTouchY;   //最后一次触摸y坐标
     //创建左滑菜单接口
-    private SwipeMenuCreator mMenuCreator;
+    private ISwipeMenuCreator mMenuCreator;
     //菜单点击事件
-    private OnMenuItemClickListener mOnMenuItemClickListener;
+    private IOnMenuItemClickListener onMenuItemClickListener;
     //关闭菜单动画修饰Interpolator
     private Interpolator mCloseInterpolator;
     //开启菜单动画修饰Interpolator
@@ -59,7 +60,7 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
     private OnScrollListener mScrollListener; // 滑动监听
 
     // 下拉上拉监听器
-    private OnRefreshListener onRefreshListener;
+    private IOnRefreshListener onRefreshListener;
 
     //下拉头
     private RefreshListHeader mHeaderView;
@@ -155,8 +156,8 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
 
             @Override
             public void onItemClick(SwipeMenuView view, SwipeMenu menu, int index) {
-                if (mOnMenuItemClickListener != null) {//左滑菜单点击事件
-                    mOnMenuItemClickListener.onMenuItemClick(view.getPosition(), menu, index);
+                if (onMenuItemClickListener != null) {//左滑菜单点击事件
+                    onMenuItemClickListener.onMenuItemClick(view.getPosition(), menu, index);
                 }
                 if (mTouchView != null) {
                     mTouchView.smoothCloseMenu();
@@ -341,25 +342,20 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
                 getContext().getResources().getDisplayMetrics());
     }
 
-    public void setMenuCreator(SwipeMenuCreator menuCreator) {
+    public void setMenuCreator(ISwipeMenuCreator menuCreator) {
         this.mMenuCreator = menuCreator;
     }
 
-    public void setOnMenuItemClickListener(OnMenuItemClickListener onMenuItemClickListener) {
-        this.mOnMenuItemClickListener = onMenuItemClickListener;
+    public void setOnMenuItemClickListener(IOnMenuItemClickListener onMenuItemClickListener) {
+        this.onMenuItemClickListener = onMenuItemClickListener;
     }
 
     public void setOnSwipeListener(OnSwipeListener onSwipeListener) {
         this.mOnSwipeListener = onSwipeListener;
     }
 
-    public static interface OnMenuItemClickListener {
-        void onMenuItemClick(int position, SwipeMenu menu, int index);
-    }
-
     public static interface OnSwipeListener {
         void onSwipeStart(int position);
-
         void onSwipeEnd(int position);
     }
 
@@ -536,7 +532,7 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
         }
     }
 
-    public void setOnRefreshListener(OnRefreshListener l) {
+    public void setOnRefreshListener(IOnRefreshListener l) {
         onRefreshListener = l;
     }
 
@@ -546,15 +542,6 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
      */
     public interface OnXScrollListener extends OnScrollListener {
         public void onXScrolling(View view);
-    }
-
-    /**
-     * implements this interface to get refresh/load more event.
-     */
-    public interface OnRefreshListener {
-        public void onRefresh();
-
-        public void onLoadMore();
     }
 
     /**
@@ -638,5 +625,4 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
             lastTouchY = 0;
         }
     }
-
 }
