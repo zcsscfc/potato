@@ -40,15 +40,14 @@ public class HotFragment extends Fragment {
         postItemListAdapter = new PostItemListAdapter(context, postItemList);
 
         refreshSwipeMenuListView = (RefreshSwipeMenuListView) view.findViewById(R.id.refreshSwipeMenuListView);
-
-
+        
         refreshSwipeMenuListView.setAdapter(postItemListAdapter);
         refreshSwipeMenuListView.setListViewMode(RefreshSwipeMenuListView.BOTH);
 
-        SimpleOnRefreshListener myOnRefreshListener = new SimpleOnRefreshListener(
+        SimpleOnRefreshListener simpleOnRefreshListener = new SimpleOnRefreshListener(
                 refreshSwipeMenuListView, postItemList, postItemListAdapter
         );
-        refreshSwipeMenuListView.setOnRefreshListener(myOnRefreshListener);
+        refreshSwipeMenuListView.setOnRefreshListener(simpleOnRefreshListener);
 
         SimpleSwipeMenu simpleSwipeMenu = new SimpleSwipeMenu();
         refreshSwipeMenuListView.setMenuCreator(simpleSwipeMenu);

@@ -2,7 +2,6 @@ package com.potato.list;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -24,57 +21,35 @@ import java.util.Date;
 
 import com.android.potato.R;
 
-public class RefreshSwipeMenuListView extends ListView implements OnScrollListener {
-
+public class RefreshSwipeMenuListView extends ListView {
     private static final int TOUCH_STATE_NONE = 0;
-    private static final int TOUCH_STATE_X = 1; //x轴触摸状态值
-    private static final int TOUCH_STATE_Y = 2; //y轴触摸状态值
-    public static final int BOTH = 2;//上拉和下拉
-    public static final int HEADER = 0;//下拉
-    public static final int FOOTER = 1;//上拉
-    public static String tag;//ListView的动作
-    public static final String REFRESH = "refresh";
-    public static final String LOAD = "load";
-    private int MAX_Y = 5;  //Y轴最大偏移量
-    private int MAX_X = 3;  //X轴最大偏移量
-    private float mDownX;   //触摸x
-    private float mDownY;   //触摸y
-    private int mTouchState;    //触摸状态
-    private int mTouchPosition; //触摸位置
-    private SwipeMenuLayout mTouchView; //滑动弹出布局
-    private OnSwipeListener mOnSwipeListener;   //弹出监听器
-
-    private float firstTouchY;  //第一次触摸y坐标
-    private float lastTouchY;   //最后一次触摸y坐标
-    //创建左滑菜单接口
-    private ISwipeMenuCreator mMenuCreator;
-    //菜单点击事件
-    private IOnMenuItemClickListener onMenuItemClickListener;
-    //关闭菜单动画修饰Interpolator
-    private Interpolator mCloseInterpolator;
-    //开启菜单动画修饰Interpolator
-    private Interpolator mOpenInterpolator;
-
+    private static final int TOUCH_STATE_X = 1; // x 轴触摸状态值
+    private static final int TOUCH_STATE_Y = 2; // y 轴触摸状态值
+    private int MAX_Y = 5;  // y 轴最大偏移量
+    private int MAX_X = 3;  // x 轴最大偏移量
+    private float touchX;   // 触摸 x
+    private float touchY;   // 触摸 y
+    private int touchState;    // 触摸状态
+    private int touchPosition; // 触摸位置
+    private SwipeMenuLayout swipeMenuLayout; // 滑动弹出布局
+    private OnSwipeListener onSwipeListener;   // 弹出监听器
+    private float firstTouchY;  // 第一次触摸 y 坐标
+    private float lastTouchY;   // 最后一次触摸 y 坐标
+    private ISwipeMenuCreator swipeMenuCreator; // 创建左滑菜单接口
+    private IOnMenuItemClickListener onMenuItemClickListener; // 菜单点击事件
+    private Interpolator mCloseInterpolator; // 关闭菜单动画修饰 Interpolator
+    private Interpolator mOpenInterpolator; // 开启菜单动画修饰 Interpolator
     private float mLastY = -1;
     private Scroller mScroller;
     private OnScrollListener mScrollListener; // 滑动监听
-
-    // 下拉上拉监听器
-    private IOnRefreshListener onRefreshListener;
-
-    //下拉头
-    private RefreshListHeader mHeaderView;
-
-    //头部视图内容，用来计算头部高度，不下拉时隐藏
-    private RelativeLayout mHeaderViewContent;
-    //下拉时间文本控件
-    private TextView mHeaderTimeView;
+    private IOnRefreshListener onRefreshListener; // 下拉上拉监听器
+    private RefreshListHeader mHeaderView; // 下拉头
+    private RelativeLayout mHeaderViewContent; // 头部视图内容，用来计算头部高度，不下拉时隐藏
+    private TextView mHeaderTimeView; // 下拉时间文本控件
     private int mHeaderViewHeight; // 头部高度
-    private boolean mEnablePullRefresh = true;//能否下拉刷新
+    private boolean mEnablePullRefresh = true; // 能否下拉刷新
     private boolean mPullRefreshing = false; // 是否正在刷新
-
-    //上拉尾部视图
-    private LinearLayout mFooterView;
+    private LinearLayout mFooterView; // 上拉尾部视图
     private boolean mEnablePullLoad;//是否可以上拉加载
     private boolean mPullLoading;   //是否正在上拉
     private boolean mIsFooterReady = false;
@@ -82,11 +57,18 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
     private int mScrollBack;
     private final static int SCROLLBACK_HEADER = 0;
     private final static int SCROLLBACK_FOOTER = 1;
-
     private final static int SCROLL_DURATION = 400;
     private final static int PULL_LOAD_MORE_DELTA = 50;
     private final static float OFFSET_RADIO = 1.8f;
     private boolean isFooterVisible = false;
+
+
+    public static final int HEADER = 0; // 下拉
+    public static final int FOOTER = 1; // 上拉
+    public static final int BOTH = 2; // 上拉和下拉
+    public static String tag; // ListView 的动作
+    public static final String REFRESH = "refresh";
+    public static final String LOAD = "load";
 
     public RefreshSwipeMenuListView(Context context) {
         super(context);
@@ -110,7 +92,10 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
      */
     private void init(Context context) {
         mScroller = new Scroller(context, new DecelerateInterpolator());
-        super.setOnScrollListener(this);
+        SimpleOnScrollListener simpleOnScrollListener = new SimpleOnScrollListener(
+                mScrollListener, mTotalItemCount, isFooterVisible
+        );
+        super.setOnScrollListener(simpleOnScrollListener);
         // 初始化头部视图
         mHeaderView = new RefreshListHeader(context);
         mHeaderViewContent = (RelativeLayout) mHeaderView.findViewById(R.id.xlistview_header_content);
@@ -131,7 +116,7 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
         });
         MAX_X = dp2px(MAX_X);
         MAX_Y = dp2px(MAX_Y);
-        mTouchState = TOUCH_STATE_NONE;
+        touchState = TOUCH_STATE_NONE;
     }
 
     /**
@@ -149,8 +134,8 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
         super.setAdapter(new SwipeMenuAdapter(getContext(), adapter) {
             @Override
             public void createMenu(SwipeMenu menu) {//创建左滑菜单
-                if (mMenuCreator != null) {
-                    mMenuCreator.create(menu);
+                if (swipeMenuCreator != null) {
+                    swipeMenuCreator.create(menu);
                 }
             }
 
@@ -159,8 +144,8 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
                 if (onMenuItemClickListener != null) {//左滑菜单点击事件
                     onMenuItemClickListener.onMenuItemClick(view.getPosition(), menu, index);
                 }
-                if (mTouchView != null) {
-                    mTouchView.smoothCloseMenu();
+                if (swipeMenuLayout != null) {
+                    swipeMenuLayout.smoothCloseMenu();
                 }
             }
         });
@@ -198,46 +183,46 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
                 firstTouchY = ev.getRawY();
                 mLastY = ev.getRawY();
                 setRefreshTime(RefreshTime.getRefreshTime(getContext()));
-                int oldPos = mTouchPosition;
-                mDownX = ev.getX();
-                mDownY = ev.getY();
-                mTouchState = TOUCH_STATE_NONE;
+                int oldPos = touchPosition;
+                touchX = ev.getX();
+                touchY = ev.getY();
+                touchState = TOUCH_STATE_NONE;
 
-                mTouchPosition = pointToPosition((int) ev.getX(), (int) ev.getY());
+                touchPosition = pointToPosition((int) ev.getX(), (int) ev.getY());
 
                 //弹出左滑菜单
-                if (mTouchPosition == oldPos && mTouchView != null && mTouchView.isOpen()) {
-                    mTouchState = TOUCH_STATE_X;
-                    mTouchView.onSwipe(ev);//左滑菜单手势监听事件，根据滑动距离弹出菜单
+                if (touchPosition == oldPos && swipeMenuLayout != null && swipeMenuLayout.isOpen()) {
+                    touchState = TOUCH_STATE_X;
+                    swipeMenuLayout.onSwipe(ev);//左滑菜单手势监听事件，根据滑动距离弹出菜单
                     return true;
                 }
 
 
                 //获取item view，此方法是因为getChildAt()传入index值导致listview不可见的item会报空指针
                 // 防止listview不可见的item获取到的为空，使用下面方法
-                View view = getChildAt(mTouchPosition - getFirstVisiblePosition());
+                View view = getChildAt(touchPosition - getFirstVisiblePosition());
 
-                if (mTouchView != null && mTouchView.isOpen()) {//如果滑动的item不为空并且已经开启，则关闭该菜单
-                    mTouchView.smoothCloseMenu();
-                    mTouchView = null;
+                if (swipeMenuLayout != null && swipeMenuLayout.isOpen()) {//如果滑动的item不为空并且已经开启，则关闭该菜单
+                    swipeMenuLayout.smoothCloseMenu();
+                    swipeMenuLayout = null;
                     return super.onTouchEvent(ev);
                 }
 
-                if (mTouchView != null) {//否则打开左滑菜单
-                    mTouchView.onSwipe(ev);
+                if (swipeMenuLayout != null) {//否则打开左滑菜单
+                    swipeMenuLayout.onSwipe(ev);
                 }
                 if (view instanceof SwipeMenuLayout) {
-                    mTouchView = (SwipeMenuLayout) view;
+                    swipeMenuLayout = (SwipeMenuLayout) view;
                 }
 
                 break;
             case MotionEvent.ACTION_MOVE://手势滑动事件
                 final float deltaY = ev.getRawY() - mLastY;
-                float dy = Math.abs((ev.getY() - mDownY));
-                float dx = Math.abs((ev.getX() - mDownX));
+                float dy = Math.abs((ev.getY() - touchY));
+                float dx = Math.abs((ev.getX() - touchX));
                 mLastY = ev.getRawY();
                 //判断左滑菜单是否未激活、或者x轴偏移平方小于y轴偏移平方3倍的时候
-                if ((mTouchView == null || !mTouchView.isActive()) && Math.pow(dx, 2) / Math.pow(dy, 2) <= 3) {
+                if ((swipeMenuLayout == null || !swipeMenuLayout.isActive()) && Math.pow(dx, 2) / Math.pow(dy, 2) <= 3) {
                     //判断第一个可见位置并且头部布局可见高度大于0时或者y轴偏移量>0
                     if (getFirstVisiblePosition() == 0 && (mHeaderView.getVisiableHeight() > 0 || deltaY > 0)) {
                         // 重新更新头部高度
@@ -246,21 +231,21 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
                     }
                 }
 
-                if (mTouchState == TOUCH_STATE_X) {//如果x轴偏移弹出左滑菜单
-                    if (mTouchView != null) {
-                        mTouchView.onSwipe(ev);
+                if (touchState == TOUCH_STATE_X) {//如果x轴偏移弹出左滑菜单
+                    if (swipeMenuLayout != null) {
+                        swipeMenuLayout.onSwipe(ev);
                     }
                     getSelector().setState(new int[]{0});
                     ev.setAction(MotionEvent.ACTION_CANCEL);
                     super.onTouchEvent(ev);
                     return true;
-                } else if (mTouchState == TOUCH_STATE_NONE) {
+                } else if (touchState == TOUCH_STATE_NONE) {
                     if (Math.abs(dy) > MAX_Y) { //如果y轴偏移量>指定y轴偏移量，设置y轴偏移状态
-                        mTouchState = TOUCH_STATE_Y;
+                        touchState = TOUCH_STATE_Y;
                     } else if (dx > MAX_X) {//如果x轴偏移量>指定x轴偏移量，设置x轴偏移状态，开始弹出左滑菜单
-                        mTouchState = TOUCH_STATE_X;
-                        if (mOnSwipeListener != null) {
-                            mOnSwipeListener.onSwipeStart(mTouchPosition);
+                        touchState = TOUCH_STATE_X;
+                        if (onSwipeListener != null) {
+                            onSwipeListener.onSwipeStart(touchPosition);
                         }
                     }
                 }
@@ -285,16 +270,16 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
                     loadData();
                 }
 
-                if (mTouchState == TOUCH_STATE_X) {//如果为x轴偏移状态，开启左滑
-                    if (mTouchView != null) {
-                        mTouchView.onSwipe(ev);
-                        if (!mTouchView.isOpen()) {
-                            mTouchPosition = -1;
-                            mTouchView = null;
+                if (touchState == TOUCH_STATE_X) {//如果为x轴偏移状态，开启左滑
+                    if (swipeMenuLayout != null) {
+                        swipeMenuLayout.onSwipe(ev);
+                        if (!swipeMenuLayout.isOpen()) {
+                            touchPosition = -1;
+                            swipeMenuLayout = null;
                         }
                     }
-                    if (mOnSwipeListener != null) {
-                        mOnSwipeListener.onSwipeEnd(mTouchPosition);
+                    if (onSwipeListener != null) {
+                        onSwipeListener.onSwipeEnd(touchPosition);
                     }
                     ev.setAction(MotionEvent.ACTION_CANCEL);
                     super.onTouchEvent(ev);
@@ -327,12 +312,12 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
         if (position >= getFirstVisiblePosition() && position <= getLastVisiblePosition()) {
             View view = getChildAt(position - getFirstVisiblePosition());
             if (view instanceof SwipeMenuLayout) {
-                mTouchPosition = position;
-                if (mTouchView != null && mTouchView.isOpen()) {
-                    mTouchView.smoothCloseMenu();
+                touchPosition = position;
+                if (swipeMenuLayout != null && swipeMenuLayout.isOpen()) {
+                    swipeMenuLayout.smoothCloseMenu();
                 }
-                mTouchView = (SwipeMenuLayout) view;
-                mTouchView.smoothOpenMenu();
+                swipeMenuLayout = (SwipeMenuLayout) view;
+                swipeMenuLayout.smoothOpenMenu();
             }
         }
     }
@@ -343,7 +328,7 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
     }
 
     public void setMenuCreator(ISwipeMenuCreator menuCreator) {
-        this.mMenuCreator = menuCreator;
+        this.swipeMenuCreator = menuCreator;
     }
 
     public void setOnMenuItemClickListener(IOnMenuItemClickListener onMenuItemClickListener) {
@@ -351,11 +336,12 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
     }
 
     public void setOnSwipeListener(OnSwipeListener onSwipeListener) {
-        this.mOnSwipeListener = onSwipeListener;
+        this.onSwipeListener = onSwipeListener;
     }
 
     public static interface OnSwipeListener {
         void onSwipeStart(int position);
+
         void onSwipeEnd(int position);
     }
 
@@ -474,7 +460,6 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
         invalidate();
     }
 
-
     /**
      * 开启上啦
      */
@@ -502,34 +487,6 @@ public class RefreshSwipeMenuListView extends ListView implements OnScrollListen
     @Override
     public void setOnScrollListener(OnScrollListener l) {
         mScrollListener = l;
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (mScrollListener != null) {
-            mScrollListener.onScrollStateChanged(view, scrollState);
-        }
-    }
-
-    /**
-     * 滑动监听
-     *
-     * @param view
-     * @param firstVisibleItem
-     * @param visibleItemCount
-     * @param totalItemCount
-     */
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        mTotalItemCount = totalItemCount;
-        if (mScrollListener != null) {
-            mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-        }
-        if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-            isFooterVisible = true;
-        } else {
-            isFooterVisible = false;
-        }
     }
 
     public void setOnRefreshListener(IOnRefreshListener l) {

@@ -20,7 +20,7 @@ public class PostItemListAdapter extends BaseAdapter {
     public PostItemListAdapter(Context context, List<PostItem> postItemList) {
         this.context = context;
         this.postItemList = postItemList;
-        layoutInflater = LayoutInflater.from(context);
+        this.layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
