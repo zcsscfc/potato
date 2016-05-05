@@ -9,42 +9,43 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
 
-public class SwipeMenuAdapter implements WrapperListAdapter, SwipeMenuView.OnSwipeItemClickListener {
-
-    private ListAdapter mAdapter;
-    private Context mContext;
+public class SwipeMenuAdapter implements WrapperListAdapter {
+    private ListAdapter listAdapter;
+    private Context context;
     private OnMenuItemClickListener onMenuItemClickListener;
 
-    public SwipeMenuAdapter(Context context, ListAdapter adapter) {
-        mAdapter = adapter;
-        mContext = context;
+    public SwipeMenuAdapter(Context context, ListAdapter listAdapter) {
+        this.listAdapter = listAdapter;
+        this.context = context;
     }
 
     @Override
     public int getCount() {
-        return mAdapter.getCount();
+        return listAdapter.getCount();
     }
 
     @Override
     public Object getItem(int position) {
-        return mAdapter.getItem(position);
+        return listAdapter.getItem(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return mAdapter.getItemId(position);
+        return listAdapter.getItemId(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         SwipeMenuLayout layout = null;
         if (convertView == null) {
-            View contentView = mAdapter.getView(position, convertView, parent);
-            SwipeMenu menu = new SwipeMenu(mContext);
-            menu.setViewType(mAdapter.getItemViewType(position));
+            View contentView = listAdapter.getView(position, convertView, parent);
+            SwipeMenu menu = new SwipeMenu(context);
+            menu.setViewType(listAdapter.getItemViewType(position));
             createMenu(menu);
             SwipeMenuView menuView = new SwipeMenuView(menu, (RefreshSwipeMenuListView) parent);
-            menuView.setOnSwipeItemClickListener(this);
+            SimpleOnSwipeItemClickListener simpleOnSwipeItemClickListener
+                    = new SimpleOnSwipeItemClickListener(onMenuItemClickListener);
+            menuView.setOnSwipeItemClickListener(simpleOnSwipeItemClickListener);
             RefreshSwipeMenuListView listView = (RefreshSwipeMenuListView) parent;
             layout = new SwipeMenuLayout(contentView, menuView, listView.getCloseInterpolator(),
                     listView.getOpenInterpolator());
@@ -53,31 +54,24 @@ public class SwipeMenuAdapter implements WrapperListAdapter, SwipeMenuView.OnSwi
             layout = (SwipeMenuLayout) convertView;
             layout.closeMenu();
             layout.setPosition(position);
-            mAdapter.getView(position, layout.getContentView(), parent);
+            listAdapter.getView(position, layout.getContentView(), parent);
         }
         return layout;
     }
 
     public void createMenu(SwipeMenu menu) {
         // Test Code
-        SwipeMenuItem item = new SwipeMenuItem(mContext);
+        SwipeMenuItem item = new SwipeMenuItem(context);
         item.setTitle("Item 1");
         item.setBackground(new ColorDrawable(Color.GRAY));
         item.setWidth(300);
         menu.addMenuItem(item);
 
-        item = new SwipeMenuItem(mContext);
+        item = new SwipeMenuItem(context);
         item.setTitle("Item 2");
         item.setBackground(new ColorDrawable(Color.RED));
         item.setWidth(300);
         menu.addMenuItem(item);
-    }
-
-    @Override
-    public void onItemClick(SwipeMenuView view, SwipeMenu menu, int index) {
-        if (onMenuItemClickListener != null) {
-            onMenuItemClickListener.onMenuItemClick(view.getPosition(), menu, index);
-        }
     }
 
     public void setOnMenuItemClickListener(OnMenuItemClickListener onMenuItemClickListener) {
@@ -86,47 +80,47 @@ public class SwipeMenuAdapter implements WrapperListAdapter, SwipeMenuView.OnSwi
 
     @Override
     public void registerDataSetObserver(DataSetObserver observer) {
-        mAdapter.registerDataSetObserver(observer);
+        listAdapter.registerDataSetObserver(observer);
     }
 
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
-        mAdapter.unregisterDataSetObserver(observer);
+        listAdapter.unregisterDataSetObserver(observer);
     }
 
     @Override
     public boolean areAllItemsEnabled() {
-        return mAdapter.areAllItemsEnabled();
+        return listAdapter.areAllItemsEnabled();
     }
 
     @Override
     public boolean isEnabled(int position) {
-        return mAdapter.isEnabled(position);
+        return listAdapter.isEnabled(position);
     }
 
     @Override
     public boolean hasStableIds() {
-        return mAdapter.hasStableIds();
+        return listAdapter.hasStableIds();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mAdapter.getItemViewType(position);
+        return listAdapter.getItemViewType(position);
     }
 
     @Override
     public int getViewTypeCount() {
-        return mAdapter.getViewTypeCount();
+        return listAdapter.getViewTypeCount();
     }
 
     @Override
     public boolean isEmpty() {
-        return mAdapter.isEmpty();
+        return listAdapter.isEmpty();
     }
 
     @Override
     public ListAdapter getWrappedAdapter() {
-        return mAdapter;
+        return listAdapter;
     }
 
 }

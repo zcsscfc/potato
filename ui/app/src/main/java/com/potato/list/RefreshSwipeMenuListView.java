@@ -46,10 +46,10 @@ public class RefreshSwipeMenuListView extends ListView {
     private TextView headerViewTime; // 下拉时间文本控件
     private int headerViewHeight; // 头部高度
     private boolean mEnablePullRefresh = true; // 能否下拉刷新
-    private boolean mPullRefreshing = false; // 是否正在刷新
+    private boolean refreshing = false; // 是否正在刷新
     private LinearLayout footerView; // 上拉尾部视图
     private boolean enablePullLoad;// 是否可以上拉加载
-    private boolean pullLoading;   // 是否正在上拉
+    private boolean loading;   // 是否正在上拉
     private boolean isFooterReady = false;
     private int totalItemCount;
     private int mScrollBack;
@@ -60,9 +60,9 @@ public class RefreshSwipeMenuListView extends ListView {
     private final static float OFFSET_RADIO = 1.8f;
     private boolean isFooterVisible = false;
 
-    public static final int HEADER = 0; // 下拉
-    public static final int FOOTER = 1; // 上拉
-    public static final int BOTH = 2; // 上拉和下拉
+    public static final int MODE_HEADER = 0; // 下拉
+    public static final int MODE_FOOTER = 1; // 上拉
+    public static final int MODE_BOTH = 2; // 上拉和下拉
     public static String tag; // ListView 的动作
     public static final String REFRESH = "refresh";
     public static final String LOAD = "load";
@@ -122,16 +122,15 @@ public class RefreshSwipeMenuListView extends ListView {
                     swipeMenuCreator.create(menu);
                 }
             }
-
-            @Override
-            public void onItemClick(SwipeMenuView view, SwipeMenu menu, int index) {
-                if (onMenuItemClickListener != null) { // 左滑菜单点击事件
-                    onMenuItemClickListener.onMenuItemClick(view.getPosition(), menu, index);
-                }
-                if (swipeMenuLayout != null) {
-                    swipeMenuLayout.smoothCloseMenu();
-                }
-            }
+//            @Override
+//            public void onItemClick(SwipeMenuView view, SwipeMenu menu, int index) {
+//                if (onMenuItemClickListener != null) { // 左滑菜单点击事件
+//                    onMenuItemClickListener.onMenuItemClick(view.getPosition(), menu, index);
+//                }
+//                if (swipeMenuLayout != null) {
+//                    swipeMenuLayout.smoothCloseMenu();
+//                }
+//            }
         });
     }
 
@@ -184,7 +183,7 @@ public class RefreshSwipeMenuListView extends ListView {
                 // 判断左滑菜单是否未激活、或者 x 轴偏移平方小于 y 轴偏移平方 3 倍的时候
                 if ((swipeMenuLayout == null || !swipeMenuLayout.isActive()) && Math.pow(dx, 2) / Math.pow(dy, 2) <= 3) {
                     // 判断第一个可见位置并且头部布局可见高度大于 0 时或者 y 轴偏移量 > 0
-                    if (getFirstVisiblePosition() == 0 && (headerView.getVisiableHeight() > 0 || deltaY > 0)) {
+                    if (getFirstVisiblePosition() == 0 && (headerView.getVisibleHeight() > 0 || deltaY > 0)) {
                         // 重新更新头部高度
                         updateHeaderHeight(deltaY / OFFSET_RADIO);
                         invokeOnScrolling();
@@ -213,9 +212,9 @@ public class RefreshSwipeMenuListView extends ListView {
                 lastY = -1; // reset
                 if (getFirstVisiblePosition() == 0) {
                     // 设置下拉刷新状态值，开启下拉刷新状态
-                    if (mEnablePullRefresh && headerView.getVisiableHeight() > headerViewHeight) {
-                        mPullRefreshing = true;
-                        headerView.setState(RefreshListHeader.STATE_REFRESHING);
+                    if (mEnablePullRefresh && headerView.getVisibleHeight() > headerViewHeight) {
+                        refreshing = true;
+                        headerView.SetState(RefreshListHeader.STATE_REFRESHING);
                         if (onRefreshListener != null) {
                             tag = REFRESH;
                             onRefreshListener.onRefresh();
@@ -270,7 +269,7 @@ public class RefreshSwipeMenuListView extends ListView {
      *
      * @param enable
      */
-    private void setPullRefreshEnable(boolean enable) {
+    private void SetPullRefreshEnable(boolean enable) {
         mEnablePullRefresh = enable;
         if (!mEnablePullRefresh) { // disable, hide the content
             headerViewContent.setVisibility(View.INVISIBLE);
@@ -279,48 +278,33 @@ public class RefreshSwipeMenuListView extends ListView {
         }
     }
 
-    /**
-     * enable or disable pull up load more feature.
-     * 设置加载可用
-     *
-     * @param enable
-     */
-    private void setPullLoadEnable(boolean enable) {
+    private void SetPullLoadEnable(boolean enable) {
         enablePullLoad = enable;
-        if (!enablePullLoad) {
-            footerView.setVisibility(GONE);
-            footerView.setOnClickListener(null);
-        } else {
-            pullLoading = false;
+        if (enablePullLoad) {
+            loading = false;
             footerView.setVisibility(VISIBLE);
-            // both "pull up" and "click" will invoke load more.
             footerView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startLoadMore();
+                    StartLoading();
                 }
             });
+        } else {
+            footerView.setVisibility(GONE);
+            footerView.setOnClickListener(null);
         }
     }
 
-    /**
-     * stop refresh, reset header view.
-     * 停止刷新,重置头部控件
-     */
-    private void stopRefresh() {
-        if (mPullRefreshing == true) {
-            mPullRefreshing = false;
+    private void StopRefresh() {
+        if (refreshing == true) {
+            refreshing = false;
             resetHeaderHeight();
         }
     }
 
-    /**
-     * stop load more, reset footer view.
-     * 停止加载更多,重置尾部控件
-     */
-    private void stopLoadMore() {
-        if (pullLoading == true) {
-            pullLoading = false;
+    private void StopLoadMore() {
+        if (loading == true) {
+            loading = false;
             footerView.setVisibility(GONE);
         }
     }
@@ -347,12 +331,12 @@ public class RefreshSwipeMenuListView extends ListView {
      * @param delta
      */
     private void updateHeaderHeight(float delta) {
-        headerView.setVisiableHeight((int) delta + headerView.getVisiableHeight());
-        if (mEnablePullRefresh && !mPullRefreshing) {
-            if (headerView.getVisiableHeight() > headerViewHeight) {
-                headerView.setState(RefreshListHeader.STATE_READY);
+        headerView.setVisibleHeight((int) delta + headerView.getVisibleHeight());
+        if (mEnablePullRefresh && !refreshing) {
+            if (headerView.getVisibleHeight() > headerViewHeight) {
+                headerView.SetState(RefreshListHeader.STATE_READY);
             } else {
-                headerView.setState(RefreshListHeader.STATE_NORMAL);
+                headerView.SetState(RefreshListHeader.STATE_NORMAL);
             }
         }
         setSelection(0); // scroll to top each time
@@ -362,16 +346,16 @@ public class RefreshSwipeMenuListView extends ListView {
      * 重置头部视图高度
      */
     private void resetHeaderHeight() {
-        int height = headerView.getVisiableHeight();
+        int height = headerView.getVisibleHeight();
         if (height == 0) // 不可见
             return;
         // 如果正在刷新并且头部高度没有完全显示不做操作
-        if (mPullRefreshing && height <= headerViewHeight) {
+        if (refreshing && height <= headerViewHeight) {
             return;
         }
         int finalHeight = 0; // 默认
         //如果正在刷新并且滑动高度大于头部高度
-        if (mPullRefreshing && height > headerViewHeight) {
+        if (refreshing && height > headerViewHeight) {
             finalHeight = headerViewHeight;
         }
         mScrollBack = SCROLLBACK_HEADER;
@@ -380,11 +364,8 @@ public class RefreshSwipeMenuListView extends ListView {
         invalidate();
     }
 
-    /**
-     * 开启上啦
-     */
-    private void startLoadMore() {
-        pullLoading = true;
+    private void StartLoading() {
+        loading = true;
         footerView.setVisibility(VISIBLE);
         if (onRefreshListener != null) {
             tag = LOAD;
@@ -396,7 +377,7 @@ public class RefreshSwipeMenuListView extends ListView {
     public void computeScroll() {
         if (scroller.computeScrollOffset()) {
             if (mScrollBack == SCROLLBACK_HEADER) {
-                headerView.setVisiableHeight(scroller.getCurrY());
+                headerView.setVisibleHeight(scroller.getCurrY());
             }
             postInvalidate();
             invokeOnScrolling();
@@ -424,27 +405,22 @@ public class RefreshSwipeMenuListView extends ListView {
     /**
      * 上拉加载和下拉刷新请求完毕
      */
-    public void complete() {
-        stopLoadMore();
-        stopRefresh();
+    public void Complete() {
+        StopLoadMore();
+        StopRefresh();
         if (REFRESH.equals(tag)) {
             RefreshTime.setRefreshTime(getContext(), new Date());
         }
     }
 
-    /**
-     * 设置ListView的模式,上拉和下拉
-     *
-     * @param mode
-     */
-    public void setListViewMode(int mode) {
-        if (mode == BOTH) {
-            setPullRefreshEnable(true);
-            setPullLoadEnable(true);
-        } else if (mode == FOOTER) {
-            setPullLoadEnable(true);
-        } else if (mode == HEADER) {
-            setPullRefreshEnable(true);
+    public void SetListViewMode(int mode) {
+        if (mode == MODE_BOTH) {
+            SetPullRefreshEnable(true);
+            SetPullLoadEnable(true);
+        } else if (mode == MODE_FOOTER) {
+            SetPullLoadEnable(true);
+        } else if (mode == MODE_HEADER) {
+            SetPullRefreshEnable(true);
         }
     }
 
@@ -454,7 +430,7 @@ public class RefreshSwipeMenuListView extends ListView {
      * @return
      */
     private boolean CanLoadHistory() {
-        return isBottom() && !pullLoading && isPullingUp();
+        return isBottom() && !loading && isPullingUp();
     }
 
     /**
@@ -486,7 +462,7 @@ public class RefreshSwipeMenuListView extends ListView {
 
     public void setLoading(boolean loading) {
         if (this == null) return;
-        pullLoading = loading;
+        this.loading = loading;
         if (loading) {
             footerView.setVisibility(VISIBLE);
             setSelection(getAdapter().getCount() - 1);

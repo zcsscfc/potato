@@ -4,6 +4,8 @@ import android.widget.Toast;
 
 import com.android.potato.PotatoApplication;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SimpleOnRefreshListener implements OnRefreshListener {
@@ -23,10 +25,10 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
         refreshSwipeMenuListView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                refreshSwipeMenuListView.complete();
+                refreshSwipeMenuListView.Complete();
                 Toast.makeText(PotatoApplication.getInstance(), "已完成", Toast.LENGTH_SHORT).show();
             }
-        }, 2000);
+        }, 0);
     }
 
     @Override
@@ -35,15 +37,23 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
-                    PostItem msgBean = new PostItem();
-                    msgBean.setTitle("张某某" + i);
-                    msgBean.setOrigin("你好，在么？" + i);
-                    msgBean.setTime("上午10:30");
-                    postItemList.add(msgBean);
+                    PostItem postItem = new PostItem();
+                    if (i % 2 == 0) {
+                        postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
+                        postItem.setOrigin("中国农业技术网");
+                    } else {
+                        postItem.setTitle("单坡联合双列式育肥暖棚猪舍");
+                        postItem.setOrigin("中国养殖网");
+                    }
+                    Date date = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+                    String str = sdf.format(date);
+                    postItem.setTime(str);
+                    postItemList.add(postItem);
                 }
-                refreshSwipeMenuListView.complete();
+                refreshSwipeMenuListView.Complete();
                 postItemListAdapter.notifyDataSetChanged();
             }
-        }, 2000);
+        }, 0);
     }
 }

@@ -25,27 +25,24 @@ public class SimpleOnMenuItemClickListener implements OnMenuItemClickListener {
     @Override
     public void onMenuItemClick(int position, SwipeMenu menu, int index) {
         switch (index) {
-            case 0: //第一个选项
+            case 0: // 第一个选项
                 Toast.makeText(PotatoApplication.getInstance(), "您点击的是置顶",
                         Toast.LENGTH_SHORT).show();
                 break;
-            case 1: //第二个选项
-                del(position, refreshSwipeMenuListView
+            case 1: // 第二个选项
+                Delete(position, refreshSwipeMenuListView
                         .getChildAt(position + 1 - refreshSwipeMenuListView.getFirstVisiblePosition()));
                 break;
-
         }
     }
 
-    private void del(final int index, View v) {
+    private void Delete(final int index, View v) {
         final Animation animation = (Animation) AnimationUtils.loadAnimation(v.getContext(), R.anim.list_anim);
         animation.setAnimationListener(new Animation.AnimationListener() {
             public void onAnimationStart(Animation animation) {
             }
-
             public void onAnimationRepeat(Animation animation) {
             }
-
             public void onAnimationEnd(Animation animation) {
                 postItemList.remove(index);
                 postItemListAdapter.notifyDataSetChanged();

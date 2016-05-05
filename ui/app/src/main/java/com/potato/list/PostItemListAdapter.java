@@ -13,12 +13,10 @@ import java.util.List;
 import com.android.potato.R;
 
 public class PostItemListAdapter extends BaseAdapter {
-    private Context context;
     private List<PostItem> postItemList;
     private LayoutInflater layoutInflater;
 
     public PostItemListAdapter(Context context, List<PostItem> postItemList) {
-        this.context = context;
         this.postItemList = postItemList;
         this.layoutInflater = LayoutInflater.from(context);
     }
