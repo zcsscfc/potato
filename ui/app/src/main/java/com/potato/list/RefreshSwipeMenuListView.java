@@ -140,7 +140,7 @@ public class RefreshSwipeMenuListView extends ListView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (lastY == -1) { // 获取上次 y 轴坐标
-            lastY = ev.getRawY();
+            lastY = ev.getRawY(); // 屏幕左上角
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN: // 手势按下事件、获取坐标、设置上次下拉时间
@@ -148,7 +148,7 @@ public class RefreshSwipeMenuListView extends ListView {
                 lastY = ev.getRawY();
                 setRefreshTime(RefreshTime.getRefreshTime(getContext()));
                 int oldPos = touchPosition;
-                touchX = ev.getX();
+                touchX = ev.getX(); // 控件左上角
                 touchY = ev.getY();
                 touchState = TOUCH_STATE_NONE;
                 touchPosition = pointToPosition((int) ev.getX(), (int) ev.getY());
@@ -173,7 +173,7 @@ public class RefreshSwipeMenuListView extends ListView {
                     swipeMenuLayout = (SwipeMenuLayout) view;
                 }
                 break;
-            case MotionEvent.ACTION_MOVE: // 手势滑动事件
+            case MotionEvent.ACTION_MOVE:
                 final float deltaY = ev.getRawY() - lastY;
                 float dy = Math.abs((ev.getY() - touchY));
                 float dx = Math.abs((ev.getX() - touchX));
