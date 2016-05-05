@@ -1,5 +1,6 @@
 package com.android.potato;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -43,6 +45,15 @@ public class MainActivity extends FragmentActivity {
         //左侧导航菜单
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         listView = (ListView) findViewById(R.id.LeftMenuListView);
+        LinearLayout ll_login = (LinearLayout)findViewById(R.id.ll_login);
+        ll_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
         List<Map<String, Object>> list = getData();
         leftMenuListAdapter = new LeftMenuListAdapter(this, list);
         listView.setAdapter(leftMenuListAdapter);
