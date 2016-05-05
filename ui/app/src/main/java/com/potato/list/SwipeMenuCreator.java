@@ -1,5 +1,5 @@
 package com.potato.list;
 
-public interface ISwipeMenuCreator {
+public interface SwipeMenuCreator {
     void create(SwipeMenu menu);
 }

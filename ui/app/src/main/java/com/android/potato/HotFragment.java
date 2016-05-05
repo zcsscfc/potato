@@ -40,9 +40,9 @@ public class HotFragment extends Fragment {
         postItemListAdapter = new PostItemListAdapter(context, postItemList);
 
         refreshSwipeMenuListView = (RefreshSwipeMenuListView) view.findViewById(R.id.refreshSwipeMenuListView);
-        
+
         refreshSwipeMenuListView.setAdapter(postItemListAdapter);
-        refreshSwipeMenuListView.setListViewMode(RefreshSwipeMenuListView.BOTH);
+        refreshSwipeMenuListView.SetListViewMode(RefreshSwipeMenuListView.MODE_BOTH);
 
         SimpleOnRefreshListener simpleOnRefreshListener = new SimpleOnRefreshListener(
                 refreshSwipeMenuListView, postItemList, postItemListAdapter
@@ -56,6 +56,7 @@ public class HotFragment extends Fragment {
                 refreshSwipeMenuListView, postItemList, postItemListAdapter
         );
         refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
+
         return view;
     }
 
@@ -63,8 +64,13 @@ public class HotFragment extends Fragment {
         List<PostItem> list = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             PostItem postItem = new PostItem();
-            postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
-            postItem.setOrigin("中国农业技术网");
+            if (i % 2 == 0) {
+                postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
+                postItem.setOrigin("中国农业技术网");
+            } else {
+                postItem.setTitle("单坡联合双列式育肥暖棚猪舍");
+                postItem.setOrigin("中国养殖网");
+            }
             Date date = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
             String str = sdf.format(date);

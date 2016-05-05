@@ -34,7 +34,7 @@ public class PostItem {
         return thumb;
     }
 
-    public void setThumb(String thumb){
+    public void setThumb(String thumb) {
         this.thumb = thumb;
     }
 }
