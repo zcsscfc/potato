@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.android.potato.R;
 
-public class RefreshListHeader extends LinearLayout {
+public class RefreshHeader extends LinearLayout {
     private LinearLayout linearLayout; // 根布局
     private ImageView imageViewArrow; // 下拉箭头图片
     private ProgressBar progressBar; // 下拉进度条
@@ -27,12 +27,12 @@ public class RefreshListHeader extends LinearLayout {
     public final static int STATE_READY = 1;
     public final static int STATE_REFRESHING = 2;
 
-    public RefreshListHeader(Context context) {
+    public RefreshHeader(Context context) {
         super(context);
         Initial(context);
     }
 
-    public RefreshListHeader(Context context, AttributeSet attrs) {
+    public RefreshHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
         Initial(context);
     }
@@ -78,7 +78,7 @@ public class RefreshListHeader extends LinearLayout {
                 if (this.state == STATE_REFRESHING) {
                     imageViewArrow.clearAnimation();
                 }
-                textViewHint.setText(R.string.xlistview_header_hint_normal);
+                textViewHint.setText(R.string.header_hint_normal);
                 break;
             case STATE_READY:
                 if (this.state != STATE_READY) {

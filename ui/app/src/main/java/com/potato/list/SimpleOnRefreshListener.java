@@ -28,7 +28,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                 refreshSwipeMenuListView.Complete();
                 Toast.makeText(PotatoApplication.getInstance(), "已完成", Toast.LENGTH_SHORT).show();
             }
-        }, 0);
+        }, 2000);
     }
 
     @Override
@@ -54,6 +54,6 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                 refreshSwipeMenuListView.Complete();
                 postItemListAdapter.notifyDataSetChanged();
             }
-        }, 0);
+        }, 2000);
     }
 }

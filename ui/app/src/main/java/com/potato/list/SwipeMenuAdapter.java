@@ -10,13 +10,13 @@ import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
 
 public class SwipeMenuAdapter implements WrapperListAdapter {
-    private ListAdapter listAdapter;
     private Context context;
+    private ListAdapter listAdapter;
     private OnMenuItemClickListener onMenuItemClickListener;
 
     public SwipeMenuAdapter(Context context, ListAdapter listAdapter) {
-        this.listAdapter = listAdapter;
         this.context = context;
+        this.listAdapter = listAdapter;
     }
 
     @Override
@@ -36,27 +36,28 @@ public class SwipeMenuAdapter implements WrapperListAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SwipeMenuLayout layout = null;
+        SwipeMenuLayout swipeMenuLayout = null;
         if (convertView == null) {
             View contentView = listAdapter.getView(position, convertView, parent);
-            SwipeMenu menu = new SwipeMenu(context);
-            menu.setViewType(listAdapter.getItemViewType(position));
-            createMenu(menu);
-            SwipeMenuView menuView = new SwipeMenuView(menu, (RefreshSwipeMenuListView) parent);
+            SwipeMenu swipeMenu = new SwipeMenu(context);
+            swipeMenu.setViewType(listAdapter.getItemViewType(position));
+            createMenu(swipeMenu);
+            SwipeMenuView swipeMenuView = new SwipeMenuView(swipeMenu, (RefreshSwipeMenuListView) parent);
             SimpleOnSwipeItemClickListener simpleOnSwipeItemClickListener
                     = new SimpleOnSwipeItemClickListener(onMenuItemClickListener);
-            menuView.setOnSwipeItemClickListener(simpleOnSwipeItemClickListener);
-            RefreshSwipeMenuListView listView = (RefreshSwipeMenuListView) parent;
-            layout = new SwipeMenuLayout(contentView, menuView, listView.getCloseInterpolator(),
-                    listView.getOpenInterpolator());
-            layout.setPosition(position);
+            swipeMenuView.setOnSwipeItemClickListener(simpleOnSwipeItemClickListener);
+            RefreshSwipeMenuListView refreshSwipeMenuListView = (RefreshSwipeMenuListView) parent;
+            swipeMenuLayout = new SwipeMenuLayout(contentView, swipeMenuView,
+                    refreshSwipeMenuListView.getCloseInterpolator(),
+                    refreshSwipeMenuListView.getOpenInterpolator());
+            swipeMenuLayout.setPosition(position);
         } else {
-            layout = (SwipeMenuLayout) convertView;
-            layout.closeMenu();
-            layout.setPosition(position);
-            listAdapter.getView(position, layout.getContentView(), parent);
+            swipeMenuLayout = (SwipeMenuLayout) convertView;
+            swipeMenuLayout.closeMenu();
+            swipeMenuLayout.setPosition(position);
+            listAdapter.getView(position, swipeMenuLayout.getContentView(), parent);
         }
-        return layout;
+        return swipeMenuLayout;
     }
 
     public void createMenu(SwipeMenu menu) {
