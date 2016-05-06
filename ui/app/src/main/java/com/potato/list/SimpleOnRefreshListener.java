@@ -1,5 +1,6 @@
 package com.potato.list;
 
+import android.view.Gravity;
 import android.widget.Toast;
 
 import com.android.potato.PotatoApplication;
@@ -25,8 +26,28 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
         refreshSwipeMenuListView.postDelayed(new Runnable() {
             @Override
             public void run() {
+                for (int i = 0; i < 10; i++) {
+                    Date date = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("-ss");
+                    String str = sdf.format(date);
+                    String str2 = sdf2.format(date);
+                    PostItem postItem = new PostItem();
+                    if (i % 2 == 0) {
+                        postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种" + i + str2);
+                        postItem.setOrigin("中国农业技术网");
+                    } else {
+                        postItem.setTitle("单坡联合双列式育肥暖棚猪舍");
+                        postItem.setOrigin("中国养殖网");
+                    }
+                    postItem.setTime(str);
+                    postItemList.set(i, postItem);
+                }
                 refreshSwipeMenuListView.Complete();
-                Toast.makeText(PotatoApplication.getInstance(), "已完成", Toast.LENGTH_SHORT).show();
+                postItemListAdapter.notifyDataSetChanged();
+                Toast toast = Toast.makeText(PotatoApplication.getInstance(), "下拉刷新完成", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         }, 2000);
     }
@@ -37,19 +58,21 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
             @Override
             public void run() {
                 for (int i = 0; i < 10; i++) {
+                    Date date = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("-ss");
+                    String str = sdf.format(date);
+                    String str2 = sdf2.format(date);
                     PostItem postItem = new PostItem();
                     if (i % 2 == 0) {
-                        postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
+                        postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种" + i + str2);
                         postItem.setOrigin("中国农业技术网");
                     } else {
                         postItem.setTitle("单坡联合双列式育肥暖棚猪舍");
                         postItem.setOrigin("中国养殖网");
                     }
-                    Date date = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
-                    String str = sdf.format(date);
                     postItem.setTime(str);
-                    postItemList.add(postItem);
+                    postItemList.set(i, postItem);
                 }
                 refreshSwipeMenuListView.Complete();
                 postItemListAdapter.notifyDataSetChanged();

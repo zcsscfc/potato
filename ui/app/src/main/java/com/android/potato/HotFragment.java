@@ -62,7 +62,7 @@ public class HotFragment extends Fragment {
 
     private List<PostItem> InitialTestData() {
         List<PostItem> list = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 10; i++) {
             PostItem postItem = new PostItem();
             if (i % 2 == 0) {
                 postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
