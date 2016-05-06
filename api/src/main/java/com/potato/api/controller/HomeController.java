@@ -20,7 +20,7 @@ public class HomeController {
     private HomeSerivce homeSerivce;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public @ResponseBody Response index() {
+    public @ResponseBody Response index() throws Exception {
 
         Person p=homeSerivce.getPerson();
         return new Response().success(p);
