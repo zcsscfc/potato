@@ -12,21 +12,8 @@ sys.setdefaultencoding('utf-8')
 
 from bs4 import BeautifulSoup
 
-class Throttle:
-	Count = 3000
-	def __init__(self, delay):
-		self.delay = delay
-		self.domains = {}
-		
-	def wait(self, url):
-		domain = urlparse.urlparse(url).netloc
-		last_accessed = self.domains.get(domain)
-		if self.delay > 0 and last_accessed is not None:
-			sleep_secs = self.delay - (datetime.datetime.now() - last_accessed).seconds
-			if sleep_secs > 0:
-				time.sleep(sleep_secs)
-		self.domains[domain] = datetime.datetime.now()
-		
+from Throttle import *
+
 def DownLoad(seedUrl, urlPattern):
 	urlList = [seedUrl]
 	seenUrlList = set(urlList)
@@ -80,19 +67,6 @@ seedUrl = 'http://b2b.nbdeli.com/Goods/ItemDetail_100043999_40.htm'
 urlPattern = 'http://b2b.nbdeli.com/Goods/ItemDetail'
 throttle = Throttle(0)
 DownLoad(seedUrl,urlPattern)
-
-#from pymongo import MongoClient
-#client = MongoClient('localhost', 27017)
-#db = client.cache
-#db.webpage.insert({'url': url, 'html': html})
-#print db.webpage.find_one()
-#db.webpage.update({'_id': url}, {'$set': {'html': '123'}},upsert=True)
-#print db.webpage.find_one({'_id': url})
-
-
-
-
-
 
 
 

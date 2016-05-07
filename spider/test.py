@@ -1,13 +1,9 @@
-from MyClass import *
 
-myClass = MyClass()
-str = myClass.SayHi('lance')
-print str
+import sys
+sys.path.append("service")
 
+from Common import *
 
-
-
-
-
-
+result = Common.GetId('userid')
+print result
 
