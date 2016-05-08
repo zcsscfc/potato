@@ -28,8 +28,7 @@ def DownLoad(url_seed, url_pattern, origin_name):
 	count = 0
 	while url_list:
 		url = url_list.pop()
-		
-		
+
 		#throttle.wait(url)
 		html = urllib2.urlopen(url).read()
 
@@ -47,14 +46,14 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		
 		#HandleHtml(url, fixedHtml)
 		HandleHtml2MySql(url, fixedHtml, titleText)
-		for link in GetLinks(fixedHtml):
+		for link in GetLinks(html): # fixedHtml
 			if re.match(url_pattern, link):
 				if link not in seenUrlList:
 					seenUrlList.add(link)
 					count = count + 1
 					if count <= Throttle.Count:
 						a = 1
-						#url_list.append(link)
+						url_list.append(link)
 
 def GetLinks(html):
 	webpage_regex = re.compile('<a[^>]+href=["\'](.*?)["\']', re.IGNORECASE)
@@ -97,7 +96,7 @@ def CheckPageUrl(page_url):
 #seedUrl = 'http://b2b.nbdeli.com/Goods/ItemDetail_100043999_40.htm'
 #url_pattern = 'http://b2b.nbdeli.com/Goods/ItemDetail'
 url_seed = 'http://www.zhuwang.cc/zhuchangjs/201605/264653.html'
-url_pattern = 'http://www.zhuwang.cc/zhuchangjs/'
+url_pattern = 'http://www.zhuwang.cc/zhuchangjs/201605'
 origin_name = ''
 throttle = Throttle(0)
 DownLoad(url_seed, url_pattern, origin_name)
