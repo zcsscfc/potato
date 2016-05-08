@@ -55,24 +55,19 @@ def HandleHtml(url, html):
 		os.makedirs(folder)
 	with open(filename, 'wb') as fp:
 		fp.write(html)
-		
-def HandleHtml2MySql(url, html)
+
+def HandleHtml2MySql(url, html):
 	import sys
 	sys.path.append("../service")
+	from Common import Common
 	post_id = Common.GetId('post_id')
 	
-	
+	sys.path.append("../orm")
+	from PotatoDb import PotatoDb
+	ins = PotatoDb.tbl_post_m.insert()
+	ins.execute(post_id=post_id,title=url,digest='1',thumb='1',\
+		origin_id='1',create_t='2016-05-12 00:00:00')
 
-#INSERT INTO `potato`.`post_m` (`post_id`, `title`, `digest`, `thumb`, `origin_id`, `create_t`)
-# VALUES ('1', '1', '1', '1', '1', '2016-05-12 00:00:00');
-	
-	
-	from DbHelper import *
-	
-	db = DbHelper()
-	result = db.ExecNoQuery("update post_m set origin_id=300 where title=1")
-	print result
-	
 def GenerateFileName(url):
 	components = urlparse.urlsplit(url)
 	path = components.path

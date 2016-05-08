@@ -1,0 +1,24 @@
+
+from sqlalchemy import *
+
+class PotatoDb():
+	hi = 'hi'
+	engine = create_engine('mysql+pymysql://root:123@ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com/potato',echo=False)
+	metadata = MetaData(engine)
+	tbl_post_m = Table('post_m',metadata,autoload=True)
+	#print [c.name for c in tbl_post_m.columns]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
