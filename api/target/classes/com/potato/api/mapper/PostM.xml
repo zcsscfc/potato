@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdvertiserMapper">
+
+    <!--<cache type="com.xxx.jdbc.cache.RedisCache"/>-->
+
+    <select id="selectPostM" resultType="com.potato.api.entity.PostM">
+        SELECT * FROM post_m
+    </select>
+
+    <!--<select id="selectAdvertiserPaging" resultType="AdvertiserResult">-->
+        <!--SELECT id, advertiser_name, description, created_time FROM advertiser-->
+        <!--<where>-->
+            <!--<if test="whereCondition != null">${whereCondition}</if>-->
+        <!--</where>-->
+        <!--<if test="orderBy != null">-->
+            <!--ORDER BY ${orderBy}-->
+        <!--</if>-->
+    <!--</select>-->
+
+    <!--<select id="selectAdvertiserById" resultType="AdvertiserResult">-->
+        <!--SELECT id, advertiser_name, description, created_time, last_modified FROM advertiser WHERE id = #{id}-->
+    <!--</select>-->
+
+    <!--<update id="updateAdvertiser">-->
+        <!--UPDATE advertiser-->
+        <!--<set>-->
+            <!--<if test="advertiserName != null">advertiser_name = #{advertiserName},</if>-->
+            <!--<if test="description != null">description = #{description},</if>-->
+        <!--</set>-->
+        <!--WHERE id = #{id}-->
+    <!--</update>-->
+
+    <!--<delete id="deleteAdvertiser">-->
+        <!--DELETE FROM advertiser WHERE id = #{id}-->
+    <!--</delete>-->
+
+    <!--<insert id="insertAdvertiser">-->
+        <!--INSERT INTO advertiser (id, advertiser_name, description, created_time)-->
+        <!--VALUES (#{id}, #{advertiserName}, #{description}, #{createdTime})-->
+    <!--</insert>-->
+
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/com" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/config.properties" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/log4j.properties" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mybatis.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/spring-mvc.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/spring-mybatis.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/spring.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/404.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/index.html" charset="GBK" />
+  </component>
+</project>

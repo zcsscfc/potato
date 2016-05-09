@@ -11,7 +11,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis.xml"/>
         <property name="mapperLocations" value="classpath:com/potato/api/mapper/*.xml"/>
-        <property name="typeAliasesPackage" value="com.xxx.sample.api.result"/>
+        <property name="typeAliasesPackage" value="com.potato.sample.api.result"/>
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
