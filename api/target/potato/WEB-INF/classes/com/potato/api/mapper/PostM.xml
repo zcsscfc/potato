@@ -3,12 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="AdvertiserMapper">
+<mapper namespace="post">
 
     <!--<cache type="com.xxx.jdbc.cache.RedisCache"/>-->
 
     <select id="selectPostM" resultType="com.potato.api.entity.PostM">
         SELECT * FROM post_m
+    </select>
+
+    <select id="selectPostMPostId" resultType="com.potato.api.entity.PostM" parameterType="BigInteger">
+        SELECT * FROM post_m WHERE post_id=#{postId}
+    </select>
+
+    <select id="selectPostDPostId" resultType="com.potato.api.entity.PostD" parameterType="BigInteger">
+        SELECT * FROM post_d WHERE post_id=#{postId}
     </select>
 
     <!--<select id="selectAdvertiserPaging" resultType="AdvertiserResult">-->
