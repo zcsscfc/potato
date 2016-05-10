@@ -1,11 +1,14 @@
 package com.android.potato;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.potato.list.SimpleOnRefreshListener;
 import com.potato.list.PostItemListAdapter;
@@ -42,6 +45,18 @@ public class HotFragment extends Fragment {
         refreshSwipeMenuListView = (RefreshSwipeMenuListView) view.findViewById(R.id.refreshSwipeMenuListView);
 
         refreshSwipeMenuListView.setAdapter(postItemListAdapter);
+
+        //GO TO DETAIL PAGE
+        refreshSwipeMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
         refreshSwipeMenuListView.SetListViewMode(RefreshSwipeMenuListView.MODE_BOTH);
 
         SimpleOnRefreshListener simpleOnRefreshListener = new SimpleOnRefreshListener(
