@@ -3,7 +3,7 @@ package com.potato.model;
 public class PostMain {
     private String title;
     private String create_t;
-
+private String post_id;
 
     public String getCreate_t() {
         return create_t;
@@ -19,6 +19,14 @@ public class PostMain {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(String post_id) {
+        this.post_id = post_id;
     }
 }
 

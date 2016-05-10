@@ -1,6 +1,9 @@
 package com.potato.list;
 
-public class PostItem {
+import java.io.Serializable;
+
+public class PostItem implements Serializable {
+    private String postId;
     private String title;
     private String origin;
     private String time;
@@ -36,5 +39,13 @@ public class PostItem {
 
     public void setThumb(String thumb) {
         this.thumb = thumb;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }

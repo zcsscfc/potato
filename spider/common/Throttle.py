@@ -1,7 +1,7 @@
 
 class Throttle:
 
-	Count = 3000
+	Count = 20
 	
 	def __init__(self, delay):
 		self.delay = delay

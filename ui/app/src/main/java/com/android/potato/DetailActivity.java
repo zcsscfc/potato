@@ -33,11 +33,14 @@ public class DetailActivity extends Activity {
     private WebView wv_content;
     private android.os.Handler msgHandler;
     private final int msg_get_post_m_list = 0;
+    private PostItem postItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        postItem = (PostItem) getIntent().getSerializableExtra("postItem");
 
         ImageButton img_btn_cancel = (ImageButton) findViewById(R.id.img_btn_cancel);
         img_btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +58,6 @@ public class DetailActivity extends Activity {
         getData();
         android.os.Looper looper = android.os.Looper.myLooper();
         msgHandler = new MessageHandler(looper);
-
     }
 
     class MessageHandler extends android.os.Handler {
@@ -67,27 +69,18 @@ public class DetailActivity extends Activity {
         public void handleMessage(android.os.Message msg) {
             switch (msg.arg1) {
                 case msg_get_post_m_list:
-                    tv_title.setText("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
+                    tv_title.setText(postItem.getTitle());
                     Date _date = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
-                    String str_date = sdf.format(_date);
-                    tv_source_date.setText("中国农业技术网   " + str_date);
-
+                    tv_source_date.setText(postItem.getOrigin() + "  " + postItem.getTime());
                     String jsonStr = (String) msg.obj;
-                    try
-                    {
-
+                    try {
                         PostData result = new Gson().fromJson(jsonStr, PostData.class);
                         PostDetail detail = (PostDetail) result.getData();
                         String content = detail.getDetail();
-                        content = content.replace("\\n", "");
                         wv_content.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
-                    }catch (Exception ex)
-                    {
-                        Log.e("lance",ex.toString());
+                    } catch (Exception ex) {
+                        Log.e("DetailActivity01", ex.toString());
                     }
-
-
                     break;
                 default:
                     break;
@@ -99,11 +92,10 @@ public class DetailActivity extends Activity {
         new Thread() {
             @Override
             public void run() {
-
                 try {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder().
-                            url("http://ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com/postd/200106050008617").
+                            url("http://ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com/postd/" + postItem.getPostId()).
                             build();
                     Response response = client.newCall(request).execute();
                     String rspStr = response.body().string();
@@ -112,7 +104,7 @@ public class DetailActivity extends Activity {
                     msg.obj = rspStr;
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {
-                    Log.e("lance", ex.toString());
+                    Log.e("DetailActivity02", ex.toString());
                 }
             }
         }.start();
