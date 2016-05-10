@@ -12,7 +12,10 @@ import com.potato.model.PostMainList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -155,19 +158,27 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     for (int i = 0; i < result.getData().size(); i++) {
                         PostMain postMain = result.getData().get(i);
                         Date date = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+                        //2016-05-08 22:49:53
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+                        SimpleDateFormat sdf3 = new SimpleDateFormat("MM-dd HH:mm");
                         SimpleDateFormat sdf2 = new SimpleDateFormat("-ss");
-                        String str = sdf.format(date);
+                        String str = "";
+                        try {
+                            str = sdf3.format(sdf.parseObject(postMain.getCreate_t()));
+                        } catch (Exception ex) {
+                            Log.e("lance", ex.toString());
+                        }
+
                         String str2 = sdf2.format(date);
                         PostItem postItem = new PostItem();
                         if (i % 2 == 0) {
-                            postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种" + i + str2);
+                            postItem.setTitle(postMain.getTitle());
                             postItem.setOrigin("中国农业技术网");
                         } else {
                             postItem.setTitle(postMain.getTitle());
                             postItem.setOrigin("中国养殖网");
                         }
-                        postItem.setTime(postMain.getCreate_t());
+                        postItem.setTime(str);
                         postItemList.set(i, postItem);
                     }
                     refreshSwipeMenuListView.Complete();
