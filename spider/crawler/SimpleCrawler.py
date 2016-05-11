@@ -23,11 +23,11 @@ from bs4 import BeautifulSoup
 from Throttle import *
 
 def DownLoad(url_seed, url_pattern, origin_name):
-	url_list = [url_seed]
-	seenUrlList = set(url_list) # make sure not crawler same page loop
+	urlList = [url_seed]
+	urlListFinish = set(urlList) # make sure not crawler same page loop
 	count = 0
-	while url_list:
-		url = url_list.pop()
+	while urlList:
+		url = urlList.pop()
 
 		#throttle.wait(url)
 		html = urllib2.urlopen(url).read()
@@ -45,7 +45,6 @@ def DownLoad(url_seed, url_pattern, origin_name):
 			titleText = fixedHtml.cssselect('div.nr_675>h1.title')[0].text
 			fixedHtml = lxml.html.tostring(fixedHtml)
 		except:
-			print url
 			continue
 		# rule 2 end
 		
@@ -60,11 +59,11 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		HandleHtml2MySql(url, fixedHtml, titleText)
 		for link in GetLinks(html): # fixedHtml
 			if re.match(url_pattern, link):
-				if link not in seenUrlList:
-					seenUrlList.add(link)
+				if link not in urlListFinish:
+					urlListFinish.add(link)
 					count = count + 1
 					if count <= Throttle.Count:
-						url_list.append(link)
+						urlList.append(link)
 
 def GetLinks(html):
 	webpage_regex = re.compile('<a[^>]+href=["\'](.*?)["\']', re.IGNORECASE)
@@ -108,13 +107,13 @@ def CheckPageUrl(page_url):
 #url_pattern = 'http://b2b.nbdeli.com/Goods/ItemDetail'
 
 # rule 1
-url_seed = 'http://www.zhuwang.cc/zhuchangjs/201605/264653.html'
-url_pattern = 'http://www.zhuwang.cc/zhuchangjs/201605'
+#url_seed = 'http://www.zhuwang.cc/zhuchangjs/201605/264653.html'
+#url_pattern = 'http://www.zhuwang.cc/zhuchangjs/201605'
 # rule 1 end
 
 # rule 2
 url_seed = 'http://www.inong.net/jishu/show-9582.html'
-url_pattern = 'http://www.inong.net/jishu'
+url_pattern = 'http://www.inong.net/jishu/show-'
 # rule 2 end
 
 origin_name = ''
