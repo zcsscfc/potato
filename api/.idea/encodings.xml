@@ -11,5 +11,7 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/spring.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/404.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/index.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../doc/API_SUMMARY.md" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../doc/apilist/postList.md" charset="UTF-8" />
   </component>
 </project>
