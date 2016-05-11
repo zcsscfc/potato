@@ -8,7 +8,7 @@
     <!--<cache type="com.xxx.jdbc.cache.RedisCache"/>-->
 
     <select id="selectPostM" resultType="com.potato.api.entity.PostM">
-        SELECT * FROM post_m
+        SELECT * FROM post_m ORDER BY create_t desc
     </select>
 
     <select id="selectPostMPostId" resultType="com.potato.api.entity.PostM" parameterType="BigInteger">
