@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7d4c736-92d5-484b-8c6d-b0531795d847" name="Default" comment="update framework">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../doc/API_SUMMARY.md" afterPath="$PROJECT_DIR$/../doc/API_SUMMARY.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/ROOT.war" afterPath="$PROJECT_DIR$/target/ROOT.war" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../doc/apilist/postList.md" afterPath="$PROJECT_DIR$/../doc/apilist/postList.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="potatoApi.iws" />
@@ -28,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="API_SUMMARY.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../doc/API_SUMMARY.md">
+      <file leaf-file-name="postList.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../doc/apilist/postList.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13385826">
-              <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.93307084">
+              <caret line="45" column="26" selection-start-line="45" selection-start-column="26" selection-end-line="45" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -107,8 +107,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/potato/api/service/PostService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/potato/api/controller/PostController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/com/potato/api/mapper/PostM.xml" />
-        <option value="$PROJECT_DIR$/../doc/apilist/postList.md" />
         <option value="$PROJECT_DIR$/../doc/API_SUMMARY.md" />
+        <option value="$PROJECT_DIR$/../doc/apilist/postList.md" />
       </list>
     </option>
   </component>
@@ -645,7 +645,7 @@
       <workItem from="1462761498302" duration="9797000" />
       <workItem from="1462776835698" duration="1468000" />
       <workItem from="1462778344236" duration="12939000" />
-      <workItem from="1462867738829" duration="2421000" />
+      <workItem from="1462867738829" duration="3140000" />
     </task>
     <task id="LOCAL-00001" summary="update framework">
       <created>1460621901221</created>
@@ -669,7 +669,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70383000" />
+    <option name="totallyTimeSpent" value="71102000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -1094,18 +1094,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../doc/apilist/postList.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../doc/API_SUMMARY.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13385826">
           <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../doc/apilist/postList.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.93307084">
+          <caret line="45" column="26" selection-start-line="45" selection-start-column="26" selection-end-line="45" selection-end-column="26" />
           <folding />
         </state>
       </provider>
