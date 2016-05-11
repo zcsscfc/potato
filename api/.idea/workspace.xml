@@ -29,8 +29,8 @@
       <file leaf-file-name="postList.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../doc/apilist/postList.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23031496">
-              <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+            <state vertical-scroll-proportion="-0.033464566">
+              <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -643,7 +643,7 @@
       <workItem from="1462761498302" duration="9797000" />
       <workItem from="1462776835698" duration="1468000" />
       <workItem from="1462778344236" duration="12939000" />
-      <workItem from="1462867738829" duration="4657000" />
+      <workItem from="1462867738829" duration="4880000" />
     </task>
     <task id="LOCAL-00001" summary="update framework">
       <created>1460621901221</created>
@@ -667,7 +667,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72619000" />
+    <option name="totallyTimeSpent" value="72842000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -1102,8 +1102,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../doc/apilist/postList.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23031496">
-          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+        <state vertical-scroll-proportion="-0.033464566">
+          <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
           <folding />
         </state>
       </provider>
