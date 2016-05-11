@@ -225,25 +225,24 @@ public class RefreshSwipeMenuListView extends ListView {
                     ResetRefreshHeaderHeight();
                 }
                 lastTouchY = ev.getRawY();
-                if (IsBottom() && !loading
-                        && (firstTouchY - lastTouchY) >= 200) { // 判断是否满足上拉
+                if (IsBottom() && !loading && (firstTouchY - lastTouchY) >= 200) { // 处理上拉加载
                     LoadMoreData();
                 }
-                if (touchState == TOUCH_STATE_X) { // 如果为 x 轴偏移状态，开启左滑
-                    if (swipeMenuLayout != null) {
-                        swipeMenuLayout.onSwipe(ev);
-                        if (!swipeMenuLayout.isOpen()) {
-                            touchPosition = -1;
-                            swipeMenuLayout = null;
-                        }
-                    }
-                    if (onSwipeListener != null) {
-                        onSwipeListener.onSwipeEnd(touchPosition);
-                    }
-                    ev.setAction(MotionEvent.ACTION_CANCEL);
-                    super.onTouchEvent(ev);
-                    return true;
-                }
+//                if (touchState == TOUCH_STATE_X) { // 处理左滑菜单
+//                    if (swipeMenuLayout != null) {
+//                        swipeMenuLayout.onSwipe(ev);
+//                        if (!swipeMenuLayout.isOpen()) {
+//                            touchPosition = -1;
+//                            swipeMenuLayout = null;
+//                        }
+//                    }
+//                    if (onSwipeListener != null) {
+//                        onSwipeListener.onSwipeEnd(touchPosition);
+//                    }
+//                    ev.setAction(MotionEvent.ACTION_CANCEL);
+//                    super.onTouchEvent(ev);
+//                    return true;
+//                }
                 break;
         }
         return super.onTouchEvent(ev);

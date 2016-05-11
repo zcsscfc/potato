@@ -8,5 +8,6 @@
         android:id="@+id/refreshSwipeMenuListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="#FAFAFA"
         android:dividerHeight="2dp" />
 </LinearLayout>

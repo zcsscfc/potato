@@ -1,11 +1,15 @@
 package com.android.potato;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.potato.list.SimpleOnRefreshListener;
 import com.potato.list.PostItemListAdapter;
@@ -14,6 +18,7 @@ import com.potato.list.RefreshSwipeMenuListView;
 import com.potato.list.SimpleOnMenuItemClickListener;
 import com.potato.list.SimpleSwipeMenu;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +47,22 @@ public class HotFragment extends Fragment {
         refreshSwipeMenuListView = (RefreshSwipeMenuListView) view.findViewById(R.id.refreshSwipeMenuListView);
 
         refreshSwipeMenuListView.setAdapter(postItemListAdapter);
+
+        refreshSwipeMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                if (arg3 == -1) { // id is headerView or footerView
+                    return;
+                }
+                int realPosition = (int) arg3;
+                PostItem postItem = (PostItem) postItemListAdapter.getItem(realPosition);
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra("postItem", (Serializable) postItem);
+                startActivity(intent);
+            }
+        });
+
         refreshSwipeMenuListView.SetListViewMode(RefreshSwipeMenuListView.MODE_BOTH);
 
         SimpleOnRefreshListener simpleOnRefreshListener = new SimpleOnRefreshListener(
@@ -57,6 +78,7 @@ public class HotFragment extends Fragment {
         );
         refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
 
+        simpleOnRefreshListener.onRefresh();
         return view;
     }
 
@@ -64,6 +86,7 @@ public class HotFragment extends Fragment {
         List<PostItem> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             PostItem postItem = new PostItem();
+            postItem.setPostId("200106050010256");
             if (i % 2 == 0) {
                 postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
                 postItem.setOrigin("中国农业技术网");
