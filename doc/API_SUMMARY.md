@@ -1,5 +1,4 @@
 
-Potato API
-==============================
+###Potato API
 
-##[文章列表](apilist/postList.md)
+####[文章列表](apilist/postList.md)
