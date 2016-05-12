@@ -27,6 +27,8 @@ import com.potato.model.PostDetail;
 import com.potato.model.PostMain;
 import com.potato.model.PostMainList;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,6 +48,7 @@ public class DetailActivity extends Activity {
     private Button btn_to_read, btn_fav;
     PopupMenu popupMenu;
     Menu menu;
+    private TextView textViewTitle, textViewOrigin, textViewTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +118,13 @@ public class DetailActivity extends Activity {
 
         postItem = (PostItem) getIntent().getSerializableExtra("postItem");
         wv_content = (WebView) findViewById(R.id.wv_content);
+
+        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+        textViewOrigin = (TextView) findViewById(R.id.textViewOrigin);
+        textViewTime = (TextView) findViewById(R.id.textViewTime);
+        textViewTitle.setText(postItem.getTitle());
+        textViewOrigin.setText(postItem.getOrigin());
+        textViewTime.setText(postItem.getTime());
 
         getData();
         android.os.Looper looper = android.os.Looper.myLooper();
