@@ -9,11 +9,6 @@ import com.google.gson.Gson;
 import com.potato.model.PostMain;
 import com.potato.model.PostMainList;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
@@ -28,7 +23,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
     private List<PostItem> postItemList;
     private PostItemListAdapter postItemListAdapter;
     private android.os.Handler msgHandler;
-    private final int msg_get_post_m_list = 0;
+    private final int MSG_GET_POST_M_LIST = 0;
 
     public SimpleOnRefreshListener(RefreshSwipeMenuListView refreshSwipeMenuListView,
                                    List<PostItem> postItemList, PostItemListAdapter postItemListAdapter) {
@@ -46,14 +41,15 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
             @Override
             public void run() {
                 try {
-                    OkHttpClient client = new OkHttpClient();
+                    Log.e("lance", currentThread().toString());
+                    OkHttpClient okHttpClient = new OkHttpClient();
                     Request request = new Request.Builder().
                             url("http://ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com/postm/").
                             build();
-                    Response response = client.newCall(request).execute();
+                    Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
                     android.os.Message msg = android.os.Message.obtain();
-                    msg.arg1 = msg_get_post_m_list;
+                    msg.arg1 = MSG_GET_POST_M_LIST;
                     msg.obj = rspStr;
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {
@@ -88,7 +84,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                 refreshSwipeMenuListView.Complete();
                 postItemListAdapter.notifyDataSetChanged();
             }
-        }, 2000);
+        }, 0);
     }
 
     class MessageHandler extends android.os.Handler {
@@ -99,7 +95,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
         @Override
         public void handleMessage(android.os.Message msg) {
             switch (msg.arg1) {
-                case msg_get_post_m_list:
+                case MSG_GET_POST_M_LIST:
                     String jsonStr = (String) msg.obj;
                     PostMainList result = new Gson().fromJson(jsonStr, PostMainList.class);
                     List<PostMain> postMainList = result.getData();
@@ -132,7 +128,8 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     }
                     refreshSwipeMenuListView.Complete();
                     postItemListAdapter.notifyDataSetChanged();
-                    Toast toast = Toast.makeText(PotatoApplication.getInstance(), "刷新成功", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(PotatoApplication.getInstance(),
+                            "刷新成功",Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     break;

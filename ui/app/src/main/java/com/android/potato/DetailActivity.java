@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,13 +23,6 @@ import com.google.gson.Gson;
 import com.potato.list.PostItem;
 import com.potato.model.PostData;
 import com.potato.model.PostDetail;
-import com.potato.model.PostMain;
-import com.potato.model.PostMainList;
-
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -42,7 +34,7 @@ import okhttp3.Response;
 public class DetailActivity extends Activity {
     private WebView wv_content;
     private android.os.Handler msgHandler;
-    private final int msg_get_post_m_list = 0;
+    private final int MSG_GET_POST_D = 0;
     private PostItem postItem;
     private ImageButton img_btn_back, img_btn_menu;
     private Button btn_to_read, btn_fav;
@@ -93,8 +85,9 @@ public class DetailActivity extends Activity {
         img_btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+//                startActivity(intent);
+                finish();
             }
         });
         btn_to_read.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +149,7 @@ public class DetailActivity extends Activity {
 
         public void handleMessage(android.os.Message msg) {
             switch (msg.arg1) {
-                case msg_get_post_m_list:
+                case MSG_GET_POST_D:
                     String jsonStr = (String) msg.obj;
                     try {
                         PostData result = new Gson().fromJson(jsonStr, PostData.class);
@@ -185,7 +178,7 @@ public class DetailActivity extends Activity {
                     Response response = client.newCall(request).execute();
                     String rspStr = response.body().string();
                     android.os.Message msg = android.os.Message.obtain();
-                    msg.arg1 = msg_get_post_m_list;
+                    msg.arg1 = MSG_GET_POST_D;
                     msg.obj = rspStr;
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {

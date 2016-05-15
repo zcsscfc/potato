@@ -36,8 +36,10 @@ public class InfoFragment extends Fragment {
             viewPager = (ViewPager) view.findViewById(R.id.viewPager);
             horizontalScrollView = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
             viewGroup = (ViewGroup) view.findViewById(R.id.linearLayoutTabContainer);
-            BuildTabTitles();
-            BuildTabContent();
+            if (this.fragmentList == null) {
+                BuildTabTitles();
+                BuildTabContent();
+            }
         }
         return view;
     }

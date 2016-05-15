@@ -160,7 +160,7 @@ public class RefreshSwipeMenuListView extends ListView {
                         && swipeMenuLayout != null
                         && swipeMenuLayout.isOpen()) {
                     touchState = TOUCH_STATE_X;
-                    swipeMenuLayout.onSwipe(ev); // 左滑菜单手势监听事件，根据滑动距离弹出菜单
+                    //swipeMenuLayout.onSwipe(ev); // 左滑菜单手势监听事件，根据滑动距离弹出菜单
                     return true;
                 }
                 // 获取 item view，此方法是因为 getChildAt() 传入 index 值导致 list view 不可见的 item 会报空指针
@@ -173,7 +173,7 @@ public class RefreshSwipeMenuListView extends ListView {
                     return super.onTouchEvent(ev);
                 }
                 if (swipeMenuLayout != null) { // 否则打开左滑菜单
-                    swipeMenuLayout.onSwipe(ev);
+                    //swipeMenuLayout.onSwipe(ev);
                 }
                 if (view instanceof SwipeMenuLayout) {
                     swipeMenuLayout = (SwipeMenuLayout) view;
@@ -194,7 +194,7 @@ public class RefreshSwipeMenuListView extends ListView {
                 }
                 if (touchState == TOUCH_STATE_X) { // 如果 x 轴偏移弹出左滑菜单
                     if (swipeMenuLayout != null) {
-                        swipeMenuLayout.onSwipe(ev);
+                        //swipeMenuLayout.onSwipe(ev);
                     }
                     getSelector().setState(new int[]{0});
                     ev.setAction(MotionEvent.ACTION_CANCEL);
@@ -206,7 +206,7 @@ public class RefreshSwipeMenuListView extends ListView {
                     } else if (dx > MAX_X) { // 如果 x 轴偏移量 > 指定 x 轴偏移量，设置 x 轴偏移状态，开始弹出左滑菜单
                         touchState = TOUCH_STATE_X;
                         if (onSwipeListener != null) {
-                            onSwipeListener.onSwipeStart(touchPosition);
+                            //onSwipeListener.onSwipeStart(touchPosition);
                         }
                     }
                 }
@@ -226,7 +226,7 @@ public class RefreshSwipeMenuListView extends ListView {
                 }
                 lastTouchY = ev.getRawY();
                 if (IsBottom() && !loading && (firstTouchY - lastTouchY) >= 200) { // 处理上拉加载
-                    LoadMoreData();
+                    //LoadMoreData();
                 }
 //                if (touchState == TOUCH_STATE_X) { // 处理左滑菜单
 //                    if (swipeMenuLayout != null) {
@@ -288,7 +288,7 @@ public class RefreshSwipeMenuListView extends ListView {
             loadFooter.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    StartLoading();
+                    //StartLoading();
                 }
             });
         } else {
@@ -359,6 +359,20 @@ public class RefreshSwipeMenuListView extends ListView {
         }
     }
 
+    public void setLoading(boolean loading) {
+        if (this == null) return;
+        this.loading = loading;
+        if (loading) {
+            loadFooter.setVisibility(VISIBLE);
+            setSelection(getAdapter().getCount() - 1);
+            onRefreshListener.onLoadMore();
+        } else {
+            loadFooter.setVisibility(GONE);
+            firstTouchY = 0;
+            lastTouchY = 0;
+        }
+    }
+
     @Override
     public void computeScroll() {
         if (scroller.computeScrollOffset()) {
@@ -403,10 +417,10 @@ public class RefreshSwipeMenuListView extends ListView {
         if (mode == MODE_BOTH) {
             SetPullRefreshEnable(true);
             SetPullLoadEnable(true);
-        } else if (mode == MODE_FOOTER) {
-            SetPullLoadEnable(true);
         } else if (mode == MODE_HEADER) {
             SetPullRefreshEnable(true);
+        } else if (mode == MODE_FOOTER) {
+            SetPullLoadEnable(true);
         }
     }
 
@@ -423,20 +437,6 @@ public class RefreshSwipeMenuListView extends ListView {
     private void LoadMoreData() {
         if (onRefreshListener != null) {
             setLoading(true);
-        }
-    }
-
-    public void setLoading(boolean loading) {
-        if (this == null) return;
-        this.loading = loading;
-        if (loading) {
-            loadFooter.setVisibility(VISIBLE);
-            setSelection(getAdapter().getCount() - 1);
-            onRefreshListener.onLoadMore();
-        } else {
-            loadFooter.setVisibility(GONE);
-            firstTouchY = 0;
-            lastTouchY = 0;
         }
     }
 

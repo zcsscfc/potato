@@ -41,6 +41,7 @@ public class HotFragment extends Fragment {
             }
         }
         this.context = PotatoApplication.getInstance();
+
         postItemList = InitialTestData();
         postItemListAdapter = new PostItemListAdapter(context, postItemList);
 
