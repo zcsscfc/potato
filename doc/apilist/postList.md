@@ -87,7 +87,8 @@ postm
 |digest     |string  |文章摘要，此栏位备用  |
 |thumb     |string  |文章缩略图  |
 |from_url     |string  |源地址  |
-|origin_id     |int  |源编号，需用从 bd_origin 表取出name详细讯息  |
+|origin_id     |int  |站点编号  |
+|origin_name     |string  |站点名称，通过 origin_id 从 bd_origin 表取出name讯息  |
 |create_t     |date  |创建时间  |
 
 
