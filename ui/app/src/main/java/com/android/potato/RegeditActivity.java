@@ -8,13 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 /**
- * Created by s1112001 on 2016/5/4.
+ * Created by s1112001 on 2016/5/17.
  */
-public class LoginActivity extends Activity {
+public class RegeditActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,22 +23,13 @@ public class LoginActivity extends Activity {
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintResource(R.color.color_11);//通知栏所需颜色
         }
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_regedit);
 
-        ImageButton img_btn_back = (ImageButton)findViewById(R.id.img_btn_back);
+        ImageButton img_btn_back = (ImageButton) findViewById(R.id.img_btn_back);
         img_btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button btn_regedit = (Button)findViewById(R.id.btn_regedit);
-        btn_regedit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,RegeditActivity.class);
+                Intent intent = new Intent(RegeditActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

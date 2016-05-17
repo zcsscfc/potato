@@ -28,26 +28,27 @@
 
             <LinearLayout
                 android:id="@+id/ll_login"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingTop="50dp"
                 android:paddingBottom="50dp"
-                android:background="@color/blue">
+                android:background="@color/color_11" >
 
                 <ImageView
                     android:id="@+id/iv_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_horizontal"
-                    android:src="@android:drawable/ic_menu_help" />
+                    android:src="@drawable/u262"  />
 
                 <TextView
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical|left"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="登录"
+                    android:textColor="#FFF"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
 
