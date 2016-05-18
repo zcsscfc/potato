@@ -38,7 +38,8 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		titleText = fixedHtml.cssselect('p.zxxw1')[0].text
 		fixedHtml.cssselect('p.zxxw1')[0].drop_tree()
 		fixedHtml.cssselect('p.zxxw2')[0].drop_tree()
-		fixedHtml = lxml.html.tostring(fixedHtml)
+		fixedHtml.cssselect('p.zxxw-nr')[0].drop_tree()
+		fixedHtml = lxml.html.tostring(fixedHtml).strip()
 		# rule 1 end
 		
 		# rule 2
