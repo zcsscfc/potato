@@ -26,7 +26,6 @@ import java.util.List;
 
 public class HotFragment extends Fragment {
     private View view;
-    private Context context;
     private List<PostItem> postItemList;
     private PostItemListAdapter postItemListAdapter;
     private RefreshSwipeMenuListView refreshSwipeMenuListView;
@@ -39,68 +38,44 @@ public class HotFragment extends Fragment {
             if (bundle != null) {
                 bundle.getString("extra");
             }
-        }
-        this.context = PotatoApplication.getInstance();
 
-        postItemList = InitialTestData();
-        postItemListAdapter = new PostItemListAdapter(context, postItemList);
+            postItemList = new ArrayList<>();
+            postItemListAdapter = new PostItemListAdapter(PotatoApplication.getInstance(), postItemList);
 
-        refreshSwipeMenuListView = (RefreshSwipeMenuListView) view.findViewById(R.id.refreshSwipeMenuListView);
+            refreshSwipeMenuListView = (RefreshSwipeMenuListView) view.findViewById(R.id.refreshSwipeMenuListView);
 
-        refreshSwipeMenuListView.setAdapter(postItemListAdapter);
+            refreshSwipeMenuListView.setAdapter(postItemListAdapter);
 
-        refreshSwipeMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
-                if (arg3 == -1) { // id is headerView or footerView
-                    return;
+            refreshSwipeMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                        long arg3) {
+                    if (arg3 == -1) { // id is headerView or footerView
+                        return;
+                    }
+                    int realPosition = (int) arg3;
+                    PostItem postItem = (PostItem) postItemListAdapter.getItem(realPosition);
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra("postItem", (Serializable) postItem);
+                    startActivity(intent);
                 }
-                int realPosition = (int) arg3;
-                PostItem postItem = (PostItem) postItemListAdapter.getItem(realPosition);
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra("postItem", (Serializable) postItem);
-                startActivity(intent);
-            }
-        });
+            });
 
-        refreshSwipeMenuListView.SetListViewMode(RefreshSwipeMenuListView.MODE_BOTH);
+            refreshSwipeMenuListView.SetListViewMode(RefreshSwipeMenuListView.MODE_BOTH);
 
-        SimpleOnRefreshListener simpleOnRefreshListener = new SimpleOnRefreshListener(
-                refreshSwipeMenuListView, postItemList, postItemListAdapter
-        );
-        refreshSwipeMenuListView.setOnRefreshListener(simpleOnRefreshListener);
+            SimpleOnRefreshListener simpleOnRefreshListener = new SimpleOnRefreshListener(
+                    refreshSwipeMenuListView, postItemList, postItemListAdapter
+            );
+            refreshSwipeMenuListView.setOnRefreshListener(simpleOnRefreshListener);
 
-        SimpleSwipeMenu simpleSwipeMenu = new SimpleSwipeMenu();
-        refreshSwipeMenuListView.setMenuCreator(simpleSwipeMenu);
+            SimpleSwipeMenu simpleSwipeMenu = new SimpleSwipeMenu();
+            refreshSwipeMenuListView.setMenuCreator(simpleSwipeMenu);
 
-        SimpleOnMenuItemClickListener simpleOnMenuItemClickListener = new SimpleOnMenuItemClickListener(
-                refreshSwipeMenuListView, postItemList, postItemListAdapter
-        );
-        refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
-
-        simpleOnRefreshListener.onRefresh();
-        return view;
-    }
-
-    private List<PostItem> InitialTestData() {
-        List<PostItem> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            PostItem postItem = new PostItem();
-            postItem.setPostId("200106050010256");
-            if (i % 2 == 0) {
-                postItem.setTitle("发明专利：新疆理化所栽培出食用翘鳞环锈伞菌种");
-                postItem.setOrigin("中国农业技术网");
-            } else {
-                postItem.setTitle("单坡联合双列式育肥暖棚猪舍");
-                postItem.setOrigin("中国养殖网");
-            }
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
-            String str = sdf.format(date);
-            postItem.setTime(str);
-            list.add(postItem);
+            SimpleOnMenuItemClickListener simpleOnMenuItemClickListener = new SimpleOnMenuItemClickListener(
+                    refreshSwipeMenuListView, postItemList, postItemListAdapter
+            );
+            refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
         }
-        return list;
+        return view;
     }
 }

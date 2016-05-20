@@ -30,7 +30,6 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
         this.refreshSwipeMenuListView = refreshSwipeMenuListView;
         this.postItemList = postItemList;
         this.postItemListAdapter = postItemListAdapter;
-
         android.os.Looper looper = android.os.Looper.myLooper();
         msgHandler = new MessageHandler(looper);
     }
@@ -44,7 +43,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     Log.e("lance", currentThread().toString());
                     OkHttpClient okHttpClient = new OkHttpClient();
                     Request request = new Request.Builder().
-                            url("http://ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com/postm/").
+                            url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postm/").
                             build();
                     Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
@@ -53,7 +52,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     msg.obj = rspStr;
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {
-                    Log.e("lance", ex.toString());
+                    Log.e("lance_test", ex.toString());
                 }
             }
         }.start();
@@ -129,7 +128,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     refreshSwipeMenuListView.Complete();
                     postItemListAdapter.notifyDataSetChanged();
                     Toast toast = Toast.makeText(PotatoApplication.getInstance(),
-                            "刷新成功",Toast.LENGTH_SHORT);
+                            "刷新成功", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     break;

@@ -173,7 +173,7 @@ public class DetailActivity extends Activity {
                 try {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder().
-                            url("http://ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com/postd/" + postItem.getPostId()).
+                            url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postd/" + postItem.getPostId()).
                             build();
                     Response response = client.newCall(request).execute();
                     String rspStr = response.body().string();
