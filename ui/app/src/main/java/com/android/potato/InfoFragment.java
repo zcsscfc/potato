@@ -25,7 +25,6 @@ public class InfoFragment extends Fragment {
     private View view;
     private ViewPager viewPager;
     private ViewGroup viewGroup;
-    private List<Fragment> fragmentList;
     private MyFragmentStatePagerAdapter myFragmentStatePagerAdapter;
     private HorizontalScrollView horizontalScrollView;
 
@@ -36,10 +35,8 @@ public class InfoFragment extends Fragment {
             viewPager = (ViewPager) view.findViewById(R.id.viewPager);
             horizontalScrollView = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
             viewGroup = (ViewGroup) view.findViewById(R.id.linearLayoutTabContainer);
-            if (this.fragmentList == null) {
-                BuildTabTitles();
-                BuildTabContent();
-            }
+            BuildTabTitles();
+            BuildTabContent();
         }
         return view;
     }
@@ -52,19 +49,10 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        fragmentList = new ArrayList<>();
-        for (int i = 0; i < titles.length; i++) {
-            HotFragment hotFragment = new HotFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("extra", titles[i]);
-            hotFragment.setArguments(bundle);
-            fragmentList.add(hotFragment);
-        }
-
         myFragmentStatePagerAdapter = new MyFragmentStatePagerAdapter(getChildFragmentManager());
         myFragmentStatePagerAdapter.setTitles(titles);
-        myFragmentStatePagerAdapter.setFragmentList(fragmentList);
         viewPager.setAdapter(myFragmentStatePagerAdapter);
+
         MyOnPageChangeListener myOnPageChangeListener = new MyOnPageChangeListener(
                 viewGroup, position, colorDefault,
                 colorSelected, offset, horizontalScrollView

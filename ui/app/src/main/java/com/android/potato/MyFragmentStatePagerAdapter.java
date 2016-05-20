@@ -9,15 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     private String[] titles;
     private LayoutInflater layoutInflater;
-    private List<Fragment> fragmentList;
+
+    private FragmentManager fragmentManager;
 
     public MyFragmentStatePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
+        this.fragmentManager = fragmentManager;
     }
 
     public void setTitles(String[] titles) {
@@ -26,12 +29,16 @@ public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return this.fragmentList.get(position);
+
+
+
+
+        return new HotFragment();
     }
 
     @Override
     public int getCount() {
-        return this.fragmentList.size();
+        return titles.length;
     }
 
     @Override
@@ -48,13 +55,5 @@ public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
 
-    }
-
-    public List<Fragment> getFragmentList() {
-        return fragmentList;
-    }
-
-    public void setFragmentList(List<Fragment> fragmentList) {
-        this.fragmentList = fragmentList;
     }
 }

@@ -1,6 +1,7 @@
 package com.android.potato;
 
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -51,6 +52,10 @@ public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
                 horizontalScrollView.scrollTo(offset, 0);
             }
         });
+
+
+
+
     }
 
     @Override
