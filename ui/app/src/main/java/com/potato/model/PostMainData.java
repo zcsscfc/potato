@@ -2,7 +2,7 @@ package com.potato.model;
 
 import java.util.List;
 
-public class PostMainList {
+public class PostMainData {
     private List<PostMain> data;
 
     public void setData(List<PostMain> data) {

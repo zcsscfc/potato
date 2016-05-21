@@ -2,6 +2,7 @@ package com.android.potato;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.potato.list.SimpleOnRefreshListener;
@@ -38,6 +40,9 @@ public class HotFragment extends Fragment {
             if (bundle != null) {
                 bundle.getString("extra");
             }
+
+            LinearLayout linearLayoutListView = (LinearLayout) view.findViewById(R.id.linearLayoutListView);
+            linearLayoutListView.setPadding(0, 0, 0, getNavigationBarHeight());
 
             postItemList = new ArrayList<>();
             postItemListAdapter = new PostItemListAdapter(PotatoApplication.getInstance(), postItemList);
@@ -77,5 +82,12 @@ public class HotFragment extends Fragment {
             refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
         }
         return view;
+    }
+
+    private int getNavigationBarHeight() {
+        Resources resources = PotatoApplication.getInstance().getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        return height;
     }
 }

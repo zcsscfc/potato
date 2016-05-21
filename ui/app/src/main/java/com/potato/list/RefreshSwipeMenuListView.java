@@ -2,6 +2,7 @@ package com.potato.list;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -108,15 +109,17 @@ public class RefreshSwipeMenuListView extends ListView {
         loadFooter = (LinearLayout) LayoutInflater.from(context).inflate(
                 R.layout.load_footer, null, false);
         addFooterView(loadFooter);
+        loadFooter.setVisibility(GONE);
     }
 
     @Override
     public void setAdapter(ListAdapter adapter) {
-        if (isFooterReady == false) {  // 添加尾部隐藏
-            isFooterReady = true;
-            addFooterView(loadFooter);
-            loadFooter.setVisibility(GONE);
-        }
+//        if (isFooterReady == false) {  // 添加尾部隐藏
+//            isFooterReady = true;
+//            Log.e("lance_test", "addFooterView");
+//            //addFooterView(loadFooter);
+//            loadFooter.setVisibility(GONE);
+//        }
         super.setAdapter(new SwipeMenuAdapter(getContext(), adapter) {
             @Override
             public void createMenu(SwipeMenu menu) { // 创建左滑菜单
@@ -148,7 +151,7 @@ public class RefreshSwipeMenuListView extends ListView {
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN: // 手势按下事件、获取坐标、设置上次下拉时间
-                firstTouchY = ev.getRawY();
+                firstTouchY = ev.getRawY(); // 相对于屏幕左上角
                 lastY = ev.getRawY();
                 setRefreshTime(RefreshTime.getRefreshTime(getContext()));
                 touchX = ev.getX(); // 相对于控件左上角
@@ -185,11 +188,13 @@ public class RefreshSwipeMenuListView extends ListView {
                 float dx = Math.abs((ev.getX() - touchX));
                 lastY = ev.getRawY();
                 if ((swipeMenuLayout == null || !swipeMenuLayout.isActive()) // 判断左滑菜单是否未激活
-                        && Math.pow(dx, 2) / Math.pow(dy, 2) <= 3) { // 或者 x 轴偏移平方小于 y 轴偏移平方 3 倍的时候
+                        && Math.pow(dx, 2) / Math.pow(dy, 2) <= 3) { // 或者 x轴偏移平方 <=  y轴偏移平方 3 倍的时候
                     if (getFirstVisiblePosition() == 0 // 判断第一个可见位置
                             && (refreshHeader.GetVisibleHeight() > 0 || deltaY > 0)) { //  并且头部布局可见高度大于 0 时或者 y 轴偏移量 > 0
                         UpdateHeaderHeight(deltaY / OFFSET_RADIO); // 重新更新头部高度
                         invokeOnScrolling();
+                    } else if (IsBottom()) {
+                        loadFooter.setVisibility(VISIBLE);
                     }
                 }
                 if (touchState == TOUCH_STATE_X) { // 如果 x 轴偏移弹出左滑菜单
@@ -201,9 +206,9 @@ public class RefreshSwipeMenuListView extends ListView {
                     super.onTouchEvent(ev);
                     return true;
                 } else if (touchState == TOUCH_STATE_NONE) {
-                    if (Math.abs(dy) > MAX_Y) { // 如果 y 轴偏移量 > 指定 y 轴偏移量，设置 y 轴偏移状态
+                    if (Math.abs(dy) > MAX_Y) { // 如果 y轴偏移量 > 指定 y轴偏移量，设置 y轴偏移状态
                         touchState = TOUCH_STATE_Y;
-                    } else if (dx > MAX_X) { // 如果 x 轴偏移量 > 指定 x 轴偏移量，设置 x 轴偏移状态，开始弹出左滑菜单
+                    } else if (dx > MAX_X) { // 如果 x轴偏移量 > 指定 x轴偏移量，设置 x轴偏移状态，开始弹出左滑菜单
                         touchState = TOUCH_STATE_X;
                         if (onSwipeListener != null) {
                             //onSwipeListener.onSwipeStart(touchPosition);
@@ -226,7 +231,8 @@ public class RefreshSwipeMenuListView extends ListView {
                 }
                 lastTouchY = ev.getRawY();
                 if (IsBottom() && !loading && (firstTouchY - lastTouchY) >= 200) { // 处理上拉加载
-                    //LoadMoreData();
+                    LoadMoreData();
+                    //loadFooter.setVisibility(VISIBLE);
                 }
 //                if (touchState == TOUCH_STATE_X) { // 处理左滑菜单
 //                    if (swipeMenuLayout != null) {
@@ -281,20 +287,20 @@ public class RefreshSwipeMenuListView extends ListView {
     }
 
     private void SetPullLoadEnable(boolean enable) {
-        enablePullLoad = enable;
-        if (enablePullLoad) {
-            loading = false;
-            loadFooter.setVisibility(VISIBLE);
-            loadFooter.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //StartLoading();
-                }
-            });
-        } else {
-            loadFooter.setVisibility(GONE);
-            loadFooter.setOnClickListener(null);
-        }
+//        enablePullLoad = enable;
+//        if (enablePullLoad) {
+//            loading = false;
+//            loadFooter.setVisibility(VISIBLE);
+//            loadFooter.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //StartLoading();
+//                }
+//            });
+//        } else {
+//            loadFooter.setVisibility(GONE);
+//            loadFooter.setOnClickListener(null);
+//        }
     }
 
     private void StopRefresh() {
@@ -363,7 +369,7 @@ public class RefreshSwipeMenuListView extends ListView {
         if (this == null) return;
         this.loading = loading;
         if (loading) {
-            loadFooter.setVisibility(VISIBLE);
+            //loadFooter.setVisibility(VISIBLE);
             setSelection(getAdapter().getCount() - 1);
             onRefreshListener.onLoadMore();
         } else {
