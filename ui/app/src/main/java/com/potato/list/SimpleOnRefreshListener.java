@@ -33,11 +33,11 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
         this.postItemList = postItemList;
         this.postItemListAdapter = postItemListAdapter;
         android.os.Looper looper = android.os.Looper.myLooper();
-        msgHandler = new MessageHandler(looper);
+        this.msgHandler = new MessageHandler(looper);
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh(final int showToast) {
         new Thread() {
             @Override
             public void run() {
@@ -50,6 +50,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     String rspStr = response.body().string();
                     android.os.Message msg = android.os.Message.obtain();
                     msg.arg1 = MSG_POST_M_REFRESH;
+                    msg.arg2 = showToast;
                     msg.obj = rspStr;
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {
@@ -93,17 +94,50 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
         public void handleMessage(android.os.Message msg) {
             switch (msg.arg1) {
                 case MSG_POST_M_REFRESH:
-                    HandleRefresh(msg);
+                    HandleOnRefresh(msg);
                     break;
                 case MSG_POST_M_LOAD:
-                    HandleRefresh(msg);
+                    HandleOnLoad(msg);
                     break;
                 default:
                     break;
             }
         }
 
-        private void HandleRefresh(android.os.Message msg) {
+        private void HandleOnRefresh(android.os.Message msg) {
+            try {
+                String jsonStr = (String) msg.obj;
+                PostMainData postMainData = new Gson().fromJson(jsonStr, PostMainData.class);
+                List<PostMain> postMainList = postMainData.getData();
+                int size = postMainList.size();
+                for (int i = 0; i < size; i++) {
+                    PostMain postMain = postMainData.getData().get(i);
+                    Date date = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat sdf3 = new SimpleDateFormat("MM-dd HH:mm");
+                    String strCreateTime = sdf3.format(sdf.parseObject(postMain.getCreate_t()));
+                    PostItem postItem = new PostItem();
+                    postItem.setTitle(postMain.getTitle());
+                    postItem.setOrigin(postMain.getOrigin_id());
+                    postItem.setTime(strCreateTime);
+                    postItem.setPostId(postMain.getPost_id());
+                    postItemList.add(postItem);
+                }
+                refreshSwipeMenuListView.Complete();
+                postItemListAdapter.notifyDataSetChanged();
+                if (msg.arg2 == 1) {
+                    Toast toast = Toast.makeText(PotatoApplication.getInstance(),
+                            "刷新成功", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            } catch (Exception ex) {
+                Toast.makeText(PotatoApplication.getInstance(),
+                        "error:" + ex.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private void HandleOnLoad(android.os.Message msg) {
             try {
                 String jsonStr = (String) msg.obj;
                 PostMainData postMainData = new Gson().fromJson(jsonStr, PostMainData.class);

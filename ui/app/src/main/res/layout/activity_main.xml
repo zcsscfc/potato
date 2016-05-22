@@ -13,7 +13,7 @@
         <!-- The main content view -->
         <fragment
             android:id="@+id/info_fragment"
-            class="com.android.potato.InfoFragment"
+            class="com.android.potato.TabInfoFragment"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             tools:layout="@layout/info_fragment_layout" />

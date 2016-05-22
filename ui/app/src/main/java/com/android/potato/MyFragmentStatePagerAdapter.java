@@ -4,13 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
     private String[] titles;
@@ -29,11 +23,7 @@ public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
-
-
-
-        return new HotFragment();
+        return new TabContentFragment();
     }
 
     @Override

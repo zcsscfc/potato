@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfoFragment extends Fragment {
+public class TabInfoFragment extends Fragment {
     private int position = 1;
     private int colorSelected = Color.RED;
     private int colorDefault = Color.parseColor("#ffffff");

@@ -224,7 +224,7 @@ public class RefreshSwipeMenuListView extends ListView {
                         refreshHeader.SetState(RefreshHeader.STATE_REFRESHING);
                         if (onRefreshListener != null) {
                             tag = REFRESH;
-                            onRefreshListener.onRefresh();
+                            onRefreshListener.onRefresh(1);
                         }
                     }
                     ResetRefreshHeaderHeight();

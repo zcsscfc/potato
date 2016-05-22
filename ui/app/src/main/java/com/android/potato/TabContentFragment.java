@@ -26,11 +26,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class HotFragment extends Fragment {
+public class TabContentFragment extends Fragment {
     private View view;
     private List<PostItem> postItemList;
     private PostItemListAdapter postItemListAdapter;
     private RefreshSwipeMenuListView refreshSwipeMenuListView;
+    private SimpleOnRefreshListener simpleOnRefreshListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class HotFragment extends Fragment {
 
             refreshSwipeMenuListView.SetListViewMode(RefreshSwipeMenuListView.MODE_BOTH);
 
-            SimpleOnRefreshListener simpleOnRefreshListener = new SimpleOnRefreshListener(
+            simpleOnRefreshListener = new SimpleOnRefreshListener(
                     refreshSwipeMenuListView, postItemList, postItemListAdapter
             );
             refreshSwipeMenuListView.setOnRefreshListener(simpleOnRefreshListener);
@@ -80,6 +81,8 @@ public class HotFragment extends Fragment {
                     refreshSwipeMenuListView, postItemList, postItemListAdapter
             );
             refreshSwipeMenuListView.setOnMenuItemClickListener(simpleOnMenuItemClickListener);
+
+            simpleOnRefreshListener.onRefresh(0);
         }
         return view;
     }
@@ -89,5 +92,9 @@ public class HotFragment extends Fragment {
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         int height = resources.getDimensionPixelSize(resourceId);
         return height;
+    }
+
+    public SimpleOnRefreshListener getSimpleOnRefreshListener() {
+        return this.simpleOnRefreshListener;
     }
 }
