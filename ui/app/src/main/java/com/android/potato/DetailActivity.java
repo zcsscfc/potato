@@ -49,7 +49,9 @@ public class DetailActivity extends Activity {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.color.color_11);//通知栏所需颜色
+            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(R.color.color_11);
+            tintManager.setNavigationBarTintResource(R.color.color_11);
         }
         setContentView(R.layout.activity_detail);
 

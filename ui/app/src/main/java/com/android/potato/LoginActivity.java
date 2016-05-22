@@ -22,24 +22,25 @@ public class LoginActivity extends Activity {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.color.color_11);//通知栏所需颜色
+            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(R.color.color_11);
+            tintManager.setNavigationBarTintResource(R.color.color_11);
         }
         setContentView(R.layout.activity_login);
 
-        ImageButton img_btn_back = (ImageButton)findViewById(R.id.img_btn_back);
+        ImageButton img_btn_back = (ImageButton) findViewById(R.id.img_btn_back);
         img_btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
-        Button btn_regedit = (Button)findViewById(R.id.btn_regedit);
+        Button btn_regedit = (Button) findViewById(R.id.btn_regedit);
         btn_regedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,RegeditActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegeditActivity.class);
                 startActivity(intent);
             }
         });

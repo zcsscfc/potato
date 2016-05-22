@@ -19,6 +19,7 @@ import com.potato.list.PostItem;
 import com.potato.list.RefreshSwipeMenuListView;
 import com.potato.list.SimpleOnMenuItemClickListener;
 import com.potato.list.SimpleSwipeMenu;
+import com.potato.list.Utility;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -43,7 +44,7 @@ public class TabContentFragment extends Fragment {
             }
 
             LinearLayout linearLayoutListView = (LinearLayout) view.findViewById(R.id.linearLayoutListView);
-            linearLayoutListView.setPadding(0, 0, 0, getNavigationBarHeight());
+            linearLayoutListView.setPadding(0, 0, 0, Utility.getNavigationBarHeight());
 
             postItemList = new ArrayList<>();
             postItemListAdapter = new PostItemListAdapter(PotatoApplication.getInstance(), postItemList);
@@ -85,13 +86,6 @@ public class TabContentFragment extends Fragment {
             simpleOnRefreshListener.onRefresh(0);
         }
         return view;
-    }
-
-    private int getNavigationBarHeight() {
-        Resources resources = PotatoApplication.getInstance().getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        int height = resources.getDimensionPixelSize(resourceId);
-        return height;
     }
 
     public SimpleOnRefreshListener getSimpleOnRefreshListener() {

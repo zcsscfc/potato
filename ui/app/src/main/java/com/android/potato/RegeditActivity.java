@@ -21,7 +21,9 @@ public class RegeditActivity extends Activity {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.color.color_11);//通知栏所需颜色
+            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(R.color.color_11);
+            tintManager.setNavigationBarTintResource(R.color.color_11);
         }
         setContentView(R.layout.activity_regedit);
 
@@ -29,8 +31,7 @@ public class RegeditActivity extends Activity {
         img_btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegeditActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
