@@ -34,21 +34,21 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		tree = lxml.html.fromstring(html)
 		
 		# rule 1
-		fixedHtml = tree.cssselect('div.zxxw')[0]
-		titleText = fixedHtml.cssselect('p.zxxw1')[0].text
-		fixedHtml.cssselect('p.zxxw1')[0].drop_tree()
-		fixedHtml.cssselect('p.zxxw2')[0].drop_tree()
-		fixedHtml.cssselect('p.zxxw-nr')[0].drop_tree()
-		fixedHtml = lxml.html.tostring(fixedHtml).strip()
+		# fixedHtml = tree.cssselect('div.zxxw')[0]
+		# titleText = fixedHtml.cssselect('p.zxxw1')[0].text
+		# fixedHtml.cssselect('p.zxxw1')[0].drop_tree()
+		# fixedHtml.cssselect('p.zxxw2')[0].drop_tree()
+		# fixedHtml.cssselect('p.zxxw-nr')[0].drop_tree()
+		# fixedHtml = lxml.html.tostring(fixedHtml).strip()
 		# rule 1 end
 		
 		# rule 2
-		#try:
-		#	fixedHtml = tree.cssselect('div.nr_675')[0]
-		#	titleText = fixedHtml.cssselect('div.nr_675>h1.title')[0].text
-		#	fixedHtml = lxml.html.tostring(fixedHtml)
-		#except:
-		#	continue
+		try:
+			fixedHtml = tree.cssselect('div.nr_675')[0]
+			titleText = fixedHtml.cssselect('div.nr_675>h1.title')[0].text
+			fixedHtml = lxml.html.tostring(fixedHtml)
+		except:
+			continue
 		# rule 2 end
 		
 		# fixedHtml = lxml.html.tostring(fixedHtml, pretty_print=True,encoding="utf-8")
@@ -110,13 +110,13 @@ def CheckPageUrl(page_url):
 #url_pattern = 'http://b2b.nbdeli.com/Goods/ItemDetail'
 
 # rule 1
-url_seed = 'http://www.zhuwang.cc/zhuchangjs/201605/264653.html'
-url_pattern = 'http://www.zhuwang.cc/zhuchangjs/201605'
+# url_seed = 'http://www.zhuwang.cc/zhuchangjs/201605/264653.html'
+# url_pattern = 'http://www.zhuwang.cc/zhuchangjs/201605'
 # rule 1 end
 
 # rule 2
-#url_seed = 'http://www.inong.net/jishu/show-9582.html'
-#url_pattern = 'http://www.inong.net/jishu/show-'
+url_seed = 'http://www.inong.net/jishu/show-9582.html'
+url_pattern = 'http://www.inong.net/jishu/show-'
 # rule 2 end
 
 origin_name = ''
