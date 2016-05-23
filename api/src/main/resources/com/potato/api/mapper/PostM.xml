@@ -7,16 +7,39 @@
 
     <!--<cache type="com.xxx.jdbc.cache.RedisCache"/>-->
 
-    <select id="selectPostM" resultType="com.potato.api.entity.PostM">
-        SELECT * FROM post_m ORDER BY create_t desc
+    <select id="selectPostM" resultType="com.potato.api.entity.PostMEntity" parameterType="com.potato.api.Param.PostMParam">
+        SELECT
+        a.post_id,
+        a.title,
+        a.from_url,
+        a.digest,
+        a.thumb,
+        a.origin_id,
+        a.create_t
+        FROM post_m a
+        <if test="subjectId!=0">
+            INNER JOIN post_subject b on a.post_id=b.post_id and b.subject_id=#{subjectId}
+        </if>
+        WHERE 1=1
+        <if test="originId!=0">
+            AND origin_id=#{originId}
+        </if>
+        <if test="orderBy != null">
+            ORDER BY #{orderBy}
+        </if>
+        LIMIT 0,#{num}
     </select>
 
-    <select id="selectPostMPostId" resultType="com.potato.api.entity.PostM" parameterType="BigInteger">
+    <select id="selectPostMPostId" resultType="com.potato.api.entity.PostMEntity" parameterType="BigInteger">
         SELECT * FROM post_m WHERE post_id=#{postId}
     </select>
 
-    <select id="selectPostDPostId" resultType="com.potato.api.entity.PostD" parameterType="BigInteger">
+    <select id="selectPostDPostId" resultType="com.potato.api.entity.PostDEntity" parameterType="BigInteger">
         SELECT * FROM post_d WHERE post_id=#{postId}
+    </select>
+
+    <select id="selectPostSubjectSubjectId" resultType="BigInteger" parameterType="BigInteger">
+        SELECT post_id FROM post_subject WHERE subject_id=#{subjectId}
     </select>
 
     <!--<select id="selectAdvertiserPaging" resultType="AdvertiserResult">-->

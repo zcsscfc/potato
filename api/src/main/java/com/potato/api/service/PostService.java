@@ -1,12 +1,15 @@
 package com.potato.api.service;
 
-import com.potato.api.entity.PostD;
-import com.potato.api.entity.PostM;
+import com.potato.api.Param.PostListParam;
+import com.potato.api.Param.PostMParam;
+import com.potato.api.entity.PostDEntity;
+import com.potato.api.entity.PostMEntity;
 import com.potato.api.framework.jdbc.dao.DataAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,16 +21,20 @@ public class PostService {
     @Autowired
     private DataAccessor dataAccessor;
 
-    public List<PostM> getPostMList() {
-        return dataAccessor.selectList("selectPostM");
+    public List<PostMEntity> getPostMList(PostMParam postMParam) {
+        return dataAccessor.selectList("selectPostM", postMParam);
     }
 
 
-    public PostM getPostMByPostId(BigInteger postId) {
+    public PostMEntity getPostMByPostId(BigInteger postId) {
         return dataAccessor.selectOne("selectPostMPostId", postId);
     }
 
-    public PostD getPostDByPostId(BigInteger postId) {
-        return dataAccessor.selectOne("selectPostDPostId",postId);
+    public PostDEntity getPostDByPostId(BigInteger postId) {
+        return dataAccessor.selectOne("selectPostDPostId", postId);
+    }
+
+    public List<BigInteger> getPostIdsBySubjectId(BigInteger subjectId) {
+        return dataAccessor.selectList("selectPostSubjectSubjectId", subjectId);
     }
 }

@@ -214,7 +214,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <maven.jdbc.host>ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com</maven.jdbc.host>
+                <maven.jdbc.host>ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com</maven.jdbc.host>
                 <maven.jdbc.port>3306</maven.jdbc.port>
                 <maven.jdbc.db>potato</maven.jdbc.db>
                 <maven.jdbc.username>root</maven.jdbc.username>
