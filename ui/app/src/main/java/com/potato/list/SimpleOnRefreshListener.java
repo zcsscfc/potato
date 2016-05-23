@@ -8,14 +8,17 @@ import com.android.potato.PotatoApplication;
 import com.google.gson.Gson;
 import com.potato.model.PostMain;
 import com.potato.model.PostMainData;
+import com.potato.model.PostMainRequest;
 
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SimpleOnRefreshListener implements OnRefreshListener {
@@ -42,10 +45,15 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
             @Override
             public void run() {
                 try {
+                    PostMainRequest postMainRequest = new PostMainRequest();
+                    postMainRequest.setNum(10);
+                    String json = new Gson().toJson(postMainRequest, PostMainRequest.class);
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient okHttpClient = new OkHttpClient();
-                    Request request = new Request.Builder().
-                            url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postm/").
-                            build();
+                    RequestBody body = RequestBody.create(JSON, json);
+                    Request request = new Request.Builder()
+                            .url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postm/")
+                            .post(body).build();
                     Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
                     android.os.Message msg = android.os.Message.obtain();
