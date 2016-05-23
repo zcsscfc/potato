@@ -7,7 +7,8 @@
 
     <!--<cache type="com.xxx.jdbc.cache.RedisCache"/>-->
 
-    <select id="selectPostM" resultType="com.potato.api.entity.PostMEntity" parameterType="com.potato.api.Param.PostMParam">
+    <select id="selectPostM" resultType="com.potato.api.entity.PostMEntity"
+            parameterType="com.potato.api.Param.PostMParam">
         SELECT
         a.post_id,
         a.title,
@@ -24,9 +25,13 @@
         <if test="originId!=0">
             AND origin_id=#{originId}
         </if>
-        <if test="orderBy != null">
-            ORDER BY #{orderBy}
+        <if test="firstPostId!=0">
+            AND post_id &gt;#{firstPostId}
         </if>
+        <if test="lastPostId!=0">
+            AND post_id &lt; #{lastPostId}
+        </if>
+        ORDER BY post_id DESC
         LIMIT 0,#{num}
     </select>
 
@@ -43,35 +48,35 @@
     </select>
 
     <!--<select id="selectAdvertiserPaging" resultType="AdvertiserResult">-->
-        <!--SELECT id, advertiser_name, description, created_time FROM advertiser-->
-        <!--<where>-->
-            <!--<if test="whereCondition != null">${whereCondition}</if>-->
-        <!--</where>-->
-        <!--<if test="orderBy != null">-->
-            <!--ORDER BY ${orderBy}-->
-        <!--</if>-->
+    <!--SELECT id, advertiser_name, description, created_time FROM advertiser-->
+    <!--<where>-->
+    <!--<if test="whereCondition != null">${whereCondition}</if>-->
+    <!--</where>-->
+    <!--<if test="orderBy != null">-->
+    <!--ORDER BY ${orderBy}-->
+    <!--</if>-->
     <!--</select>-->
 
     <!--<select id="selectAdvertiserById" resultType="AdvertiserResult">-->
-        <!--SELECT id, advertiser_name, description, created_time, last_modified FROM advertiser WHERE id = #{id}-->
+    <!--SELECT id, advertiser_name, description, created_time, last_modified FROM advertiser WHERE id = #{id}-->
     <!--</select>-->
 
     <!--<update id="updateAdvertiser">-->
-        <!--UPDATE advertiser-->
-        <!--<set>-->
-            <!--<if test="advertiserName != null">advertiser_name = #{advertiserName},</if>-->
-            <!--<if test="description != null">description = #{description},</if>-->
-        <!--</set>-->
-        <!--WHERE id = #{id}-->
+    <!--UPDATE advertiser-->
+    <!--<set>-->
+    <!--<if test="advertiserName != null">advertiser_name = #{advertiserName},</if>-->
+    <!--<if test="description != null">description = #{description},</if>-->
+    <!--</set>-->
+    <!--WHERE id = #{id}-->
     <!--</update>-->
 
     <!--<delete id="deleteAdvertiser">-->
-        <!--DELETE FROM advertiser WHERE id = #{id}-->
+    <!--DELETE FROM advertiser WHERE id = #{id}-->
     <!--</delete>-->
 
     <!--<insert id="insertAdvertiser">-->
-        <!--INSERT INTO advertiser (id, advertiser_name, description, created_time)-->
-        <!--VALUES (#{id}, #{advertiserName}, #{description}, #{createdTime})-->
+    <!--INSERT INTO advertiser (id, advertiser_name, description, created_time)-->
+    <!--VALUES (#{id}, #{advertiserName}, #{description}, #{createdTime})-->
     <!--</insert>-->
 
 </mapper>
