@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f7d4c736-92d5-484b-8c6d-b0531795d847" name="Default" comment="update framework">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/potato/api/mapper/PostM.xml" afterPath="$PROJECT_DIR$/src/main/resources/com/potato/api/mapper/PostM.xml" />
-    </list>
+    <list default="true" id="f7d4c736-92d5-484b-8c6d-b0531795d847" name="Default" comment="update framework" />
     <ignored path="potatoApi.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -114,8 +112,8 @@
       <file leaf-file-name="PostM.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/com/potato/api/mapper/PostM.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28">
-              <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.8">
+              <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
               <folding>
                 <marker date="1463991228538" expanded="true" signature="395:1030" placeholder="SELECT * FRO..post_m..." />
                 <marker date="1463991228538" expanded="true" signature="1164:1208" placeholder="SELECT * FRO..post_m..." />
@@ -918,7 +916,7 @@
       <workItem from="1462776835698" duration="1468000" />
       <workItem from="1462778344236" duration="12939000" />
       <workItem from="1462867738829" duration="6747000" />
-      <workItem from="1463451353148" duration="14928000" />
+      <workItem from="1463451353148" duration="15003000" />
     </task>
     <task id="LOCAL-00001" summary="update framework">
       <created>1460621901221</created>
@@ -942,10 +940,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89637000" />
+    <option name="totallyTimeSpent" value="89712000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1010" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1010" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1450,8 +1448,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/com/potato/api/mapper/PostM.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28">
-          <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.8">
+          <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
           <folding>
             <marker date="1463991228538" expanded="true" signature="395:1030" placeholder="SELECT * FRO..post_m..." />
             <marker date="1463991228538" expanded="true" signature="1164:1208" placeholder="SELECT * FRO..post_m..." />
