@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by zhangcs on 2016/5/5.
  */
-public class PostM {
+public class PostMEntity {
     private BigInteger postId;
     private String title;
     private String digest;

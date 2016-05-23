@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by zhangcs on 2016/5/9.
  */
-public class PostD {
+public class PostDEntity {
     private BigInteger postId;
     private String detail;
     private Date createT;
