@@ -1,6 +1,7 @@
 package com.potato.list;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import com.android.potato.R;
+import com.potato.image.EasyImageLoader;
 
 public class PostItemListAdapter extends BaseAdapter {
     private List<PostItem> postItemList;
     private LayoutInflater layoutInflater;
+    private Context context;
+
 
     public PostItemListAdapter(Context context, List<PostItem> postItemList) {
         this.postItemList = postItemList;
         this.layoutInflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     @Override
@@ -54,6 +59,28 @@ public class PostItemListAdapter extends BaseAdapter {
         holder.textViewTitle.setText(postItem.getTitle());
         holder.textViewTime.setText(postItem.getTime());
         holder.textViewOrigin.setText(postItem.getOrigin());
+
+        String thumb = postItem.getThumb();
+        Log.e("lance_test", "thumb:" + thumb);
+
+        if (thumb != null && thumb != "") {
+            String imageUrl = "http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/" + thumb;
+            //根据图片url给imageView加载图片，自动本地缓存、内存缓存
+            EasyImageLoader.getInstance(context).bindBitmap(imageUrl, holder.imageViewThumb);
+
+//重载方法加载图片并根据需求宽高压缩图片
+            //EasyImageLoader.getInstance(context).bindBitmap(imageUrl, imageView,reqWidth,reqHeight);
+
+//根据url自动从内存缓存、本地缓存、网络获取bitmap，并回调
+//        EasyImageLoader.getInstance(context).getBitmap(imageUrl, new EasyImageLoader.BitmapCallback() {
+//            @Override
+//            public void onResponse(Bitmap bitmap) {
+//                //保存bitmap到本地
+//                saveBitmap(bitmap);
+//            }
+//        });
+
+        }
         return convertView;
     }
 
