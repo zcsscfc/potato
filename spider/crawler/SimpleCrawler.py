@@ -23,13 +23,19 @@ from bs4 import BeautifulSoup
 from Throttle import *
 
 def DownLoad(url_seed, url_pattern, origin_name):
+	print 'begin download'
 	urlList = [url_seed]
 	urlListFinish = set(urlList) # make sure not crawler same page loop
 	count = 0
 	while urlList:
 		url = urlList.pop()
+		print 'download:' + url
 
 		#throttle.wait(url)
+		PROXY = '10.43.146.29:8080'
+		proxy_handler = urllib2.ProxyHandler({"http": PROXY})
+		opener = urllib2.build_opener(proxy_handler, urllib2.HTTPHandler)
+		urllib2.install_opener(opener)
 		html = urllib2.urlopen(url).read()
 		tree = lxml.html.fromstring(html)
 		
@@ -44,10 +50,20 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		
 		# rule 2
 		try:
+			imageTag = tree.cssselect('img')[0]
+			imageTagSrc = imageTag.get('src')
+			name ="H:\\1.jpg"
+			conn = urllib2.urlopen(imageTagSrc)
+			f = open(name,'wb')
+			f.write(conn.read())
+			f.close()
+			print('Pic Saved!')
+			
 			fixedHtml = tree.cssselect('div.nr_675')[0]
 			titleText = fixedHtml.cssselect('div.nr_675>h1.title')[0].text
 			fixedHtml = lxml.html.tostring(fixedHtml)
-		except:
+		except Exception as ex:
+			print ex
 			continue
 		# rule 2 end
 		
@@ -58,8 +74,8 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		# fixedHtml = objSoup.find("div", id="news_details")
 		fixedHtml = fixedHtml.prettify('utf-8').replace('\n',' ')
 		
-		#HandleHtml(url, fixedHtml)
-		HandleHtml2MySql(url, fixedHtml, titleText)
+		HandleHtml(url, fixedHtml)
+		#HandleHtml2MySql(url, fixedHtml, titleText)
 		for link in GetLinks(html): # fixedHtml
 			if re.match(url_pattern, link):
 				if link not in urlListFinish:
@@ -73,6 +89,7 @@ def GetLinks(html):
 	return webpage_regex.findall(html)
 	
 def HandleHtml(url, html):
+	print 'HandleHtml'
 	filename = GenerateFileName(url)
 	folder = os.path.dirname(filename)
 	if not os.path.exists(folder):
