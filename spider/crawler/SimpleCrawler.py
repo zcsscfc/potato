@@ -31,8 +31,19 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		url = urlList.pop()
 		print 'download:' + url
 
-		#throttle.wait(url)
+		# throttle.wait(url)
 		PROXY = '10.43.146.29:8080'
+		headers = {  
+			'Accept': 'text/html, application/xhtml+xml, */*',
+			'Accept-Language': 'zh-CN',
+			'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko',
+			'Accept-Encoding': 'gzip, deflate',
+			'Host': 'detail.tmall.com',
+			'DNT': '1',
+			'Connection': 'Keep-Alive',
+			'Cookie': 'cna=JWzNDxyeEUMCAXTimov8+66/; l=Alpa9qYBcVLQU4nde1rhm2Yw6g58nt5l; t=aaf34248d05832bc2b0224588ecb6c42; _tb_token_=VknDYrghLIXD; cookie2=47a5b832857e164c4ee6cea3378d6317; pnm_cku822=109UW5TcyMNYQwiAiwVQX1EeUR5RH5Cd0xiNGI%3D%7CUm5OcktwSXZPc0lyTHNLfyk%3D%7CU2xMHDJxPk82UjVOI1h2VngRd1snQSJEI107F2gFfgRlAmRKakQYeR9zFGoQPmg%2B%7CVGhXd1llXGdeYVhkXmVbZFxoX2JAdUx1S3VOc0x0QXtPek96Q207%7CVWldfS0TMws2Dy8TLw8hHz8DJnBacBsiW29BF0E%3D%7CVmhIGCAYOAUlGSceKgo0DjUAIBwiGSICOAM2FioULxQ0DjEEUgQ%3D%7CV25Tbk5zU2xMcEl1VWtTaUlwJg%3D%3D; cq=ccp%3D1'
+		}
+		#request = urllib2.Request(url,'',headers)
 		proxy_handler = urllib2.ProxyHandler({"http": PROXY})
 		opener = urllib2.build_opener(proxy_handler, urllib2.HTTPHandler)
 		urllib2.install_opener(opener)
@@ -49,23 +60,27 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		# rule 1 end
 		
 		# rule 2
-		try:
-			imageTag = tree.cssselect('img')[0]
-			imageTagSrc = imageTag.get('src')
-			name ="H:\\1.jpg"
-			conn = urllib2.urlopen(imageTagSrc)
-			f = open(name,'wb')
-			f.write(conn.read())
-			f.close()
-			print('Pic Saved!')
-			
-			fixedHtml = tree.cssselect('div.nr_675')[0]
-			titleText = fixedHtml.cssselect('div.nr_675>h1.title')[0].text
-			fixedHtml = lxml.html.tostring(fixedHtml)
-		except Exception as ex:
-			print ex
-			continue
+		# try:
+		# 	imageTag = tree.cssselect('img')[0]
+		# 	imageTagSrc = imageTag.get('src')
+		# 	name ="H:\\1.jpg"
+		# 	conn = urllib2.urlopen(imageTagSrc)
+		# 	f = open(name,'wb')
+		# 	f.write(conn.read())
+		# 	f.close()
+		# 	print('Pic Saved!')
+		# 	
+		fixedHtml = tree.cssselect('div.nr_675')[0]
+		# 	titleText = fixedHtml.cssselect('div.nr_675>h1.title')[0].text
+		# 	fixedHtml = lxml.html.tostring(fixedHtml)
+		# except Exception as ex:
+		# 	print ex
+		# 	continue
 		# rule 2 end
+		
+		# rule 3
+		# fixedHtml = tree.cssselect('div#description')[0]
+		# rule 3 end
 		
 		# fixedHtml = lxml.html.tostring(fixedHtml, pretty_print=True,encoding="utf-8")
 		
@@ -75,7 +90,7 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		fixedHtml = fixedHtml.prettify('utf-8').replace('\n',' ')
 		
 		HandleHtml(url, fixedHtml)
-		#HandleHtml2MySql(url, fixedHtml, titleText)
+		# HandleHtml2MySql(url, fixedHtml, titleText)
 		for link in GetLinks(html): # fixedHtml
 			if re.match(url_pattern, link):
 				if link not in urlListFinish:
@@ -122,9 +137,11 @@ def GenerateFileName(url):
 def CheckPageUrl(page_url):
 	
 	return True
-	
-#seedUrl = 'http://b2b.nbdeli.com/Goods/ItemDetail_100043999_40.htm'
-#url_pattern = 'http://b2b.nbdeli.com/Goods/ItemDetail'
+
+# rule 0
+# url_seed = 'http://b2b.nbdeli.com/Goods/ItemDetail_100043999_40.htm'
+# url_pattern = 'http://b2b.nbdeli.com/Goods/ItemDetail'
+# rule 0 end
 
 # rule 1
 # url_seed = 'http://www.zhuwang.cc/zhuchangjs/201605/264653.html'
@@ -133,8 +150,13 @@ def CheckPageUrl(page_url):
 
 # rule 2
 url_seed = 'http://www.inong.net/jishu/show-9582.html'
-url_pattern = 'http://www.inong.net/jishu/show-'
+# url_pattern = 'http://www.inong.net/jishu/show-'
 # rule 2 end
+
+# rule 3
+# url_seed = 'https://detail.tmall.com/item.htm?spm=a220o.1000855.1998099587.4.hB4z12&id=7040295262&bi_from=tm_comb'
+url_pattern = 'no need pattern'
+# rule 3 end
 
 origin_name = ''
 throttle = Throttle(0)
