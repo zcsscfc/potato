@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.android.potato.AppConfig;
 import com.android.potato.PotatoApplication;
 import com.google.gson.Gson;
 import com.potato.model.PostMain;
@@ -58,7 +59,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     RequestBody body = RequestBody.create(JSON, json);
                     Request request = new Request.Builder()
-                            .url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postm/")
+                            .url(AppConfig.SERVER_URL + "postm/")
                             .post(body).build();
                     Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
@@ -69,7 +70,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {
                     Toast.makeText(PotatoApplication.getInstance(),
-                            "error:" + ex.toString(), Toast.LENGTH_SHORT).show();
+                            "error onRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.start();
@@ -93,7 +94,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     RequestBody body = RequestBody.create(JSON, json);
                     Request request = new Request.Builder()
-                            .url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postm/")
+                            .url(AppConfig.SERVER_URL + "postm/")
                             .post(body).build();
                     Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
@@ -164,7 +165,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                 }
             } catch (Exception ex) {
                 Toast.makeText(PotatoApplication.getInstance(),
-                        "error:" + ex.toString(), Toast.LENGTH_SHORT).show();
+                        "error HandleOnRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
             }
         }
 
