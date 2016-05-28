@@ -23,14 +23,13 @@ from bs4 import BeautifulSoup
 from Throttle import *
 
 def DownLoad(url_seed, url_pattern, origin_name):
-	print 'begin download'
-	urlList = [url_seed]
-	urlListFinish = set(urlList) # make sure not crawler same page loop
+	url_list = [url_seed]
 	count = 0
-	while urlList:
-		url = urlList.pop()
-		print 'download:' + url
-
+	while url_list:
+		url = url_list.pop()
+		if Common.HasDownLoad(url): # has download, go to next
+			continue
+			
 		# throttle.wait(url)
 		#PROXY = '127.0.0.1:8888' # fiddler proxy
 		#PROXY = '10.43.146.29:8080'
@@ -104,11 +103,9 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		HandleHtml2MySql(url, fixedHtml, titleText)
 		for link in GetLinks(html): # fixedHtml
 			if re.match(url_pattern, link):
-				if link not in urlListFinish:
-					urlListFinish.add(link)
-					count = count + 1
-					if count <= Throttle.Count:
-						urlList.append(link)
+				count = count + 1
+				if count <= Throttle.Count:
+					url_list.append(link)
 
 def GetLinks(html):
 	webpage_regex = re.compile('<a[^>]+href=["\'](.*?)["\']', re.IGNORECASE)
@@ -145,31 +142,30 @@ def GenerateFileName(url):
 	filename = re.sub('[^/0-9a-zA-Z\-.,;_ ]', '_', filename)
 	return '/'.join(segment[:250] for segment in filename.split('/'))+'.html'
 
-def CheckPageUrl(page_url):
-	
-	return True
-
 # rule 0
+#origin_name = ''
 # url_seed = 'http://b2b.nbdeli.com/Goods/ItemDetail_100043999_40.htm'
 # url_pattern = 'http://b2b.nbdeli.com/Goods/ItemDetail'
 # rule 0 end
 
 # rule 1
+#origin_name = ''
 # url_seed = 'http://www.zhuwang.cc/zhuchangjs/201605/264653.html'
 # url_pattern = 'http://www.zhuwang.cc/zhuchangjs/201605'
 # rule 1 end
 
 # rule 2
-url_seed = 'http://www.inong.net/jishu/show-9582.html'
+origin_name = ''
+url_seed = 'http://www.inong.net/jishu/show-9582-11.html'
 url_pattern = 'http://www.inong.net/jishu/show-'
 # rule 2 end
 
 # rule 3
+#origin_name = ''
 #url_seed = 'https://detail.tmall.com/item.htm?spm=a1z10.5-b.w4011-11611893624.94.s5fTwi&id=13371072438&rn=c135f614d00170bbf60fd1a112bd5174&abbucket=15'
 #url_pattern = 'no need pattern'
 # rule 3 end
 
-origin_name = ''
 throttle = Throttle(0)
 DownLoad(url_seed, url_pattern, origin_name)
 
