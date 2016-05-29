@@ -6,3 +6,22 @@
 #print db.webpage.find_one()
 #db.webpage.update({'_id': url}, {'$set': {'html': '123'}},upsert=True)
 #print db.webpage.find_one({'_id': url})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
