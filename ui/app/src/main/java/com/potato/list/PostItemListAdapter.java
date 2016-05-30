@@ -61,7 +61,6 @@ public class PostItemListAdapter extends BaseAdapter {
         holder.textViewOrigin.setText(postItem.getOrigin());
 
         String thumb = postItem.getThumb();
-        Log.e("lance_test", "thumb:" + thumb);
 
         if (thumb != null && thumb != "") {
             String imageUrl = "http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/" + thumb;
