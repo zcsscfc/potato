@@ -7,7 +7,7 @@ class DbHelper():
 		return 'hi ' + name
 
 	def ConnDb(self): # innser function, no need call outer
-		conn = pymysql.connect(host='ec2-52-192-233-37.ap-northeast-1.compute.amazonaws.com',user='root',passwd='123',db='potato',charset='utf8',autocommit='true')
+		conn = pymysql.connect(host='ec2-52-193-201-108.ap-northeast-1.compute.amazonaws.com',user='root',passwd='123',db='potato',charset='utf8',autocommit='true')
 		cur = conn.cursor()
 		return (conn,cur)
 	

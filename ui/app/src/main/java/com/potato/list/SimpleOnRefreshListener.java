@@ -1,21 +1,26 @@
 package com.potato.list;
 
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.android.potato.AppConfig;
 import com.android.potato.PotatoApplication;
 import com.google.gson.Gson;
 import com.potato.model.PostMain;
 import com.potato.model.PostMainData;
+import com.potato.model.PostMainRequest;
 
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SimpleOnRefreshListener implements OnRefreshListener {
@@ -42,20 +47,30 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
             @Override
             public void run() {
                 try {
+                    PostMainRequest postMainRequest = new PostMainRequest();
+                    postMainRequest.setNum(20);
+                    int size = postItemList.size();
+                    if (size > 0) {
+                        String firstPostId = postItemList.get(0).getPostId();
+                        postMainRequest.setFirst_post_id(Long.parseLong(firstPostId));
+                    }
+                    String json = new Gson().toJson(postMainRequest, PostMainRequest.class);
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient okHttpClient = new OkHttpClient();
-                    Request request = new Request.Builder().
-                            url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postm/").
-                            build();
+                    RequestBody body = RequestBody.create(JSON, json);
+                    Request request = new Request.Builder()
+                            .url(AppConfig.SERVER_URL + "postm/")
+                            .post(body).build();
                     Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
-                    android.os.Message msg = android.os.Message.obtain();
+                    Message msg = Message.obtain();
                     msg.arg1 = MSG_POST_M_REFRESH;
                     msg.arg2 = showToast;
                     msg.obj = rspStr;
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {
                     Toast.makeText(PotatoApplication.getInstance(),
-                            "error:" + ex.toString(), Toast.LENGTH_SHORT).show();
+                            "error onRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.start();
@@ -67,10 +82,20 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
             @Override
             public void run() {
                 try {
+                    PostMainRequest postMainRequest = new PostMainRequest();
+                    postMainRequest.setNum(5);
+                    int size = postItemList.size();
+                    if (size > 0) {
+                        String lastPostId = postItemList.get(size - 1).getPostId();
+                        postMainRequest.setLast_post_id(Long.parseLong(lastPostId));
+                    }
+                    String json = new Gson().toJson(postMainRequest, PostMainRequest.class);
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient okHttpClient = new OkHttpClient();
-                    Request request = new Request.Builder().
-                            url("http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/postm/").
-                            build();
+                    RequestBody body = RequestBody.create(JSON, json);
+                    Request request = new Request.Builder()
+                            .url(AppConfig.SERVER_URL + "postm/")
+                            .post(body).build();
                     Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
                     android.os.Message msg = android.os.Message.obtain();
@@ -109,8 +134,11 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                 String jsonStr = (String) msg.obj;
                 PostMainData postMainData = new Gson().fromJson(jsonStr, PostMainData.class);
                 List<PostMain> postMainList = postMainData.getData();
-                int size = postMainList.size();
-                for (int i = 0; i < size; i++) {
+                int size = postMainList.size() - 1;
+                int size2 = postItemList.size();
+                int count = 0;
+                for (int i = size; i >= 0; i--) {
+                    count = count + 1;
                     PostMain postMain = postMainData.getData().get(i);
                     Date date = new Date();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
@@ -121,7 +149,11 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     postItem.setOrigin(postMain.getOrigin_id());
                     postItem.setTime(strCreateTime);
                     postItem.setPostId(postMain.getPost_id());
-                    postItemList.add(postItem);
+                    postItemList.add(0, postItem);
+                    int n = size2 + count - 20;
+                    if (n > 0) {
+                        postItemList.remove(20);
+                    }
                 }
                 refreshSwipeMenuListView.Complete();
                 postItemListAdapter.notifyDataSetChanged();
@@ -133,7 +165,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                 }
             } catch (Exception ex) {
                 Toast.makeText(PotatoApplication.getInstance(),
-                        "error:" + ex.toString(), Toast.LENGTH_SHORT).show();
+                        "error HandleOnRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -143,6 +175,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                 PostMainData postMainData = new Gson().fromJson(jsonStr, PostMainData.class);
                 List<PostMain> postMainList = postMainData.getData();
                 int size = postMainList.size();
+                int size2 = postItemList.size();
                 for (int i = 0; i < size; i++) {
                     PostMain postMain = postMainData.getData().get(i);
                     Date date = new Date();
@@ -155,11 +188,15 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     postItem.setTime(strCreateTime);
                     postItem.setPostId(postMain.getPost_id());
                     postItemList.add(postItem);
+                    int n = size2 + i + 1 - 20;
+                    if (n > 0) {
+                        postItemList.remove(0);
+                    }
                 }
                 refreshSwipeMenuListView.Complete();
                 postItemListAdapter.notifyDataSetChanged();
                 Toast toast = Toast.makeText(PotatoApplication.getInstance(),
-                        "刷新成功", Toast.LENGTH_SHORT);
+                        "加载成功", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             } catch (Exception ex) {
