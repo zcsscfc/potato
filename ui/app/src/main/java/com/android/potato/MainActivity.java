@@ -85,14 +85,15 @@ public class MainActivity extends FragmentActivity {
         listViewLeftMenu2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                if (list2.get(arg2).equals("  意见反馈")) {
+                if (list2.get(arg2).equals("意见反馈")) {
                     Toast.makeText(MainActivity.this, "意见反馈", Toast.LENGTH_LONG).show();
                 }
-                if (list2.get(arg2).equals("  检查更新")) {
+                if (list2.get(arg2).equals("检查更新")) {
                     Toast.makeText(MainActivity.this, "检查更新", Toast.LENGTH_LONG).show();
                 }
-                if (list2.get(arg2).equals("  关于我们")) {
-                    Toast.makeText(MainActivity.this, "关于我们", Toast.LENGTH_LONG).show();
+                if (list2.get(arg2).equals("关于我们")) {
+                    Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                    startActivity(intent);
                 }
             }
         });
