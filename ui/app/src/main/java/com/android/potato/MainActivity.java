@@ -86,7 +86,8 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 if (list2.get(arg2).equals("意见反馈")) {
-                    Toast.makeText(MainActivity.this, "意见反馈", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
+                    startActivity(intent);
                 }
                 if (list2.get(arg2).equals("检查更新")) {
                     Toast.makeText(MainActivity.this, "检查更新", Toast.LENGTH_LONG).show();
