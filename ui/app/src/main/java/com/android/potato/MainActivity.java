@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +44,14 @@ public class MainActivity extends FragmentActivity {
 
         //左侧导航菜单
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        LinearLayout linearLayoutLeftMenu = (LinearLayout) findViewById(R.id.linearLayoutLeftMenu);
+        linearLayoutLeftMenu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true; // 解决 left menu 触摸事件，会影响到，文章列表的触摸事件
+            }
+        });
+
         listViewLeftMenu1 = (ListView) findViewById(R.id.listViewLeftMenu1);
         RelativeLayout relativeLayoutLogin = (RelativeLayout) findViewById(R.id.relativeLayoutLogin);
         relativeLayoutLogin.setPadding(0, Utility.getStatusBarHeight(), 0, 0);
