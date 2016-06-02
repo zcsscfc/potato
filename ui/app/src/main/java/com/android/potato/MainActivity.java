@@ -70,7 +70,32 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Map<String, String> map = (Map<String, String>) leftMenuListAdapter.getItem(arg2);
-                Toast.makeText(MainActivity.this, map.get("tv_name"), Toast.LENGTH_LONG).show();
+                String tv_name = map.get("tv_name");
+                Intent intent = new Intent();
+                switch (tv_name)
+                {
+                    case "我的待读":
+                        intent = new Intent(MainActivity.this, ToReadActivity.class);
+                        break;
+                    case "我的收藏":
+                        intent = new Intent(MainActivity.this, MyFavActivity.class);
+                        break;
+                    case "订阅的主题":
+                        intent = new Intent(MainActivity.this, SubTopicActivity.class);
+                        break;
+                    case "订阅的站点":
+                        intent = new Intent(MainActivity.this, SubSiteActivity.class);
+                        break;
+                    case "发现主题":
+                        intent = new Intent(MainActivity.this, FindTopicActivity.class);
+                        break;
+                    case "发现站点":
+                        intent = new Intent(MainActivity.this, FindSiteActivity.class);
+                        break;
+                    default:
+                        break;
+                }
+                startActivity(intent);
             }
         });
         ImageView imageViewLeft = (ImageView) findViewById(R.id.imageViewLeft);

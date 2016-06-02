@@ -33,6 +33,24 @@
         <activity
             android:name=".FeedbackActivity"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ToReadActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".MyFavActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".SubTopicActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".SubSiteActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".FindTopicActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".FindSiteActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
