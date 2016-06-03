@@ -156,6 +156,6 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     public Response handleException(Exception e) {
         logger.error("通用异常", e);
-        return new Response().failure("exception");
+        return new Response().failure(e.getMessage());
     }
 }

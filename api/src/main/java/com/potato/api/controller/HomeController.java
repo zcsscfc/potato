@@ -1,6 +1,7 @@
 package com.potato.api.controller;
 
 import com.potato.api.framework.bean.Response;
+import com.potato.api.framework.security.IgnoreSecurity;
 import com.potato.api.model.Person;
 import com.potato.api.service.HomeSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class HomeController {
     @Autowired
     private HomeSerivce homeSerivce;
 
+    @IgnoreSecurity
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public Response index() {
 

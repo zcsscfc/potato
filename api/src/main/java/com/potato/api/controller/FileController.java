@@ -1,6 +1,7 @@
 package com.potato.api.controller;
 
 import com.potato.api.framework.bean.Response;
+import com.potato.api.framework.security.IgnoreSecurity;
 import com.potato.api.framework.util.PropsUtil;
 import com.potato.api.model.UploadResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +23,11 @@ import java.util.*;
 @RestController
 public class FileController {
 
+    @IgnoreSecurity
     @RequestMapping(value = "/file/upload", method = RequestMethod.POST)
     public Response upload(HttpServletRequest request) throws IOException {
         String path = request.getParameter("path");
-        String basePath = request.getSession().getServletContext().getRealPath("/WEB-INF/file/") + "\\" + path;
+        String basePath = request.getSession().getServletContext().getRealPath("/file/") + "//" + path;
 
         List<String> fileNameList = new ArrayList<>();
 
@@ -36,7 +38,7 @@ public class FileController {
                 MultipartFile mFile = fileMap.get(fName);
                 UploadResult uploadResult = upload(mFile, basePath);
                 if(uploadResult.isSuccess()){
-                    fileNameList.add("/WEB-INF/file/" + path + "/" + uploadResult.getFileNmae());
+                    fileNameList.add("/file/" + path + "/" + uploadResult.getFileNmae());
                 }else {
                     fileNameList.add(uploadResult.getFileNmae());
                 }
@@ -66,7 +68,7 @@ public class FileController {
         InputStream inputStream = mFile.getInputStream();
         byte[] b = mFile.getBytes();
         int length = inputStream.read(b);
-        String path = basePath + "\\" + filename;
+        String path = basePath + "//" + filename;
         // 文件流写到服务器端
         FileOutputStream outputStream = new FileOutputStream(path);
         outputStream.write(b, 0, length);
