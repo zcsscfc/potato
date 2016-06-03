@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class MainActivity extends FragmentActivity {
     private DrawerLayout drawerLayout = null;
@@ -110,6 +112,7 @@ public class MainActivity extends FragmentActivity {
         listViewLeftMenu2 = (ListView) findViewById(R.id.listViewLeftMenu2);
         list2.add("意见反馈");
         list2.add("检查更新");
+        list2.add("分享APP");
         list2.add("关于我们");
 
         LeftMenuListAdapter2 myArrayAdapter
@@ -127,6 +130,16 @@ public class MainActivity extends FragmentActivity {
                     UpdateManager manager = new UpdateManager(MainActivity.this);
                     // 检查软件更新
                     manager.checkUpdate();
+                }
+                if (list2.get(arg2).equals("分享APP")) {
+                    ImageView img = new ImageView(MainActivity.this);
+                    img.setImageResource(R.drawable.share);
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Share App")
+                            .setView(img)
+                            .setPositiveButton("OK", null)
+                            .setCancelable(false)
+                            .show();
                 }
                 if (list2.get(arg2).equals("关于我们")) {
                     Intent intent = new Intent(MainActivity.this, AboutActivity.class);
