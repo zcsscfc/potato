@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +30,7 @@ public class MainActivity extends FragmentActivity {
     private ListView listViewLeftMenu1 = null;
     private LeftMenuListAdapter leftMenuListAdapter = null;
     private ListView listViewLeftMenu2 = null;
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,5 +181,20 @@ public class MainActivity extends FragmentActivity {
         list.add(map6);
 
         return list;
+    }
+
+    // 重写onKeyDown
+    public  boolean  onKeyDown ( int  keyCode, KeyEvent event) {
+            if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+                if((System.currentTimeMillis()-exitTime) > 2000){
+                    Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                    System.exit(0);
+                }
+                return true;
+            }
+        return  super .onKeyDown(keyCode, event);
     }
 }
