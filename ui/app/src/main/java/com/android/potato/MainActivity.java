@@ -124,7 +124,9 @@ public class MainActivity extends FragmentActivity {
                     startActivity(intent);
                 }
                 if (list2.get(arg2).equals("检查更新")) {
-                    Toast.makeText(MainActivity.this, "检查更新", Toast.LENGTH_LONG).show();
+                    UpdateManager manager = new UpdateManager(MainActivity.this);
+                    // 检查软件更新
+                    manager.checkUpdate();
                 }
                 if (list2.get(arg2).equals("关于我们")) {
                     Intent intent = new Intent(MainActivity.this, AboutActivity.class);

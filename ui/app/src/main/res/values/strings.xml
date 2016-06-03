@@ -31,4 +31,15 @@
     <string name="string_tv_setting">WebView页面</string>
     <string name="xlistview_footer_hint_normal">点击加载更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+    <!--App更新-->
+    <string name="version">http://top601.github.io/Android/Version.xml</string>
+    <string name="soft_update_no">Latest version</string>
+    <string name="soft_update_title">Software Update</string>
+    <string name="soft_update_info">Detected a New Version, Updated Immediately?</string>
+    <string name="soft_update_updatebtn">Update</string>
+    <string name="soft_update_later">Update Later</string>
+    <string name="soft_updating">Updating</string>
+    <string name="soft_update_progress">soft_update_progress</string>
+    <string name="soft_update_cancel">Cancel</string>
 </resources>
