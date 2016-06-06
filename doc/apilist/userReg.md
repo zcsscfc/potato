@@ -39,10 +39,10 @@ POST
 |字段     |类型     |备注
 |---------|:------:|:-------|
 |log_name     |string  |  登录名|
-|wechat     |string  | 微信号|
-|password     |string  | 密码，base64加密|
+|wechat     |string  | 微信号 base64加密|
+|password     |string  | 密码 base64加密|
 |nick_name     |string  |外号 |
-|mobile     |string  |手机号码 |
+|mobile     |string  |手机号码 base64加密|
 
 ##### 返回结果
 ---

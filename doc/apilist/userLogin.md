@@ -36,7 +36,7 @@ POST
 |字段     |类型     |备注
 |---------|:------:|:-------|
 |log_name     |string  |  登录名|
-|password     |string  | 密码，base64加密|
+|password     |string  | 密码 base64加密|
 
 ##### 返回结果
 ---
