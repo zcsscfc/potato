@@ -77,7 +77,7 @@ public class UserService {
             UserEntity userEntity=getUserEntityByLogName(loginParam.getLogName());
             if(userEntity!=null
                     &&userEntity.getLogName().equals(loginParam.getLogName())
-                    &&userEntity.getPassword().equals(Md5Util.encode(loginParam.getPassword()))){
+                    &&userEntity.getPassword().equals(Md5Util.encode(Base64Util.decode(loginParam.getPassword())))){
                 serviceResult.setIsSuccess(true);
                 serviceResult.setMessage("");
 
