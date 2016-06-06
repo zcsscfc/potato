@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import com.android.potato.AppConfig;
 import com.android.potato.R;
 import com.potato.image.EasyImageLoader;
 
@@ -61,9 +62,9 @@ public class PostItemListAdapter extends BaseAdapter {
         holder.textViewOrigin.setText(postItem.getOrigin());
 
         String thumb = postItem.getThumb();
-
+        Log.e("lance", "123:"+thumb);
         if (thumb != null && thumb != "") {
-            String imageUrl = "http://ec2-52-196-183-18.ap-northeast-1.compute.amazonaws.com/" + thumb;
+            String imageUrl = AppConfig.SERVER_URL2 + thumb;
             //根据图片url给imageView加载图片，自动本地缓存、内存缓存
             EasyImageLoader.getInstance(context).bindBitmap(imageUrl, holder.imageViewThumb);
 

@@ -149,6 +149,7 @@ public class SimpleOnRefreshListener implements OnRefreshListener {
                     postItem.setOrigin(postMain.getOrigin_id());
                     postItem.setTime(strCreateTime);
                     postItem.setPostId(postMain.getPost_id());
+                    postItem.setThumb(postMain.getThumb());
                     postItemList.add(0, postItem);
                     int n = size2 + count - 20;
                     if (n > 0) {

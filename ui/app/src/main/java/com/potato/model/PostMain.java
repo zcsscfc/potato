@@ -6,6 +6,7 @@ public class PostMain {
     private String post_id;
     private String origin_id;
     private String origin_name;
+    private String thumb;
 
     public String getCreate_t() {
         return create_t;
@@ -45,6 +46,14 @@ public class PostMain {
 
     public void setOrigin_name(String origin_name) {
         this.origin_name = origin_name;
+    }
+
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
     }
 }
 

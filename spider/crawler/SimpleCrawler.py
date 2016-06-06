@@ -1,3 +1,4 @@
+import json
 import urllib2
 import urlparse
 import re
@@ -29,6 +30,8 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		url = url_list.pop()
 		if Common.HasDownLoad(url): # has download, go to next
 			continue
+		post_id = Common.GetId('post_id')
+		thumb = ''
 			
 		# throttle.wait(url)
 		#PROXY = '127.0.0.1:8888' # fiddler proxy
@@ -60,15 +63,42 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		
 		# rule 2
 		try:
-		# 	imageTag = tree.cssselect('img')[0]
-		# 	imageTagSrc = imageTag.get('src')
-		# 	name ="H:\\1.jpg"
-		# 	conn = urllib2.urlopen(imageTagSrc)
-		# 	f = open(name,'wb')
-		# 	f.write(conn.read())
-		# 	f.close()
-		# 	print('Pic Saved!')
-		# 	
+			imageTag = tree.cssselect('img')[0]
+			imageTagSrc = imageTag.get('src')
+			#name ="H:\\1.jpg"
+			conn = urllib2.urlopen(imageTagSrc)
+			#f = open(name,'wb')
+			#f.write(conn.read())
+			#f.close()
+			boundary = '----------%s' % hex(int(time.time() * 1000))
+			data = []
+			
+			data.append('--%s' % boundary)
+			
+			data.append('Content-Disposition: form-data; name="%s"\r\n' % 'path')
+			data.append('post/' + str(post_id) + '/thumb')
+			
+			data.append('--%s' % boundary)
+			
+			data.append('Content-Disposition: form-data; name="%s"; filename="1.jpg"' % 'fileUpload')
+			data.append('Content-Type: %s\r\n' % 'image/jpg')
+			data.append(conn.read())
+			
+			data.append('--%s--\r\n' % boundary)
+			
+			file_upload_url = 'http://ec2-52-193-201-108.ap-northeast-1.compute.amazonaws.com/file/upload'
+			http_body='\r\n'.join(data)
+			
+			request = urllib2.Request(file_upload_url,data=http_body)
+			request.add_header('Content-Type', 'multipart/form-data; boundary=%s' % boundary)
+			
+			response = urllib2.urlopen(request, timeout=5)
+			qrcont = response.read()
+			json_qrcont = json.loads(qrcont)
+			thumb = json_qrcont['data'][0]
+			
+			print('Pic Saved!')
+		
 			fixedHtml = tree.cssselect('div.nr_675')[0]
 			titleText = fixedHtml.cssselect('div.nr_675>h1.title')[0].text
 			fixedHtml = lxml.html.tostring(fixedHtml)
@@ -100,7 +130,7 @@ def DownLoad(url_seed, url_pattern, origin_name):
 		fixedHtml = fixedHtml.prettify('utf-8').replace('\n',' ')
 		
 		#HandleHtml(url, fixedHtml)
-		HandleHtml2MySql(url, fixedHtml, titleText)
+		HandleHtml2MySql(url, fixedHtml, titleText, post_id, thumb)
 		for link in GetLinks(html): # fixedHtml
 			if re.match(url_pattern, link):
 				count = count + 1
@@ -120,12 +150,11 @@ def HandleHtml(url, html):
 	with open(filename, 'wb') as fp:
 		fp.write(html)
 
-def HandleHtml2MySql(url, html, titleText):
+def HandleHtml2MySql(url, html, titleText, post_id, thumb):
 	create_t = datetime.now()
-	post_id = Common.GetId('post_id')
-
+	
 	ins_post_m = PotatoDb.tbl_post_m.insert()
-	ins_post_m.execute(post_id=post_id,title=titleText,digest='',thumb='',\
+	ins_post_m.execute(post_id=post_id,title=titleText,digest='',thumb=thumb,\
 		origin_id='1',create_t=create_t,from_url=url)
 
 	ins_post_d = PotatoDb.tbl_post_d.insert()
@@ -156,7 +185,7 @@ def GenerateFileName(url):
 
 # rule 2
 origin_name = ''
-url_seed = 'http://www.inong.net/jishu/show-9582-11.html'
+url_seed = 'http://www.inong.net/jishu/show-513.html'
 url_pattern = 'http://www.inong.net/jishu/show-'
 # rule 2 end
 
