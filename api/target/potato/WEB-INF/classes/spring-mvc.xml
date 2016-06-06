@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -43,22 +44,6 @@
 
     <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
-    <bean id="tokenManager" class="com.potato.api.framework.security.impl.DefaultTokenManager"/>
-    <!--<bean id="tokenManager" class="com.xxx.security.impl.RedisTokenManager">
-        <property name="jedisPool" ref="jedisPool"/>
-        <property name="database" value="15"/>
-        <property name="seconds" value="3600"/>
-    </bean>-->
 
-    <bean id="securityAspect" class="com.potato.api.framework.security.SecurityAspect">
-        <property name="tokenManager" ref="tokenManager"/>
-        <property name="tokenName" value="X-Token"/>
-    </bean>
-
-    <aop:config>
-        <aop:aspect ref="securityAspect">
-            <aop:around method="execute" pointcut="@annotation(org.springframework.web.bind.annotation.RequestMapping)"/>
-        </aop:aspect>
-    </aop:config>
 
 </beans>

@@ -3,6 +3,11 @@
     <output-path>$PROJECT_DIR$/target</output-path>
     <root id="archive" name="ROOT.war">
       <element id="artifact" artifact-name="api:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="JUnit4" module-name="api" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>

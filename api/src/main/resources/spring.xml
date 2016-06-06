@@ -2,10 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <context:component-scan base-package="com.potato.api">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -40,5 +43,22 @@
 
     <import resource="classpath:spring-mybatis.xml"/>
 
+    <bean id="tokenManager" class="com.potato.api.framework.security.impl.DefaultTokenManager"/>
+    <!--<bean id="tokenManager" class="com.xxx.security.impl.RedisTokenManager">
+        <property name="jedisPool" ref="jedisPool"/>
+        <property name="database" value="15"/>
+        <property name="seconds" value="3600"/>
+    </bean>-->
 
+    <bean id="securityAspect" class="com.potato.api.framework.security.SecurityAspect">
+        <property name="tokenManager" ref="tokenManager"/>
+        <property name="tokenName" value="X-Token"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect ref="securityAspect">
+            <aop:around method="execute"
+                        pointcut="@annotation(org.springframework.web.bind.annotation.RequestMapping)"/>
+        </aop:aspect>
+    </aop:config>
 </beans>

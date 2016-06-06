@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     private DataAccessor dataAccessor;
 
+    @Autowired
+    private TokenManager tokenManager;
+
     public ServiceResult userReg(UserRegParam userRegParam) {
         ServiceResult serviceResult = new ServiceResult();
         if (userRegParam != null) {
@@ -78,7 +81,6 @@ public class UserService {
                 serviceResult.setIsSuccess(true);
                 serviceResult.setMessage("");
 
-                TokenManager tokenManager=new DefaultTokenManager();
                 String token= tokenManager.createToken(userEntity.getUserId().toString());
 
                 LoginResult loginResult=new LoginResult();
