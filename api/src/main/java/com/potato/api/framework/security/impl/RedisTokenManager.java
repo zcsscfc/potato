@@ -2,6 +2,7 @@ package com.potato.api.framework.security.impl;
 
 import com.potato.api.framework.security.TokenManager;
 import com.potato.api.framework.util.CodecUtil;
+import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
