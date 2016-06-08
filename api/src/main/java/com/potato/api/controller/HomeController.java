@@ -19,7 +19,7 @@ public class HomeController {
     @Autowired
     private HomeSerivce homeSerivce;
 
-    @IgnoreSecurity
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public Response index() {
 
