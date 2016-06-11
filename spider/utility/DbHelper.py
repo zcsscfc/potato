@@ -12,23 +12,31 @@ class DbHelper():
 		return (conn,cur)
 	
 	def ExecQuery(self, sql): # return row[0][0]
+		conn = None
+		cur = None
 		try:
 			conn,cur = self.ConnDb()
 			cur.execute(sql)
 			result = cur.fetchall()
 			return result
 		finally:
-			cur.close()
-			conn.close()
+			if cur:
+				cur.close()
+			if conn:
+				conn.close()
 	
 	def ExecNoQuery(self, sql): # if update return affected rows, if insert return 1
+		conn = None
+		cur = None
 		try:
 			conn,cur = self.ConnDb()
 			result = cur.execute(sql)
 			return result
 		finally:
-			cur.close()
-			conn.close()
+			if cur:
+				cur.close()
+			if conn:
+				conn.close()
 
 
 
