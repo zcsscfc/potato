@@ -60,10 +60,9 @@ public class PostItemListAdapter extends BaseAdapter {
         holder.textViewTitle.setText(postItem.getTitle());
         holder.textViewTime.setText(postItem.getTime());
         holder.textViewOrigin.setText(postItem.getOrigin());
-
         String thumb = postItem.getThumb();
-        Log.e("lance", "123:"+thumb);
         if (thumb != null && thumb != "") {
+            holder.imageViewThumb.setVisibility(View.VISIBLE);
             String imageUrl = AppConfig.SERVER_URL2 + thumb;
             //根据图片url给imageView加载图片，自动本地缓存、内存缓存
             EasyImageLoader.getInstance(context).bindBitmap(imageUrl, holder.imageViewThumb);
@@ -79,7 +78,8 @@ public class PostItemListAdapter extends BaseAdapter {
 //                saveBitmap(bitmap);
 //            }
 //        });
-
+        }else {
+            holder.imageViewThumb.setVisibility(View.GONE);
         }
         return convertView;
     }
