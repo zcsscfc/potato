@@ -5,7 +5,7 @@
     <application
         android:name=".PotatoApplication"
         android:allowBackup="true"
-        android:icon="@drawable/nt"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
