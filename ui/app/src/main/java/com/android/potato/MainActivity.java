@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
@@ -38,13 +39,13 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setNavigationBarTintEnabled(true);
+        tintManager.setNavigationBarTintEnabled(false);
         tintManager.setStatusBarTintResource(R.color.color_11);
         tintManager.setNavigationBarTintResource(R.color.color_11);
         // 设置边距，保证对齐
         SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
         LinearLayout linearLayoutTitleContainer = (LinearLayout) findViewById(R.id.linearLayoutTitleContainer);
-        linearLayoutTitleContainer.setPadding(0, Utility.getStatusBarHeight(), 0, 0); // config.getPixelInsetTop(true) / 3 + 10
+        linearLayoutTitleContainer.setPadding(0, 0, 0, 0); // Utility.getStatusBarHeight()
 
         //左侧导航菜单
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -58,7 +59,7 @@ public class MainActivity extends FragmentActivity {
 
         listViewLeftMenu1 = (ListView) findViewById(R.id.listViewLeftMenu1);
         RelativeLayout relativeLayoutLogin = (RelativeLayout) findViewById(R.id.relativeLayoutLogin);
-        relativeLayoutLogin.setPadding(0, Utility.getStatusBarHeight(), 0, 0);
+        relativeLayoutLogin.setPadding(0, 0, 0, 0);
         relativeLayoutLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,8 +77,7 @@ public class MainActivity extends FragmentActivity {
                 Map<String, String> map = (Map<String, String>) leftMenuListAdapter.getItem(arg2);
                 String tv_name = map.get("tv_name");
                 Intent intent = new Intent();
-                switch (tv_name)
-                {
+                switch (tv_name) {
                     case "我的待读":
                         intent = new Intent(MainActivity.this, ToReadActivity.class);
                         break;
@@ -184,17 +184,17 @@ public class MainActivity extends FragmentActivity {
     }
 
     // 重写onKeyDown
-    public  boolean  onKeyDown ( int  keyCode, KeyEvent event) {
-            if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-                if((System.currentTimeMillis()-exitTime) > 2000){
-                    Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                    exitTime = System.currentTimeMillis();
-                } else {
-                    finish();
-                    System.exit(0);
-                }
-                return true;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
             }
-        return  super .onKeyDown(keyCode, event);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

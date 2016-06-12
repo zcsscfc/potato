@@ -44,7 +44,7 @@ public class TabContentFragment extends Fragment {
             }
 
             LinearLayout linearLayoutListView = (LinearLayout) view.findViewById(R.id.linearLayoutListView);
-            linearLayoutListView.setPadding(0, 0, 0, Utility.getNavigationBarHeight());
+            linearLayoutListView.setPadding(0, 0, 0, 0);
 
             postItemList = new ArrayList<>();
             postItemListAdapter = new PostItemListAdapter(PotatoApplication.getInstance(), postItemList);
