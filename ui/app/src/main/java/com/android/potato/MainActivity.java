@@ -1,6 +1,8 @@
 package com.android.potato;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.potato.list.Utility;
@@ -32,6 +35,10 @@ public class MainActivity extends FragmentActivity {
     private LeftMenuListAdapter leftMenuListAdapter = null;
     private ListView listViewLeftMenu2 = null;
     private long exitTime = 0;
+    private TextView tv_username;
+    private static SharedPreferences mPreferences;
+    private static SharedPreferences.Editor mEditor;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +64,28 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        tv_username = (TextView)findViewById(R.id.tv_username);
+        SharedPreferences mPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        userid = mPreferences.getString("user_name", "");
+        if (userid != "") {
+                /* Create an Intent that will start the Main WordPress Activity. */
+
+            tv_username.setText(userid);
+        }
+
         listViewLeftMenu1 = (ListView) findViewById(R.id.listViewLeftMenu1);
         RelativeLayout relativeLayoutLogin = (RelativeLayout) findViewById(R.id.relativeLayoutLogin);
         relativeLayoutLogin.setPadding(0, 0, 0, 0);
         relativeLayoutLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (userid == "") {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
+                }else{
+                    Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

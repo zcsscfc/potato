@@ -56,6 +56,9 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UserInfoActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
