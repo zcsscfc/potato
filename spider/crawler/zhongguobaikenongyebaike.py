@@ -38,10 +38,10 @@ def DownLoad(url_seed, url_pattern, origin_name):
 
 		try:
 			print 'hi begin'
-			fixedHtml = tree.cssselect('div.main>div.column')[0]
+			fixedHtml = tree.cssselect('div#NewaspContentLabel')[0]
 			
-			imageTag = fixedHtml.cssselect('img')[0]
-			imageTagSrc = imageTag.get('src')
+			#imageTag = fixedHtml.cssselect('img')[0]
+			imageTagSrc = 'http://www.qnong.com.cn/uploadfile/2015/0530/20150530014932826.jpg'#imageTag.get('src')
 			print imageTagSrc
 			conn = urllib2.urlopen(imageTagSrc)
 			
@@ -74,7 +74,7 @@ def DownLoad(url_seed, url_pattern, origin_name):
 			
 			print('upload pic finish')
 
-			titleText = fixedHtml.cssselect('div.title')[0].text
+			titleText = '无公害食品肉鸭饲养兽医防疫准则' # tree.cssselect('h1')[0].text.strip()
 			fixedHtml = lxml.html.tostring(fixedHtml)
 		except Exception as ex:
 			print ex
@@ -107,7 +107,7 @@ def HandleHtml2MySql(url, html, titleText, post_id, thumb):
 	
 	ins_post_m = PotatoDb.tbl_post_m.insert()
 	ins_post_m.execute(post_id=post_id,title=titleText,digest='',thumb=thumb,\
-		origin_id='1',create_t=create_t,from_url=url)
+		origin_id='8',create_t=create_t,from_url=url)
 
 	ins_post_d = PotatoDb.tbl_post_d.insert()
 	ins_post_d.execute(post_id=post_id,detail=html,create_t=create_t)
@@ -123,9 +123,9 @@ def GenerateFileName(url):
 	filename = re.sub('[^/0-9a-zA-Z\-.,;_ ]', '_', filename)
 	return '/'.join(segment[:250] for segment in filename.split('/'))+'.html'
 
-origin_name = '农信通'
-url_seed = 'http://12582.10086.cn/main/agriculture/techdetail/13339767'
-url_pattern = 'http://12582.10086.cn/main/agriculture/techdetail/'
+origin_name = '中国百科网-农业百科'
+url_seed = 'http://www.chinabaike.com/article/396/399/2007/2007031596438.html'
+url_pattern = 'http://www.chinabaike.com/article/396/399/'
 
 throttle = Throttle(0)
 DownLoad(url_seed, url_pattern, origin_name)
