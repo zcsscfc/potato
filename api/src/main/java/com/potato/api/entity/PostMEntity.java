@@ -12,6 +12,8 @@ public class PostMEntity {
     private String digest;
     private String thumb;
     private String fromUrl;
+    private BigInteger originId;
+    private Date createT;
 
     public String getFromUrl() {
         return fromUrl;
@@ -68,7 +70,4 @@ public class PostMEntity {
     public void setCreateT(Date createT) {
         this.createT = createT;
     }
-
-    private BigInteger originId;
-    private Date createT;
 }
