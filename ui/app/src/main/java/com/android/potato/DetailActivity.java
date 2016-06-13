@@ -118,7 +118,7 @@ public class DetailActivity extends Activity {
         textViewOrigin = (TextView) findViewById(R.id.textViewOrigin);
         textViewTime = (TextView) findViewById(R.id.textViewTime);
         textViewTitle.setText(postItem.getTitle());
-        textViewOrigin.setText(postItem.getOrigin());
+        textViewOrigin.setText(postItem.getOriginName());
         textViewTime.setText(postItem.getTime());
 
         getData();

@@ -6,6 +6,7 @@ public class PostItem implements Serializable {
     private String postId;
     private String title;
     private String origin;
+    private String originName;
     private String time;
     private String thumb;
 
@@ -47,5 +48,13 @@ public class PostItem implements Serializable {
 
     public void setPostId(String postId) {
         this.postId = postId;
+    }
+
+    public String getOriginName() {
+        return originName;
+    }
+
+    public void setOriginName(String originName) {
+        this.originName = originName;
     }
 }

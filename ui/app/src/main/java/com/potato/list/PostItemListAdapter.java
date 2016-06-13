@@ -59,7 +59,7 @@ public class PostItemListAdapter extends BaseAdapter {
         PostItem postItem = postItemList.get(position);
         holder.textViewTitle.setText(postItem.getTitle());
         holder.textViewTime.setText(postItem.getTime());
-        holder.textViewOrigin.setText(postItem.getOrigin());
+        holder.textViewOrigin.setText(postItem.getOriginName());
         String thumb = postItem.getThumb();
         if (thumb != null && thumb != "") {
             holder.imageViewThumb.setVisibility(View.VISIBLE);
