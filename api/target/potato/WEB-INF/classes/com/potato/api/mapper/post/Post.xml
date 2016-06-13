@@ -7,7 +7,7 @@
 
     <!--<cache type="com.xxx.jdbc.cache.RedisCache"/>-->
 
-    <select id="selectPostM" resultType="com.potato.api.entity.PostMEntity"
+    <select id="selectPostM" resultType="com.potato.api.result.PostMResult"
             parameterType="com.potato.api.Param.PostMParam">
         SELECT
         a.post_id,
@@ -16,11 +16,13 @@
         a.digest,
         a.thumb,
         a.origin_id,
+        origin.name originName,
         a.create_t
         FROM post_m a
         <if test="subjectId!=0">
             INNER JOIN post_subject b on a.post_id=b.post_id and b.subject_id=#{subjectId}
         </if>
+        INNER JOIN bd_origin origin ON a.origin_id=origin.origin_id
         WHERE 1=1
         <if test="originId!=0">
             AND origin_id=#{originId}
