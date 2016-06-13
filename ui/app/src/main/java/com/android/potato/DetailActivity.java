@@ -49,7 +49,7 @@ public class DetailActivity extends Activity {
             setTranslucentStatus(true);
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setNavigationBarTintEnabled(false);
             tintManager.setStatusBarTintResource(R.color.color_11);
             tintManager.setNavigationBarTintResource(R.color.color_11);
         }

@@ -45,7 +45,7 @@
             android:layout_marginBottom="30dp"
             android:layout_marginTop="30dp"
             android:scaleType="centerInside"
-            android:src="@drawable/nt" />
+            android:src="@drawable/app_logo" />
 
         <TextView
             android:layout_width="match_parent"

@@ -8,6 +8,8 @@ class PotatoDb():
 	tbl_post_m = Table('post_m',metadata,autoload=True)
 	tbl_post_d = Table('post_d',metadata,autoload=True)
 	tbl_bd_origin = Table('bd_origin',metadata,autoload=True)
+	tb_bd_subject_category = Table('bd_subject_category',metadata,autoload=True)
+	tb_bd_subject = Table('bd_subject',metadata,autoload=True)
 	
 	
 	
