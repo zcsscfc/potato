@@ -1,97 +1,81 @@
 package com.android.potato;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Base64;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.potato.model.UserRegReceive;
-import com.potato.model.UserRegRequest;
+import org.w3c.dom.Text;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-/**
- * Created by s1112001 on 2016/6/13.
- */
 public class UserInfoActivity extends Activity {
-    EditText et_userid, et_pwd;
-    Button btn_logout;
-    private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
+    private Button btnLogout = null;
+    private ImageButton imgBtnGoBack = null;
+    private TextView textViewNickName = null;
+    private UserInfoShared userInfoShared = null;
+    private TableRow tableRowNickName = null;
+    private TextView textViewUserId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setNavigationBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.color.color_11);
-            tintManager.setNavigationBarTintResource(R.color.color_11);
-        }
         setContentView(R.layout.activity_user_info);
 
-        ImageButton img_btn_back = (ImageButton) findViewById(R.id.img_btn_back);
-        img_btn_back.setOnClickListener(new View.OnClickListener() {
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+        imgBtnGoBack = (ImageButton) findViewById(R.id.imgBtnGoBack);
+        textViewNickName = (TextView) findViewById(R.id.textViewNickName);
+        tableRowNickName = (TableRow)findViewById(R.id.tableRowNickName);
+        textViewUserId = (TextView)findViewById(R.id.textViewUserId);
+
+        userInfoShared = new UserInfoShared(this);
+
+        SystemBarTintManager systemBarTintManager = new SystemBarTintManager(this);
+        systemBarTintManager.setStatusBarTintEnabled(true);
+        systemBarTintManager.setStatusBarTintResource(R.color.color_11);
+
+        textViewNickName.setText(userInfoShared.getUserName());
+        textViewUserId.setText(userInfoShared.getUserId());
+
+        tableRowNickName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(UserInfoActivity.this)
+                        .setTitle("多选框")
+                        .setMultiChoiceItems(new String[] {"选项1","选项2","选项3","选项4"}, null, null)
+                        .setPositiveButton("确定", null)
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
+
+        imgBtnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        mPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-        et_userid = (EditText) findViewById(R.id.et_userid);
-        et_pwd = (EditText) findViewById(R.id.et_pwd);
-
-        et_userid.setText(mPreferences.getString("user_name",""));
-
-        btn_logout = (Button) findViewById(R.id.btn_logout);
-        btn_logout.setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mEditor = mPreferences.edit();
-                mEditor.putString("user_name", "");
-                mEditor.putString("user_id", "");
-                mEditor.putString("token", "");
-                mEditor.commit();
+                userInfoShared.edit();
+                userInfoShared.setUserName("");
+                userInfoShared.setUserId("");
+                userInfoShared.setToken("");
+                userInfoShared.commit();
 
                 Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
                 startActivity(intent);
 
-                Toast.makeText(UserInfoActivity.this,"注销成功！",Toast.LENGTH_LONG).show();
+                Toast.makeText(UserInfoActivity.this, "注销成功！", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
     }
 }
