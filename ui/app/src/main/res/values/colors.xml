@@ -24,7 +24,7 @@
     <!--cardView 实例中的颜色-->
     <color name="color_0">#FFF0F5</color>
     <color name="color_1">#FFE1FF</color>
-    <color name="color_2">#E6E6FA</color>
+    <color name="color_2">#ECECEC</color>
     <color name="color_3">#C1FFC1</color>
     <color name="color_4">#B22222</color>
     <color name="color_5">#836FFF</color>

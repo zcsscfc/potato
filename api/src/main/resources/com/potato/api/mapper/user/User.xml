@@ -32,6 +32,15 @@
         )
     </insert>
 
+    <update id="update_user" parameterType="com.potato.api.entity.UserEntity">
+        UPDATE sys_user SET
+        wechat=#{wechat},
+        mobile=#{mobile},
+        nick_name=#{nickName},
+        photo=#{photo}
+        WHERE user_id=#{userId}
+    </update>
+
     <select id="select_userid" resultType="BigInteger">
         SELECT f_getid('user_id')
     </select>

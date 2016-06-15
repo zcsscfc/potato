@@ -30,7 +30,7 @@ public class CustomObjectMapper extends ObjectMapper {
 
     public void init() {
         // 排除值为空属性
-        setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        //setSerializationInclusion(JsonInclude.Include.NON_NULL);
         // 进行缩进输出
         configure(SerializationFeature.INDENT_OUTPUT, true);
         // 将驼峰转为下划线
