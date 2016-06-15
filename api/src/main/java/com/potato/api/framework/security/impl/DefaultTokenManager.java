@@ -30,4 +30,9 @@ public class DefaultTokenManager implements TokenManager {
     public boolean checkToken(String token) {
         return !StringUtil.isEmpty(token) && tokenMap.containsKey(token);
     }
+
+    @Override
+    public String getTokenValue(String token) {
+        return tokenMap.get(token);
+    }
 }

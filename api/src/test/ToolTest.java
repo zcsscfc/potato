@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ToolTest {
     @Test
     public void base64Test(){
-        String originValue="victor";
+        String originValue="123456";
         String base64Value= Base64Util.encode(originValue);
         System.out.println(base64Value);
 

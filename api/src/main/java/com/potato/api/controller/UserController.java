@@ -1,7 +1,8 @@
 package com.potato.api.controller;
 
-import com.potato.api.Param.LoginParam;
-import com.potato.api.Param.UserRegParam;
+import com.potato.api.Param.user.LoginParam;
+import com.potato.api.Param.user.UserEditParam;
+import com.potato.api.Param.user.UserRegParam;
 import com.potato.api.framework.bean.Response;
 import com.potato.api.framework.security.IgnoreSecurity;
 import com.potato.api.model.ServiceResult;
@@ -28,7 +29,7 @@ public class UserController {
 
         ServiceResult serviceResult = userService.userReg(userRegParam);
         if (serviceResult.isSuccess()) {
-            return new Response().success();
+            return new Response().success(serviceResult.getData());
         }
         return new Response().failure(serviceResult.getMessage());
     }
@@ -36,11 +37,17 @@ public class UserController {
     @IgnoreSecurity
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Response login(@RequestBody LoginParam loginParam) {
-        ServiceResult serviceResult=userService.userLogin(loginParam);
-        if(serviceResult.isSuccess()){
+        ServiceResult serviceResult = userService.userLogin(loginParam);
+        if (serviceResult.isSuccess()) {
             return new Response().success(serviceResult.getData());
-        }else {
+        } else {
             return new Response().failure(serviceResult.getMessage());
         }
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public Response edit(@RequestBody UserEditParam userEditParam) {
+        userService.userEdit(userEditParam);
+        return new Response().success();
     }
 }

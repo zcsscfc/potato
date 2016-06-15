@@ -13,7 +13,16 @@ public class UserEntity {
     private String password;
     private String nickName;
     private String mobile;
+    private String photo;
     private Date createT;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public BigInteger getUserId() {
         return userId;

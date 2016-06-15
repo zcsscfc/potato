@@ -32,15 +32,45 @@
 
     <mvc:default-servlet-handler/>
 
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean id="securityInterceptor" class="com.potato.api.framework.security.SecurityInterceptor">
-                <property name="tokenManager" ref="tokenManager"/>
-                <property name="tokenName" value="X-Token"/>
-            </bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
+    <bean id="tokenManager" class="com.potato.api.framework.security.impl.DefaultTokenManager"/>
+    <!--<bean id="tokenManager" class="com.xxx.security.impl.RedisTokenManager">
+        <property name="jedisPool" ref="jedisPool"/>
+        <property name="database" value="15"/>
+        <property name="seconds" value="3600"/>
+    </bean>-->
+
+    <bean id="securityAspect" class="com.potato.api.framework.security.SecurityAspect">
+        <property name="tokenManager" ref="tokenManager"/>
+        <property name="tokenName" value="X-Token"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect ref="securityAspect">
+            <aop:around method="execute"
+                        pointcut="@annotation(org.springframework.web.bind.annotation.RequestMapping)"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">-->
+    <!--<property name="interceptors">-->
+    <!--<list>-->
+    <!--<bean id="securityInterceptor" class="com.potato.api.framework.security.SecurityInterceptor">-->
+    <!--<property name="tokenManager" ref="tokenManager"/>-->
+    <!--<property name="tokenName" value="X-Token"/>-->
+    <!--</bean>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/*"/>-->
+            <!--<bean id="securityInterceptor" class="com.potato.api.framework.security.SecurityInterceptor">-->
+                <!--<property name="tokenManager" ref="tokenManager"/>-->
+                <!--<property name="tokenName" value="X-Token"/>-->
+            <!--</bean>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
 
     <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 

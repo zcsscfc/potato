@@ -59,4 +59,9 @@ public class RedisTokenManager implements TokenManager {
         }
         return result;
     }
+
+    @Override
+    public String getTokenValue(String token) {
+        return null;
+    }
 }
