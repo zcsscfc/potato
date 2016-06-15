@@ -2,6 +2,8 @@ package com.android.potato;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -229,7 +231,10 @@ public class DetailActivity extends Activity {
                 try {
                     AddToReadRequest addToReadRequest = new AddToReadRequest();
                     String post_id = postItem.getPostId();
+                    SharedPreferences mPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                    String user_id = mPreferences.getString("user_id", "");
                     addToReadRequest.setPost_id(post_id);
+                    addToReadRequest.setUser_id(user_id);
                     String json = new Gson().toJson(addToReadRequest, AddToReadRequest.class);
                     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient okHttpClient = new OkHttpClient();
@@ -258,7 +263,10 @@ public class DetailActivity extends Activity {
                 try {
                     AddFavRequest addFavRequest = new AddFavRequest();
                     String post_id = postItem.getPostId();
+                    SharedPreferences mPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                    String user_id = mPreferences.getString("user_id", "");
                     addFavRequest.setPost_id(post_id);
+                    addFavRequest.setUser_id(user_id);
                     String json = new Gson().toJson(addFavRequest, AddFavRequest.class);
                     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient okHttpClient = new OkHttpClient();
