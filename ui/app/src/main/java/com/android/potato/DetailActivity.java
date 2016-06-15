@@ -2,10 +2,10 @@ package com.android.potato;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,11 +21,17 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.potato.list.PostItem;
+import com.potato.model.AddFavReceive;
+import com.potato.model.AddFavRequest;
 import com.potato.model.PostData;
 import com.potato.model.PostDetail;
+import com.potato.model.AddToReadRequest;
+import com.potato.model.AddToReadReceive;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -35,6 +41,8 @@ public class DetailActivity extends Activity {
     private WebView wv_content;
     private android.os.Handler msgHandler;
     private final int MSG_GET_POST_D = 0;
+    private final int MSG_ADD_TO_READ = 1;
+    private final int MSG_ADD_FAV = 2;
     private PostItem postItem;
     private ImageButton img_btn_back, img_btn_menu;
     private Button btn_to_read, btn_fav;
@@ -95,13 +103,13 @@ public class DetailActivity extends Activity {
         btn_to_read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DetailActivity.this, "You Click 待读", Toast.LENGTH_LONG).show();
+                addToRead();
             }
         });
         btn_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DetailActivity.this, "You Click 收藏", Toast.LENGTH_LONG).show();
+                addFav();
             }
         });
         img_btn_menu.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +170,30 @@ public class DetailActivity extends Activity {
                         Log.e("DetailActivity01", ex.toString());
                     }
                     break;
+                case MSG_ADD_TO_READ:
+                    String jsonToRead = (String) msg.obj;
+                    try {
+                        AddToReadReceive addToReadReceive = new Gson().fromJson(jsonToRead, AddToReadReceive.class);
+                        Toast toast = Toast.makeText(PotatoApplication.getInstance(),
+                                addToReadReceive.meta.message, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } catch (Exception ex) {
+                        Log.e("DetailActivity01", ex.toString());
+                    }
+                    break;
+                case MSG_ADD_FAV:
+                    String jsonFav = (String) msg.obj;
+                    try {
+                        AddFavReceive addFavReceive = new Gson().fromJson(jsonFav, AddFavReceive.class);
+                        Toast toast = Toast.makeText(PotatoApplication.getInstance(),
+                                addFavReceive.meta.message, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } catch (Exception ex) {
+                        Log.e("DetailActivity01", ex.toString());
+                    }
+                    break;
                 default:
                     break;
             }
@@ -185,6 +217,64 @@ public class DetailActivity extends Activity {
                     msgHandler.sendMessage(msg);
                 } catch (Exception ex) {
                     Log.e("DetailActivity02", ex.toString());
+                }
+            }
+        }.start();
+    }
+
+    private void addToRead() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    AddToReadRequest addToReadRequest = new AddToReadRequest();
+                    String post_id = postItem.getPostId();
+                    addToReadRequest.setPost_id(post_id);
+                    String json = new Gson().toJson(addToReadRequest, AddToReadRequest.class);
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    RequestBody body = RequestBody.create(JSON, json);
+                    Request request = new Request.Builder()
+                            .url(AppConfig.SERVER_URL + "user/addtoread")
+                            .post(body).build();
+                    Response response = okHttpClient.newCall(request).execute();
+                    String rspStr = response.body().string();
+                    android.os.Message msg = android.os.Message.obtain();
+                    msg.arg1 = MSG_ADD_TO_READ;
+                    msg.obj = rspStr;
+                    msgHandler.sendMessage(msg);
+                } catch (Exception ex) {
+                    Toast.makeText(PotatoApplication.getInstance(),
+                            "error onRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.start();
+    }
+
+    private void addFav() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    AddFavRequest addFavRequest = new AddFavRequest();
+                    String post_id = postItem.getPostId();
+                    addFavRequest.setPost_id(post_id);
+                    String json = new Gson().toJson(addFavRequest, AddFavRequest.class);
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    RequestBody body = RequestBody.create(JSON, json);
+                    Request request = new Request.Builder()
+                            .url(AppConfig.SERVER_URL + "user/addfav")
+                            .post(body).build();
+                    Response response = okHttpClient.newCall(request).execute();
+                    String rspStr = response.body().string();
+                    android.os.Message msg = android.os.Message.obtain();
+                    msg.arg1 = MSG_ADD_FAV;
+                    msg.obj = rspStr;
+                    msgHandler.sendMessage(msg);
+                } catch (Exception ex) {
+                    Toast.makeText(PotatoApplication.getInstance(),
+                            "error onRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         }.start();
