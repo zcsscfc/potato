@@ -1,19 +1,24 @@
 #### API名称
 ---
 ```
-用户注册
+主题分类列表
 ```
 
 #### 描述
 ---
 ```
+此接口，相当的简单，
+
+仅需要返回，表 bd_subject_category 的所有数据即可，
+
+没有输入参数
 
 ```
 
 #### url
 ---
 ```
-http://host:port/user/reg
+http://host:port/？？？？？？
 ```
 
 ##### 请求方法
@@ -26,11 +31,7 @@ POST
 ---
 ```
 {
-    "log_name":"zcsscfc6",
-    "wechat":"MTcyMDA2NjM4",
-    "password":"MTIzNDU2",
-    "nick_name":"victor",
-    "mobile":"MTg1MjEzNTc2Mjk="
+    ？？？？
 }
 ```
 
@@ -38,30 +39,14 @@ POST
 ---
 |字段     |类型     |备注
 |---------|:------:|:-------|
-|log_name     |string  |  登录名|
-|wechat     |string  | 微信号 base64加密|
-|password     |string  | 密码 base64加密|
-|nick_name     |string  |外号 |
-|mobile     |string  |手机号码 base64加密|
+|不需要参数     |string  |  不需要参数|
 
 ##### 返回结果
 ---
 *** JSON示例 ***
 ```
 {
-  "meta": {
-    "success": true,
-    "message": "ok"
-  },
-  "data": {
-    "user_id": "68",
-    "token": "6D0BCB668A0A403080DB12A8DEB0E7EE",
-    "log_name": "zcsscfc6",
-    "wechat": "MTcyMDA2NjM4",
-    "nick_name": "zcsscfc6",
-    "mobile": "MTg1MjEzNTc2Mjk=",
-    "photo": null
-  }
+  ？？？？？？？？？
 }
 ```
 
@@ -69,12 +54,6 @@ POST
 ---
 |字段     |类型     |备注
 |---------|:------:|:-------|
-|user_id     |string  |  UID|
-|token     |string  | token|
-|log_name     |string  | 登录名|
-|wechat     |string  | 微信 base64加密|
-|nick_name     |string  | 外号|
-|mobile     |string  | 手机 base64加密|
-|photo     |string  | 头像地址|
-
+|subject_category_id     |string  |  分类编号|
+|bd_subject_category.name     |string  | 分类名称|
 
