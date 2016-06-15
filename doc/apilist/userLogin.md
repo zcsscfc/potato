@@ -40,6 +40,7 @@ POST
 
 ##### 返回结果
 ---
+```
 *** JSON示例 ***
 {
   "meta": {
@@ -47,8 +48,13 @@ POST
     "message": "ok"
   },
   "data": {
-    "user_id": "25",
-    "token": "E95D588EB2A3481CAA5E2FD6360E7E55"
+    "user_id": "66",
+    "token": "63C3E8FC45B9468AB8E66DD0AE53AF3E",
+    "log_name": "zcsscfc5",
+    "wechat": "MTcyMDA2NjM4",
+    "nick_name": "victor",
+    "mobile": "MTg1MjEzNTc2Mjk=",
+    "photo": "/aaa.jpg"
   }
 }
 ```
@@ -59,4 +65,15 @@ POST
 |---------|:------:|:-------|
 |user_id     |string  |  UID|
 |token     |string  | token|
+|log_name     |string  | 登录名|
+|wechat     |string  | 微信 base64加密|
+|nick_name     |string  | 外号|
+|mobile     |string  | 手机 base64加密|
+|photo     |string  | 头像地址|
+
+
+
+
+
+
 

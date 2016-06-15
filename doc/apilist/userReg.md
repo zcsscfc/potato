@@ -26,11 +26,11 @@ POST
 ---
 ```
 {
-    "log_name":"vicaa",
-    "wechat":"172006638",
-    "password":"123456",
+    "log_name":"zcsscfc6",
+    "wechat":"MTcyMDA2NjM4",
+    "password":"MTIzNDU2",
     "nick_name":"victor",
-    "mobile":"18521222222"
+    "mobile":"MTg1MjEzNTc2Mjk="
 }
 ```
 
@@ -48,15 +48,33 @@ POST
 ---
 *** JSON示例 ***
 ```
- {
+{
   "meta": {
     "success": true,
     "message": "ok"
+  },
+  "data": {
+    "user_id": "68",
+    "token": "6D0BCB668A0A403080DB12A8DEB0E7EE",
+    "log_name": "zcsscfc6",
+    "wechat": "MTcyMDA2NjM4",
+    "nick_name": "zcsscfc6",
+    "mobile": "MTg1MjEzNTc2Mjk=",
+    "photo": null
   }
 }
 ```
 
 #### 说明
 ---
+|字段     |类型     |备注
+|---------|:------:|:-------|
+|user_id     |string  |  UID|
+|token     |string  | token|
+|log_name     |string  | 登录名|
+|wechat     |string  | 微信 base64加密|
+|nick_name     |string  | 外号|
+|mobile     |string  | 手机 base64加密|
+|photo     |string  | 头像地址|
 
 
