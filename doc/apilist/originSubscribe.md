@@ -1,19 +1,33 @@
 #### API名称
 ---
 ```
-用户注册
+站点订阅、取消订阅
 ```
 
 #### 描述
 ---
 ```
+此接口，接受参数，user_id , origin_id
+写入 表user_origin
+
+实现功能：
+
+1. 订阅站点
+2. 订阅站点取消
+
+注意：operation 输入参数：
+
+operation=（add/delete）
+add 代表订阅，需要写入数据
+delete 代表取消订阅，需要删除数据
+
 
 ```
 
 #### url
 ---
 ```
-http://host:port/user/reg
+http://host:port/？？？？？？？？？
 ```
 
 ##### 请求方法
@@ -26,11 +40,7 @@ POST
 ---
 ```
 {
-    "log_name":"zcsscfc6",
-    "wechat":"MTcyMDA2NjM4",
-    "password":"MTIzNDU2",
-    "nick_name":"victor",
-    "mobile":"MTg1MjEzNTc2Mjk="
+    ？？？？？？？？
 }
 ```
 
@@ -38,30 +48,16 @@ POST
 ---
 |字段     |类型     |备注
 |---------|:------:|:-------|
-|log_name     |string  |  登录名|
-|wechat     |string  | 微信号 base64加密|
-|password     |string  | 密码 base64加密|
-|nick_name     |string  |外号 |
-|mobile     |string  |手机号码 base64加密|
+|operation     |string  |  操作方法（add/delete）<br/>add 代表订阅，需要写入数据<br/>delete 代表取消订阅，需要删除数据|
+|user_id     |string  |  用户编号|
+|origin_id     |string  | 源站点编号|
 
 ##### 返回结果
 ---
 *** JSON示例 ***
 ```
 {
-  "meta": {
-    "success": true,
-    "message": "ok"
-  },
-  "data": {
-    "user_id": "68",
-    "token": "6D0BCB668A0A403080DB12A8DEB0E7EE",
-    "log_name": "zcsscfc6",
-    "wechat": "MTcyMDA2NjM4",
-    "nick_name": "zcsscfc6",
-    "mobile": "MTg1MjEzNTc2Mjk=",
-    "photo": null
-  }
+  ？？？？？？？？？？
 }
 ```
 
@@ -69,12 +65,6 @@ POST
 ---
 |字段     |类型     |备注
 |---------|:------:|:-------|
-|user_id     |string  |  UID|
-|token     |string  | token|
-|log_name     |string  | 登录名|
-|wechat     |string  | 微信 base64加密|
-|nick_name     |string  | 外号|
-|mobile     |string  | 手机 base64加密|
-|photo     |string  | 头像地址|
+|无返回参数（只需要知道 true 或 false）     |string  |  无返回参数|
 
 
