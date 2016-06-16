@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
-    <top601studio.focus.MyProgress
+    <com.android.potato.MyProgress
         android:id="@+id/update_progress"
         android:max="100"
         android:layout_width="fill_parent"
