@@ -64,7 +64,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        tv_username = (TextView)findViewById(R.id.tv_username);
+        tv_username = (TextView) findViewById(R.id.tv_username);
         SharedPreferences mPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         userid = mPreferences.getString("user_name", "");
         if (userid != "") {
@@ -80,9 +80,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (userid == "") {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                }else{
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } else {
                     Intent intent = new Intent(MainActivity.this, UserInfoActivity.class);
                     startActivity(intent);
                 }
@@ -100,27 +100,51 @@ public class MainActivity extends FragmentActivity {
                 Intent intent = new Intent();
                 switch (tv_name) {
                     case "我的待读":
-                        intent = new Intent(MainActivity.this, ToReadActivity.class);
+                        if (userid == "") {
+                            Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            intent = new Intent(MainActivity.this, ToReadActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                     case "我的收藏":
-                        intent = new Intent(MainActivity.this, MyFavActivity.class);
+
+                        if (userid == "") {
+                            Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            intent = new Intent(MainActivity.this, MyFavActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                     case "订阅的主题":
-                        intent = new Intent(MainActivity.this, SubTopicActivity.class);
+
+                        if (userid == "") {
+                            Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            intent = new Intent(MainActivity.this, SubTopicActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                     case "订阅的站点":
-                        intent = new Intent(MainActivity.this, SubSiteActivity.class);
+
+                        if (userid == "") {
+                            Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            intent = new Intent(MainActivity.this, SubSiteActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                     case "发现主题":
                         intent = new Intent(MainActivity.this, FindTopicActivity.class);
+                        startActivity(intent);
                         break;
                     case "发现站点":
                         intent = new Intent(MainActivity.this, FindSiteActivity.class);
+                        startActivity(intent);
                         break;
                     default:
                         break;
                 }
-                startActivity(intent);
             }
         });
         ImageView imageViewLeft = (ImageView) findViewById(R.id.imageViewLeft);
