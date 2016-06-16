@@ -8,10 +8,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -26,14 +28,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
-public class UpdateManager
-{
+public class UpdateManager {
     /* 下载中 */
     private static final int DOWNLOAD = 1;
     /* 下载结束 */
     private static final int DOWNLOAD_FINISH = 2;
     /* 保存解析的XML信息 */
-    HashMap<String, String> mHashMap;
+    private HashMap<String, String> mHashMap;
     /* 下载保存路径 */
     private String mSavePath;
     /* 记录进度条数量 */
@@ -47,14 +48,11 @@ public class UpdateManager
     private Dialog mDownloadDialog;
 
     public InputStream inStream;
-    int isUpdate=0;
+    int isUpdate = 0;
 
-    private Handler mHandler = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 // 正在下载
                 case DOWNLOAD:
                     // 设置进度条位置
@@ -67,11 +65,12 @@ public class UpdateManager
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
-    public UpdateManager(Context context)
-    {
+    public UpdateManager(Context context) {
         this.mContext = context;
     }
 
@@ -81,22 +80,26 @@ public class UpdateManager
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    if(isUpdate==1){
-                    showNoticeDialog();}
+                    if (isUpdate == 1) {
+                        showNoticeDialog();
+                    }
                     break;
                 case 1:
-                    if(isUpdate==0){
-                        Toast.makeText(mContext, R.string.soft_update_no, Toast.LENGTH_LONG).show();}
+                    if (isUpdate == 0) {
+                        Toast.makeText(mContext, R.string.soft_update_no, Toast.LENGTH_LONG).show();
+                    }
                     break;
             }
-        };
+        }
+
+        ;
     };
+
     /**
      * 检测软件更新
      */
-    public void checkUpdate()
-    {
-        new Thread(){
+    public void checkUpdate() {
+        new Thread() {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
@@ -111,39 +114,32 @@ public class UpdateManager
      *
      * @return
      */
-    private void isUpdate()
-    {
+    private void isUpdate() {
         // 获取当前软件版本
         int versionCode = getVersionCode(mContext);
         // 把version.xml放到网络上，然后获取文件信息
         //InputStream inStream = ParseXmlService.class.getClassLoader().getResourceAsStream("version.xml");
         // 解析XML文件。 由于XML文件比较小，因此使用DOM方式进行解析
         ParseXmlService service = new ParseXmlService();
-        try
-        {
+        try {
             String path = mContext.getResources().getString(R.string.version);
             URL url = new URL(path);
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.setReadTimeout(5*1000);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5 * 1000);
             conn.setRequestMethod("GET");
             InputStream inStream = conn.getInputStream();
             mHashMap = service.parseXml(inStream);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if (null != mHashMap)
-        {
+        if (null != mHashMap) {
             int serviceCode = Integer.valueOf(mHashMap.get("version"));
             // 版本判断
-            if (serviceCode > versionCode)
-            {
-                isUpdate=1;
+            if (serviceCode > versionCode) {
+                isUpdate = 1;
                 handler.sendEmptyMessage(0);
-            }
-            else
-            {
-                isUpdate=0;
+            } else {
+                isUpdate = 0;
                 handler.sendEmptyMessage(1);
             }
         }
@@ -155,15 +151,14 @@ public class UpdateManager
      * @param context
      * @return
      */
-    private int getVersionCode(Context context)
-    {
+    private int getVersionCode(Context context) {
         int versionCode = 0;
-        try
-        {
+        try {
             // 获取软件版本号，对应AndroidManifest.xml下android:versionCode
-            versionCode = context.getPackageManager().getPackageInfo("top601studio.focus", 0).versionCode;
-        } catch (NameNotFoundException e)
-        {
+            versionCode = context.getPackageManager().getPackageInfo("com.android.potato", 0).versionCode;
+            Log.e("lance_test", "versionCode:" + versionCode);
+        } catch (NameNotFoundException e) {
+            Log.e("lance_test", e.toString());
             e.printStackTrace();
         }
         return versionCode;
@@ -172,30 +167,25 @@ public class UpdateManager
     /**
      * 显示软件更新对话框
      */
-    public void showNoticeDialog()
-    {
+    public void showNoticeDialog() {
         // 构造对话框
         Builder builder = new Builder(mContext);
         builder.setCancelable(false);// 设置点击屏幕Dialog不消失
         builder.setTitle(R.string.soft_update_title);
         builder.setMessage(R.string.soft_update_info);
         // 更新
-        builder.setPositiveButton(R.string.soft_update_updatebtn, new OnClickListener()
-        {
+        builder.setPositiveButton(R.string.soft_update_updatebtn, new OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 // 显示下载对话框
                 showDownloadDialog();
             }
         });
         // 稍后更新
-        builder.setNegativeButton(R.string.soft_update_later, new OnClickListener()
-        {
+        builder.setNegativeButton(R.string.soft_update_later, new OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
@@ -236,8 +226,7 @@ public class UpdateManager
     /**
      * 下载apk文件
      */
-    private void downloadApk()
-    {
+    private void downloadApk() {
         // 启动新线程下载软件
         new downloadApkThread().start();
     }
@@ -245,20 +234,17 @@ public class UpdateManager
     /**
      * 下载文件线程
      */
-    private class downloadApkThread extends Thread
-    {
+    private class downloadApkThread extends Thread {
         @Override
-        public void run()
-        {
-            try
-            {
+        public void run() {
+            try {
                 // 判断SD卡是否存在，并且是否具有读写权限
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-                {
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                     // 获得存储卡的路径
                     String sdpath = Environment.getExternalStorageDirectory() + "/";
                     mSavePath = sdpath + "download";
                     URL url = new URL(mHashMap.get("url"));
+
                     // 创建连接
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.connect();
@@ -269,26 +255,24 @@ public class UpdateManager
 
                     File file = new File(mSavePath);
                     // 判断文件目录是否存在
-                    if (!file.exists())
-                    {
+                    if (!file.exists()) {
                         file.mkdir();
                     }
+
                     File apkFile = new File(mSavePath, mHashMap.get("name"));
                     FileOutputStream fos = new FileOutputStream(apkFile);
                     int count = 0;
                     // 缓存
                     byte buf[] = new byte[1024];
                     // 写入到文件中
-                    do
-                    {
+                    do {
                         int numread = is.read(buf);
                         count += numread;
                         // 计算进度条位置
                         progress = (int) (((float) count / length) * 100);
                         // 更新进度
                         mHandler.sendEmptyMessage(DOWNLOAD);
-                        if (numread <= 0)
-                        {
+                        if (numread <= 0) {
                             // 下载完成
                             mHandler.sendEmptyMessage(DOWNLOAD_FINISH);
                             break;
@@ -299,26 +283,24 @@ public class UpdateManager
                     fos.close();
                     is.close();
                 }
-            } catch (MalformedURLException e)
-            {
+            } catch (MalformedURLException e) {
+                Log.e("lance_test", e.toString());
                 e.printStackTrace();
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
+                Log.e("lance_test", e.toString());
                 e.printStackTrace();
             }
             // 取消下载对话框显示
             mDownloadDialog.dismiss();
         }
-    };
+    }
 
     /**
      * 安装APK文件
      */
-    private void installApk()
-    {
+    private void installApk() {
         File apkfile = new File(mSavePath, mHashMap.get("name"));
-        if (!apkfile.exists())
-        {
+        if (!apkfile.exists()) {
             return;
         }
         // 通过Intent安装APK文件

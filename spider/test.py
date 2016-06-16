@@ -12,7 +12,8 @@
 # github.com/nttech/nttech.github.io.git
 
 
-
+git config --global http.proxy 10.43.146.29:8080
+git config --global https.proxy 10.43.146.29:8080
 
 
 # 参考链接
