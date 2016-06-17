@@ -1,17 +1,8 @@
-<?xml version="1.0"?>
-<!--
-	1. crawl only 1 
-	2. crawl every day to check if new post
--->
-<Origin>
-	<OnlyOnce>
-		<Site url="" filter="" urlpattern=""></Site>
-		<Site url="" filter="" urlpattern=""></Site>
-		<Site url="" filter="" urlpattern=""></Site>
-	</OnlyOnce>
-	<EveryDay>
-		<Site url="" filter=""></Site>
-		<Site url="" filter=""></Site>
-		<Site url="" filter=""></Site>
-	</EveryDay>
-</Origin>
+<?xml version="1.0" encoding="utf-8"?>
+<site_list>
+	<site>
+		<name></name>
+		<refer_url></refer_url>
+		<rule_class></rule_class>
+	</site>
+</site_list>
