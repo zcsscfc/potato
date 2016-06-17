@@ -1,4 +1,4 @@
-
+pkcs12 -export -out h:\certificate_prd.pfx -inkey h:\privatekey_prd.pem -in h:\Applecare-APP157-0001040256.Prod.apple.com.cert.pem
 
 第一步，取1个 url
 
