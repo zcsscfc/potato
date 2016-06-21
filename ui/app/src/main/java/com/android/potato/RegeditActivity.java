@@ -116,6 +116,7 @@ public class RegeditActivity extends Activity {
                             String pwd = new String(Base64.encode(et_pwd.getText().toString().getBytes(), Base64.DEFAULT));
                             userRegRequest.setLog_name(userid);
                             userRegRequest.setPassword(pwd);
+                            userRegRequest.setNick_name(userid);
                             String json = new Gson().toJson(userRegRequest, UserRegRequest.class);
                             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                             OkHttpClient okHttpClient = new OkHttpClient();
