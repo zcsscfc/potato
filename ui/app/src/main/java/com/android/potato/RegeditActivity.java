@@ -44,8 +44,7 @@ import static android.support.v4.app.ActivityCompat.startActivity;
 public class RegeditActivity extends Activity {
     EditText et_userid, et_pwd;
     Button btn_regedit;
-    private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
+    private UserInfoShared userInfoShared = null;
 
     //定义Handler对象
     private Handler handler =new Handler(){
@@ -63,12 +62,15 @@ public class RegeditActivity extends Activity {
                 toast.show();
                 if (userRegReceive.meta.success == "true") {
                     Intent intent = new Intent(RegeditActivity.this, MainActivity.class);
-                    mPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-                    mEditor = mPreferences.edit();
-                    mEditor.putString("user_name", et_userid.getText().toString());
-                    mEditor.putString("user_id", userRegReceive.data.user_id);
-                    mEditor.putString("token", userRegReceive.data.token);
-                    mEditor.commit();
+
+                    userInfoShared = new UserInfoShared(PotatoApplication.getInstance());
+                    userInfoShared.edit();
+                    userInfoShared.setToken(userRegReceive.data.token);
+                    userInfoShared.setUserId(userRegReceive.data.user_id);
+                    userInfoShared.setUserName(et_userid.getText().toString());
+                    userInfoShared.setNickName(et_userid.getText().toString());
+                    userInfoShared.commit();
+
                     startActivity(intent);
                 }
 
@@ -107,34 +109,40 @@ public class RegeditActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            UserRegRequest userRegRequest = new UserRegRequest();
-                            String userid = et_userid.getText().toString();
-                            String pwd = new String(Base64.encode(et_pwd.getText().toString().getBytes(), Base64.DEFAULT));
-                            userRegRequest.setLog_name(userid);
-                            userRegRequest.setPassword(pwd);
-                            userRegRequest.setNick_name(userid);
-                            String json = new Gson().toJson(userRegRequest, UserRegRequest.class);
-                            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-                            OkHttpClient okHttpClient = new OkHttpClient();
-                            RequestBody body = RequestBody.create(JSON, json);
-                            Request request = new Request.Builder()
-                                    .url(AppConfig.SERVER_URL + "user/reg")
-                                    .post(body).build();
-                            Response response = okHttpClient.newCall(request).execute();
-                            String rspStr = response.body().string();
-                            android.os.Message msg = android.os.Message.obtain();
-                            msg.obj = rspStr;
-                            handler.sendMessage(msg);
-                        } catch (Exception ex) {
-                            Toast.makeText(PotatoApplication.getInstance(),
-                                    "error onRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
+                String log_name = et_userid.getText().toString();
+                if(log_name.trim().length()<4){
+                    Toast.makeText(PotatoApplication.getInstance(),
+                            "长度为4-10", Toast.LENGTH_LONG).show();
+                }else {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                UserRegRequest userRegRequest = new UserRegRequest();
+                                String log_name = et_userid.getText().toString();
+                                String pwd = new String(Base64.encode(et_pwd.getText().toString().getBytes(), Base64.DEFAULT));
+                                userRegRequest.setLog_name(log_name);
+                                userRegRequest.setPassword(pwd);
+                                userRegRequest.setNick_name(log_name);
+                                String json = new Gson().toJson(userRegRequest, UserRegRequest.class);
+                                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                                OkHttpClient okHttpClient = new OkHttpClient();
+                                RequestBody body = RequestBody.create(JSON, json);
+                                Request request = new Request.Builder()
+                                        .url(AppConfig.SERVER_URL + "user/reg")
+                                        .post(body).build();
+                                Response response = okHttpClient.newCall(request).execute();
+                                String rspStr = response.body().string();
+                                android.os.Message msg = android.os.Message.obtain();
+                                msg.obj = rspStr;
+                                handler.sendMessage(msg);
+                            } catch (Exception ex) {
+                                Toast.makeText(PotatoApplication.getInstance(),
+                                        "error onRefresh:" + ex.toString(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                }.start();
+                    }.start();
+                }
             }
         });
     }

@@ -73,8 +73,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
-                android:hint="输入账号"
-                android:inputType="textAutoComplete" />
+                android:hint="[字母、数字和_][长度4-10]"
+                android:inputType="textAutoComplete"
+                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+                android:maxLength="10"/>
 
         </TableRow>
 
@@ -104,7 +106,7 @@
                 android:background="@null"
                 android:ems="10"
                 android:hint="设置登录密码"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"/>
 
         </TableRow>
 
