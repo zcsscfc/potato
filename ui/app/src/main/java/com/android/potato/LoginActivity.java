@@ -38,6 +38,7 @@ public class LoginActivity extends Activity {
     Button btn_login;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
+    private UserInfoShared userInfoShared = null;
 
     //定义Handler对象
     private Handler handler =new Handler(){
@@ -55,12 +56,15 @@ public class LoginActivity extends Activity {
                 toast.show();
                 if (userLoginReceive.meta.success == "true") {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    mPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-                    mEditor = mPreferences.edit();
-                    mEditor.putString("user_name", et_userid.getText().toString());
-                    mEditor.putString("user_id", userLoginReceive.data.user_id);
-                    mEditor.putString("token", userLoginReceive.data.token);
-                    mEditor.commit();
+
+                    userInfoShared = new UserInfoShared(PotatoApplication.getInstance());
+                    userInfoShared.edit();
+                    userInfoShared.setToken(userLoginReceive.data.token);
+                    userInfoShared.setUserId(userLoginReceive.data.user_id);
+                    userInfoShared.setUserName(et_userid.getText().toString());
+                    userInfoShared.setNickName(userLoginReceive.data.nick_name);
+                    userInfoShared.commit();
+
                     startActivity(intent);
                 }
 

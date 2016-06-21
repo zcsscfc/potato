@@ -10,6 +10,7 @@ public class UserInfoShared {
     private String userName = null;
     private String userId = null;
     private String token = null;
+    private String nickName = null;
 
     public UserInfoShared(Context context) {
         sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
@@ -55,6 +56,16 @@ public class UserInfoShared {
     public void setToken(String token) {
         if (editor != null) {
             editor.putString("token", token);
+        }
+    }
+
+    public String getNickName() {
+        return sharedPreferences.getString("nick_name", "");
+    }
+
+    public void setNickName(String nickName) {
+        if (editor != null) {
+            editor.putString("nick_name", nickName);
         }
     }
 }
