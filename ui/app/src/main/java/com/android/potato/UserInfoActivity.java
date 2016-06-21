@@ -3,7 +3,6 @@ package com.android.potato;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,15 +11,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 public class UserInfoActivity extends Activity {
     private Button btnLogout = null;
     private ImageButton imgBtnGoBack = null;
     private TextView textViewNickName = null;
     private UserInfoShared userInfoShared = null;
     private TableRow tableRowNickName = null;
-    private TextView textViewUserId = null;
+    private TextView textViewLogName = null;
     private TableRow tableRowWeChat = null;
     private TableRow tableRowMobile = null;
     private TableRow tableRowPassWord = null;
@@ -35,7 +32,7 @@ public class UserInfoActivity extends Activity {
         imgBtnGoBack = (ImageButton) findViewById(R.id.imgBtnGoBack);
         textViewNickName = (TextView) findViewById(R.id.textViewNickName);
         tableRowNickName = (TableRow) findViewById(R.id.tableRowNickName);
-        textViewUserId = (TextView) findViewById(R.id.textViewUserId);
+        textViewLogName = (TextView) findViewById(R.id.textViewLogName);
         tableRowWeChat = (TableRow) findViewById(R.id.tableRowWeChat);
         tableRowMobile = (TableRow)findViewById(R.id.tableRowMobile);
         tableRowPassWord = (TableRow)findViewById(R.id.tableRowPassWord);
@@ -47,8 +44,8 @@ public class UserInfoActivity extends Activity {
         systemBarTintManager.setStatusBarTintEnabled(true);
         systemBarTintManager.setStatusBarTintResource(R.color.color_11);
 
-        textViewNickName.setText(userInfoShared.getUserName());
-        textViewUserId.setText(userInfoShared.getUserId());
+        textViewLogName.setText(userInfoShared.getUserName());
+        textViewNickName.setText(userInfoShared.getNickName());
 
         tableRowNickName.setOnClickListener(new View.OnClickListener() {
             @Override
