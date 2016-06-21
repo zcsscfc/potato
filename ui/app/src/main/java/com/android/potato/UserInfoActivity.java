@@ -99,10 +99,9 @@ public class UserInfoActivity extends Activity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(UserInfoActivity.this)
-                        .setTitle("多选框")
-                        .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
-                        .setPositiveButton("确定", null)
-                        .setNegativeButton("取消", null)
+                        .setTitle("编辑头像")
+                        .setPositiveButton("拍照", null)
+                        .setNegativeButton("相册", null)
                         .show();
             }
         });
