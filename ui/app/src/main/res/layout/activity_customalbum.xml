@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_s1"
+        android:text="确认选中图片"
+        android:textColor="#FFFFFF" />
+
+    <ListView
+        android:id="@+id/listviewPhotos"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:focusable="false" >
+    </ListView>
+
+</LinearLayout>

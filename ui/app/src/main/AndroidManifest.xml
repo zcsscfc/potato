@@ -59,8 +59,15 @@
         <activity
             android:name=".UserInfoActivity"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name="com.potato.camera.CustomAlbumActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name="com.potato.camera.CustomCameraActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>

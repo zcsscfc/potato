@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/itemImgImageInfo"
+        android:layout_width="?android:attr/listPreferredItemHeight"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_marginBottom="4dip"
+        android:layout_marginTop="4dip" >
+    </ImageView>
+
+    <TwoLineListItem
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:mode="twoLine"
+        android:paddingLeft="4dip" >
+
+        <CheckedTextView
+            android:id="@+id/itemChkImageInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
+        </CheckedTextView>
+
+        <TextView
+            android:id="@+id/itemTxtImageInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/itemChkImageInfo"
+            android:layout_marginBottom="4dip"
+            android:gravity="center_vertical|top"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
+        </TextView>
+    </TwoLineListItem>
+
+</LinearLayout>
