@@ -1,0 +1,9 @@
+直接使用/etc/mysql/debian.cnf文件中[client]节提供的用户名和密码: 
+# mysql -udebian-sys-maint -p 
+Enter password: <输入[client]节的密码> 
+mysql> UPDATE user SET Password=PASSWORD(’newpassword’) where USER=’root’; 
+mysql> FLUSH PRIVILEGES; 
+mysql> quit 
+# mysql -uroot -p 
+Enter password: <输入新设的密码newpassword> 
+mysql> 
