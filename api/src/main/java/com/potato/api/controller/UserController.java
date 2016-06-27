@@ -1,6 +1,7 @@
 package com.potato.api.controller;
 
 import com.potato.api.Param.user.LoginParam;
+import com.potato.api.Param.user.ModifyPwdParam;
 import com.potato.api.Param.user.UserEditParam;
 import com.potato.api.Param.user.UserRegParam;
 import com.potato.api.framework.bean.Response;
@@ -49,5 +50,15 @@ public class UserController {
     public Response edit(@RequestBody UserEditParam userEditParam) {
         userService.userEdit(userEditParam);
         return new Response().success();
+    }
+
+    @RequestMapping(value = "/modifyPassword",method = RequestMethod.POST)
+    public Response modifyPassword(@RequestBody ModifyPwdParam modifyPwdParam){
+        ServiceResult serviceResult=userService.modifyPassword(modifyPwdParam);
+        if (serviceResult.isSuccess()) {
+            return new Response().success(serviceResult.getData());
+        } else {
+            return new Response().failure(serviceResult.getMessage());
+        }
     }
 }

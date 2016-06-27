@@ -6,6 +6,7 @@ import com.potato.api.framework.util.CodecUtil;
 import com.potato.api.framework.util.StringUtil;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,12 +18,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultTokenManager implements TokenManager {
 
-    private static Map<String, String> tokenMap = new ConcurrentHashMap<>();
+    private static Map<String, BigInteger> tokenMap = new ConcurrentHashMap<>();
 
     @Override
-    public String createToken(String username) {
+    public String createToken(BigInteger userId) {
         String token = CodecUtil.createUUID();
-        tokenMap.put(token, username);
+        tokenMap.put(token, userId);
         return token;
     }
 
@@ -32,7 +33,7 @@ public class DefaultTokenManager implements TokenManager {
     }
 
     @Override
-    public String getTokenValue(String token) {
+    public BigInteger getTokenValue(String token) {
         return tokenMap.get(token);
     }
 }

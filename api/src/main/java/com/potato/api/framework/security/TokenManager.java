@@ -1,5 +1,7 @@
 package com.potato.api.framework.security;
 
+import java.math.BigInteger;
+
 /**
  * 令牌管理器
  *
@@ -8,8 +10,8 @@ package com.potato.api.framework.security;
  */
 public interface TokenManager {
 
-    String createToken(String username);
+    String createToken(BigInteger userId);
 
     boolean checkToken(String token);
-    String getTokenValue(String token);
+    BigInteger getTokenValue(String token);
 }

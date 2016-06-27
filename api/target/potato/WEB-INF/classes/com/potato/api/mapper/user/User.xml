@@ -9,9 +9,30 @@
 
     <select id="select_user_logName" resultType="com.potato.api.entity.UserEntity"
             parameterType="String">
-        SELECT * FROM sys_user WHERE log_name=#{logName}
+        SELECT
+        user_id,
+        log_name,
+        wechat,
+        password,
+        nick_name,
+        mobile,
+        create_t
+        FROM sys_user
+        WHERE log_name=#{logName}
     </select>
 
+    <select id="select_user_userId" resultType="com.potato.api.entity.UserEntity" parameterType="BigInteger">
+        SELECT
+        user_id,
+        log_name,
+        wechat,
+        password,
+        nick_name,
+        mobile,
+        create_t
+        FROM sys_user
+        WHERE user_id=#{userId}
+    </select>
     <insert id="insert_user" parameterType="com.potato.api.entity.UserEntity">
         INSERT INTO sys_user(
           user_id,
@@ -38,6 +59,12 @@
         mobile=#{mobile},
         nick_name=#{nickName},
         photo=#{photo}
+        WHERE user_id=#{userId}
+    </update>
+
+    <update id="update_password" parameterType="com.potato.api.entity.UserEntity">
+        UPDATE sys_user SET
+        password=#{password}
         WHERE user_id=#{userId}
     </update>
 

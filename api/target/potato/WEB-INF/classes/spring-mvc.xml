@@ -63,13 +63,13 @@
     <!--</bean>-->
 
     <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/*"/>-->
-            <!--<bean id="securityInterceptor" class="com.potato.api.framework.security.SecurityInterceptor">-->
-                <!--<property name="tokenManager" ref="tokenManager"/>-->
-                <!--<property name="tokenName" value="X-Token"/>-->
-            <!--</bean>-->
-        <!--</mvc:interceptor>-->
+    <!--<mvc:interceptor>-->
+    <!--<mvc:mapping path="/*"/>-->
+    <!--<bean id="securityInterceptor" class="com.potato.api.framework.security.SecurityInterceptor">-->
+    <!--<property name="tokenManager" ref="tokenManager"/>-->
+    <!--<property name="tokenName" value="X-Token"/>-->
+    <!--</bean>-->
+    <!--</mvc:interceptor>-->
     <!--</mvc:interceptors>-->
 
     <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>

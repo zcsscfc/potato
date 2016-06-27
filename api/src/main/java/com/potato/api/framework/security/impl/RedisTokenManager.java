@@ -2,9 +2,10 @@ package com.potato.api.framework.security.impl;
 
 import com.potato.api.framework.security.TokenManager;
 import com.potato.api.framework.util.CodecUtil;
-import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+
+import java.math.BigInteger;
 
 /**
  * 基于 Redis 的令牌管理器
@@ -34,16 +35,16 @@ public class RedisTokenManager implements TokenManager {
     }
 
     @Override
-    public String createToken(String username) {
+    public String createToken(BigInteger userId) {
         String token = CodecUtil.createUUID();
-        try (Jedis jedis = jedisPool.getResource()) {
-            jedis.select(database);
-            if (seconds != 0) {
-                jedis.setex(token, seconds, username);
-            } else {
-                jedis.set(token, username);
-            }
-        }
+//        try (Jedis jedis = jedisPool.getResource()) {
+//            jedis.select(database);
+//            if (seconds != 0) {
+//                jedis.setex(token, seconds, userId);
+//            } else {
+//                jedis.set(token, userId);
+//            }
+//        }
         return token;
     }
 
@@ -61,7 +62,7 @@ public class RedisTokenManager implements TokenManager {
     }
 
     @Override
-    public String getTokenValue(String token) {
+    public BigInteger getTokenValue(String token) {
         return null;
     }
 }
