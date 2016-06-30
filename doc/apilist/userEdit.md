@@ -33,7 +33,7 @@ POST
     "photo":"/aaa.jpg",
     "wechat":"MTcyMDA2NjM4",
     "mobile":"MTg1MjEzNTc2Mjk=",
-    "nickName":"vic"
+    "nick_name":"vic"
 }
 ```
 

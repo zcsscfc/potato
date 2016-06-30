@@ -19,11 +19,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.potato.camera.CustomAlbumActivity;
 import com.potato.camera.CustomCameraActivity;
 import com.potato.camera.ImageOperateActivityHandler;
 import com.potato.camera.ImageUtils;
 import com.potato.camera.UploadImages;
+import com.potato.model.UploadImageInput;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +33,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class UserInfoActivity extends Activity {
     private static final int REQ_CODE_IMAGE_CHOOSE = 1;
@@ -175,6 +183,33 @@ public class UserInfoActivity extends Activity {
                 Toast.makeText(UserInfoActivity.this, "注销成功！", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void UpdateUserInfo(final UploadImageInput uploadImageInput) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+
+                    // String pwd = new String(Base64.encode(et_pwd.getText().toString().getBytes(), Base64.DEFAULT));
+                    String json = new Gson().toJson(uploadImageInput, UploadImageInput.class);
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    RequestBody body = RequestBody.create(JSON, json);
+                    Request request = new Request.Builder()
+                            .header("X-Token", userInfoShared.getToken())
+                            .url(AppConfig.SERVER_URL + "user/edit")
+                            .post(body).build();
+                    Response response = okHttpClient.newCall(request).execute();
+                    String rspStr = response.body().string();
+
+
+
+                } catch (Exception ex) {
+                    Log.e("lance_test", ex.toString());
+                }
+            }
+        }.start();
     }
 
     @Override
