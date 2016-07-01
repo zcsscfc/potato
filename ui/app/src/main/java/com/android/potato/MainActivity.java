@@ -1,17 +1,20 @@
 package com.android.potato;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,15 +22,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.potato.list.Utility;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 
 public class MainActivity extends FragmentActivity {
     private DrawerLayout drawerLayout = null;
@@ -35,10 +38,11 @@ public class MainActivity extends FragmentActivity {
     private LeftMenuListAdapter leftMenuListAdapter = null;
     private ListView listViewLeftMenu2 = null;
     private long exitTime = 0;
-    private TextView tv_username;
+    private TextView textViewNickName;
     private static SharedPreferences mPreferences;
     private static SharedPreferences.Editor mEditor;
-    private String userid;
+    private String nickName;
+    private ImageView imageViewPhoto = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +68,17 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        tv_username = (TextView) findViewById(R.id.tv_username);
-        SharedPreferences mPreferences = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        userid = mPreferences.getString("user_name", "");
-        if (userid != "") {
-                /* Create an Intent that will start the Main WordPress Activity. */
+        textViewNickName = (TextView) findViewById(R.id.textViewNickName);
+        imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
 
-            tv_username.setText(userid);
+        UserInfoShared userInfoShared = new UserInfoShared(this);
+        nickName = userInfoShared.getNickName();
+        if (nickName != "") {
+            textViewNickName.setText(nickName);
+        }
+        String photoDiskPath = userInfoShared.getPhotoDiskPath();
+        if (photoDiskPath != "") {
+            SetImageViewPhoto(photoDiskPath);
         }
 
         listViewLeftMenu1 = (ListView) findViewById(R.id.listViewLeftMenu1);
@@ -79,7 +87,7 @@ public class MainActivity extends FragmentActivity {
         relativeLayoutLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userid == "") {
+                if (nickName == "") {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 } else {
@@ -100,7 +108,7 @@ public class MainActivity extends FragmentActivity {
                 Intent intent = new Intent();
                 switch (tv_name) {
                     case "我的待读":
-                        if (userid == "") {
+                        if (nickName == "") {
                             Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
                         } else {
                             intent = new Intent(MainActivity.this, ToReadActivity.class);
@@ -109,7 +117,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case "我的收藏":
 
-                        if (userid == "") {
+                        if (nickName == "") {
                             Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
                         } else {
                             intent = new Intent(MainActivity.this, MyFavActivity.class);
@@ -118,7 +126,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case "订阅的主题":
 
-                        if (userid == "") {
+                        if (nickName == "") {
                             Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
                         } else {
                             intent = new Intent(MainActivity.this, SubTopicActivity.class);
@@ -127,7 +135,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case "订阅的站点":
 
-                        if (userid == "") {
+                        if (nickName == "") {
                             Toast.makeText(getApplicationContext(), "请登录！", Toast.LENGTH_SHORT).show();
                         } else {
                             intent = new Intent(MainActivity.this, SubSiteActivity.class);
@@ -241,5 +249,35 @@ public class MainActivity extends FragmentActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void SetImageViewPhoto(String photoDiskPath) {
+        if (photoDiskPath == null || photoDiskPath == "") {
+            return;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 1;
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(photoDiskPath);
+        } catch (FileNotFoundException e) {
+            Log.e("E000000003", e.toString());
+        }
+        Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream, null, options);
+        try {
+            fileInputStream.close();
+        } catch (IOException e) {
+            Log.e("E000000004", e.toString());
+        }
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) imageViewPhoto.getDrawable();
+        if (bitmapDrawable != null) {
+            Bitmap bitmap2 = bitmapDrawable.getBitmap();
+            if (null != bitmap2 && !bitmap2.isRecycled()) {
+                bitmap2.recycle();
+                bitmap2 = null;
+            }
+        }
+        imageViewPhoto.setImageBitmap(null);
+        imageViewPhoto.setImageBitmap(bitmap);
     }
 }

@@ -2,7 +2,6 @@ package com.android.potato;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -43,17 +42,8 @@ import okhttp3.Response;
 public class UserInfoActivity extends Activity {
     private static final int REQ_CODE_IMAGE_CHOOSE = 1;
     private static final int REQ_CODE_IMAGE_TAKE = 2;
-    private Button btnLogout = null;
-    private ImageButton imgBtnGoBack = null;
-    private TextView textViewNickName = null;
     private UserInfoShared userInfoShared = null;
-    private TableRow tableRowNickName = null;
-    private TextView textViewLogName = null;
-    private TableRow tableRowWeChat = null;
-    private TableRow tableRowMobile = null;
-    private TableRow tableRowPassWord = null;
-    private TableRow tableRowPhoto = null;
-    private ImageView imageViewUserPhoto = null;
+    private ImageView imageViewPhoto = null;
     private ImageOperateActivityHandler handler = null;
 
     @Override
@@ -61,16 +51,16 @@ public class UserInfoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        btnLogout = (Button) findViewById(R.id.btnLogout);
-        imgBtnGoBack = (ImageButton) findViewById(R.id.imgBtnGoBack);
-        textViewNickName = (TextView) findViewById(R.id.textViewNickName);
-        tableRowNickName = (TableRow) findViewById(R.id.tableRowNickName);
-        textViewLogName = (TextView) findViewById(R.id.textViewLogName);
-        tableRowWeChat = (TableRow) findViewById(R.id.tableRowWeChat);
-        tableRowMobile = (TableRow) findViewById(R.id.tableRowMobile);
-        tableRowPassWord = (TableRow) findViewById(R.id.tableRowPassWord);
-        tableRowPhoto = (TableRow) findViewById(R.id.tableRowPhoto);
-        imageViewUserPhoto = (ImageView) findViewById(R.id.imageViewUserPhoto);
+        Button buttonLogOut = (Button) findViewById(R.id.buttonLogOut);
+        ImageButton imageButtonGoBack = (ImageButton) findViewById(R.id.imageButtonGoBack);
+        TextView textViewNickName = (TextView) findViewById(R.id.textViewNickName);
+        TableRow tableRowNickName = (TableRow) findViewById(R.id.tableRowNickName);
+        TextView textViewLogName = (TextView) findViewById(R.id.textViewLogName);
+        TableRow tableRowWeChat = (TableRow) findViewById(R.id.tableRowWeChat);
+        TableRow tableRowMobile = (TableRow) findViewById(R.id.tableRowMobile);
+        TableRow tableRowPassWord = (TableRow) findViewById(R.id.tableRowPassWord);
+        TableRow tableRowPhoto = (TableRow) findViewById(R.id.tableRowPhoto);
+        imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
 
         userInfoShared = new UserInfoShared(this);
         handler = new ImageOperateActivityHandler(this);
@@ -81,109 +71,96 @@ public class UserInfoActivity extends Activity {
 
         textViewLogName.setText(userInfoShared.getUserName());
         textViewNickName.setText(userInfoShared.getNickName());
+        SetImageViewPhoto(userInfoShared.getPhotoDiskPath());
 
-        tableRowNickName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(UserInfoActivity.this)
-                        .setTitle("多选框")
-                        .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
-                        .setPositiveButton("确定", null)
-                        .setNegativeButton("取消", null)
-                        .show();
-            }
-        });
-
-        tableRowWeChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(UserInfoActivity.this)
-                        .setTitle("多选框")
-                        .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
-                        .setPositiveButton("确定", null)
-                        .setNegativeButton("取消", null)
-                        .show();
-            }
-        });
-
-        tableRowMobile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(UserInfoActivity.this)
-                        .setTitle("多选框")
-                        .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
-                        .setPositiveButton("确定", null)
-                        .setNegativeButton("取消", null)
-                        .show();
-            }
-        });
-
-        tableRowPassWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(UserInfoActivity.this)
-                        .setTitle("多选框")
-                        .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
-                        .setPositiveButton("确定", null)
-                        .setNegativeButton("取消", null)
-                        .show();
-            }
-        });
-
-        tableRowPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(UserInfoActivity.this)
-                        .setTitle("编辑头像")
-                        .setPositiveButton("拍照", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent();
-                                intent.setClass(UserInfoActivity.this, CustomCameraActivity.class);
-                                startActivityForResult(intent, REQ_CODE_IMAGE_TAKE);
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton("相册", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    Intent intent = new Intent();
-                                    intent.setClass(UserInfoActivity.this, CustomAlbumActivity.class);
-                                    startActivityForResult(intent, REQ_CODE_IMAGE_CHOOSE);
-                                    dialog.dismiss();
-                                } catch (Exception ex) {
-                                    Log.e("lance_test", ex.toString());
-                                }
-                            }
-                        })
-                        .show();
-            }
-        });
-
-        imgBtnGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userInfoShared.edit();
-                userInfoShared.setUserName("");
-                userInfoShared.setUserId("");
-                userInfoShared.setToken("");
-                userInfoShared.commit();
-
-                Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                Toast.makeText(UserInfoActivity.this, "注销成功！", Toast.LENGTH_LONG).show();
-            }
-        });
+        tableRowNickName.setOnClickListener(onClickListener);
+        tableRowWeChat.setOnClickListener(onClickListener);
+        tableRowMobile.setOnClickListener(onClickListener);
+        tableRowPassWord.setOnClickListener(onClickListener);
+        tableRowPhoto.setOnClickListener(onClickListener);
+        imageButtonGoBack.setOnClickListener(onClickListener);
+        buttonLogOut.setOnClickListener(onClickListener);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.buttonLogOut:
+                    userInfoShared.edit();
+                    userInfoShared.setUserName("");
+                    userInfoShared.setUserId("");
+                    userInfoShared.setToken("");
+                    userInfoShared.commit();
+                    Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(UserInfoActivity.this, "注销成功！", Toast.LENGTH_LONG).show();
+                    break;
+                case R.id.imageButtonGoBack:
+                    finish();
+                    break;
+                case R.id.tableRowPhoto:
+                    new AlertDialog.Builder(UserInfoActivity.this)
+                            .setTitle("编辑头像")
+                            .setPositiveButton("拍照", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(UserInfoActivity.this, CustomCameraActivity.class);
+                                    startActivityForResult(intent, REQ_CODE_IMAGE_TAKE);
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("相册", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        Intent intent = new Intent();
+                                        intent.setClass(UserInfoActivity.this, CustomAlbumActivity.class);
+                                        startActivityForResult(intent, REQ_CODE_IMAGE_CHOOSE);
+                                        dialog.dismiss();
+                                    } catch (Exception ex) {
+                                        Log.e("lance_test", ex.toString());
+                                    }
+                                }
+                            })
+                            .show();
+                    break;
+                case R.id.tableRowPassWord:
+                    new AlertDialog.Builder(UserInfoActivity.this)
+                            .setTitle("多选框")
+                            .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
+                            .setPositiveButton("确定", null)
+                            .setNegativeButton("取消", null)
+                            .show();
+                    break;
+                case R.id.tableRowMobile:
+                    new AlertDialog.Builder(UserInfoActivity.this)
+                            .setTitle("多选框")
+                            .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
+                            .setPositiveButton("确定", null)
+                            .setNegativeButton("取消", null)
+                            .show();
+                    break;
+                case R.id.tableRowWeChat:
+                    new AlertDialog.Builder(UserInfoActivity.this)
+                            .setTitle("多选框")
+                            .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
+                            .setPositiveButton("确定", null)
+                            .setNegativeButton("取消", null)
+                            .show();
+                    break;
+                case R.id.tableRowNickName:
+                    new AlertDialog.Builder(UserInfoActivity.this)
+                            .setTitle("多选框")
+                            .setMultiChoiceItems(new String[]{"选项1", "选项2", "选项3", "选项4"}, null, null)
+                            .setPositiveButton("确定", null)
+                            .setNegativeButton("取消", null)
+                            .show();
+                    break;
+            }
+        }
+    };
 
     public void UpdateUserInfo(final UploadImageInput uploadImageInput) {
         new Thread() {
@@ -211,71 +188,77 @@ public class UserInfoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String savePath = "user/" + userInfoShared.getUserId() + "/photo";
         if (requestCode == REQ_CODE_IMAGE_TAKE && resultCode == RESULT_OK) {
-            ArrayList<String> list = data.getStringArrayListExtra("path");
-            int len = list.size();
-            for (int i = 0; i < len; i++) {
-                String dpath = insertBD_IMAGES(list.get(i), savePath, 100, 100);
-                displayImage(dpath);
-                list.clear();
-                list.add(dpath);
+            ArrayList<String> photoPathList = data.getStringArrayListExtra("path");
+            int len = photoPathList.size();
+            if (len > 0) {
+                String photoDiskPath = SavePhotoMobileDisk(photoPathList.get(0), savePath, 100, 100);
+                SetImageViewPhoto(photoDiskPath);
+                photoPathList.clear();
+                photoPathList.add(photoDiskPath);
+                userInfoShared.edit();
+                userInfoShared.setPhotoDiskPath(photoDiskPath);
+                userInfoShared.commit();
             }
-            new UploadImages(list, handler, savePath).start();
+            new UploadImages(photoPathList, handler, savePath).start();
         } else if (requestCode == REQ_CODE_IMAGE_CHOOSE && resultCode == RESULT_OK) {
-            ArrayList<String> list = data.getStringArrayListExtra("path");
-            int len = list.size();
-            for (int i = 0; i < len; i++) {
-                String dpath = insertBD_IMAGES(list.get(i), savePath, 100, 100);
-                displayImage(dpath);
-                list.clear();
-                list.add(dpath);
+            ArrayList<String> photoPathList = data.getStringArrayListExtra("path");
+            int len = photoPathList.size();
+            if (len > 0) {
+                String photoDiskPath = SavePhotoMobileDisk(photoPathList.get(0), savePath, 100, 100);
+                SetImageViewPhoto(photoDiskPath);
+                photoPathList.clear();
+                photoPathList.add(photoDiskPath);
+                userInfoShared.edit();
+                userInfoShared.setPhotoDiskPath(photoDiskPath);
+                userInfoShared.commit();
             }
-            new UploadImages(list, handler, savePath).start();
+            new UploadImages(photoPathList, handler, savePath).start();
         }
     }
 
-    private void displayImage(String path) {
+    private void SetImageViewPhoto(String photoDiskPath) {
+        if (photoDiskPath == null || photoDiskPath == "") {
+            return;
+        }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 1;
-        FileInputStream fis = null;
+        FileInputStream fileInputStream = null;
         try {
-            fis = new FileInputStream(path);
+            fileInputStream = new FileInputStream(photoDiskPath);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e("E000000001", e.toString());
         }
-        Bitmap bmp = BitmapFactory.decodeStream(fis, null, options);
-
+        Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream, null, options);
         try {
-            fis.close();
+            fileInputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("E000000002", e.toString());
         }
-
-        BitmapDrawable drawable = (BitmapDrawable) imageViewUserPhoto.getDrawable();
-        if (drawable != null) {
-            Bitmap bmp2 = drawable.getBitmap();
-            if (null != bmp2 && !bmp2.isRecycled()) {
-                bmp2.recycle();
-                bmp2 = null;
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) imageViewPhoto.getDrawable();
+        if (bitmapDrawable != null) {
+            Bitmap bitmap2 = bitmapDrawable.getBitmap();
+            if (null != bitmap2 && !bitmap2.isRecycled()) {
+                bitmap2.recycle();
+                bitmap2 = null;
             }
         }
-
-        imageViewUserPhoto.setImageBitmap(null);
-        imageViewUserPhoto.setImageBitmap(bmp);
+        imageViewPhoto.setImageBitmap(null);
+        imageViewPhoto.setImageBitmap(bitmap);
     }
 
-    private String insertBD_IMAGES(String spath, String tag, int w, int h) {
-        String save_dir = app_base_dir + tag;
-        File file = new File(save_dir);
+    private String SavePhotoMobileDisk(String photoPath, String savePath, int width, int height) {
+        String saveDirectory = APP_BASE_DISK_PATH + savePath;
+        File file = new File(saveDirectory);
         if (!file.exists()) {
             file.mkdirs();
         }
-        int index = spath.lastIndexOf("/");
-        String name = spath.substring(index + 1);
-        String uid = UUID.randomUUID().toString();
-        String dpath = save_dir + "/" + uid + name;
-        ImageUtils.resize(spath, w, h, dpath);
-        return dpath;
+        int index = photoPath.lastIndexOf("/");
+        String fileName = photoPath.substring(index + 1);
+        String sid = UUID.randomUUID().toString();
+        String diskPath = saveDirectory + "/" + sid + fileName;
+        ImageUtils.ReSize(photoPath, width, height, diskPath);
+        return diskPath;
     }
 
-    private static final String app_base_dir = Environment.getExternalStorageDirectory() + "/potato/";
+    private static final String APP_BASE_DISK_PATH = Environment.getExternalStorageDirectory() + "/potato/";
 }

@@ -27,7 +27,7 @@ public class ImageUtils {
 	 * @param dpath
 	 *            缩放后图片存放路径
 	 * */
-	public static void resize(String spath, int newWidth, int newHeight,
+	public static void ReSize(String spath, int newWidth, int newHeight,
 							  String dpath) {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;

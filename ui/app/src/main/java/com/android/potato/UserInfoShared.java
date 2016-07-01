@@ -7,11 +7,6 @@ public class UserInfoShared {
     private SharedPreferences sharedPreferences = null;
     private SharedPreferences.Editor editor = null;
 
-    private String userName = null;
-    private String userId = null;
-    private String token = null;
-    private String nickName = null;
-
     public UserInfoShared(Context context) {
         sharedPreferences = context.getSharedPreferences("userInfo", context.MODE_PRIVATE);
     }
@@ -66,6 +61,16 @@ public class UserInfoShared {
     public void setNickName(String nickName) {
         if (editor != null) {
             editor.putString("nick_name", nickName);
+        }
+    }
+
+    public String getPhotoDiskPath() {
+        return sharedPreferences.getString("photoDiskPath", "");
+    }
+
+    public void setPhotoDiskPath(String photoDiskPath) {
+        if (editor != null) {
+            editor.putString("photoDiskPath", photoDiskPath);
         }
     }
 }
