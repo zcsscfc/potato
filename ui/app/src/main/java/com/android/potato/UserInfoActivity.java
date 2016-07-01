@@ -190,8 +190,6 @@ public class UserInfoActivity extends Activity {
             @Override
             public void run() {
                 try {
-
-                    // String pwd = new String(Base64.encode(et_pwd.getText().toString().getBytes(), Base64.DEFAULT));
                     String json = new Gson().toJson(uploadImageInput, UploadImageInput.class);
                     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient okHttpClient = new OkHttpClient();
@@ -202,9 +200,6 @@ public class UserInfoActivity extends Activity {
                             .post(body).build();
                     Response response = okHttpClient.newCall(request).execute();
                     String rspStr = response.body().string();
-
-
-
                 } catch (Exception ex) {
                     Log.e("lance_test", ex.toString());
                 }
@@ -216,7 +211,7 @@ public class UserInfoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String savePath = "user/" + userInfoShared.getUserId() + "/photo";
         if (requestCode == REQ_CODE_IMAGE_TAKE && resultCode == RESULT_OK) {
-            ArrayList<String> list = data.getStringArrayListExtra("pathlist");
+            ArrayList<String> list = data.getStringArrayListExtra("path");
             int len = list.size();
             for (int i = 0; i < len; i++) {
                 String dpath = insertBD_IMAGES(list.get(i), savePath, 100, 100);
@@ -226,7 +221,7 @@ public class UserInfoActivity extends Activity {
             }
             new UploadImages(list, handler, savePath).start();
         } else if (requestCode == REQ_CODE_IMAGE_CHOOSE && resultCode == RESULT_OK) {
-            ArrayList<String> list = data.getStringArrayListExtra("pathlist");
+            ArrayList<String> list = data.getStringArrayListExtra("path");
             int len = list.size();
             for (int i = 0; i < len; i++) {
                 String dpath = insertBD_IMAGES(list.get(i), savePath, 100, 100);

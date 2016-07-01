@@ -76,7 +76,7 @@ public class CustomAlbumActivity extends Activity {
 			case R.id.btnConfirm:
 				Intent intent = new Intent();
 				ArrayList<String> list = adapter.getSelected(pathList);
-				intent.putStringArrayListExtra("pathlist", list);
+				intent.putStringArrayListExtra("path", list);
 				setResult(RESULT_OK, intent);
 				finish();
 				break;

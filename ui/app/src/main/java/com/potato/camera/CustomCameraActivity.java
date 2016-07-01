@@ -131,7 +131,7 @@ public class CustomCameraActivity extends Activity {
 
 			ArrayList<String> list = new ArrayList<String>();
 			list.add(path);
-			intent.putStringArrayListExtra("pathlist", list);
+			intent.putStringArrayListExtra("path", list);
 			setResult(RESULT_OK, intent);
 
 			data = null;
