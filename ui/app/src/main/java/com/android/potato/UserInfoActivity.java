@@ -88,9 +88,7 @@ public class UserInfoActivity extends Activity {
             switch (v.getId()) {
                 case R.id.buttonLogOut:
                     userInfoShared.edit();
-                    userInfoShared.setUserName("");
-                    userInfoShared.setUserId("");
-                    userInfoShared.setToken("");
+                    userInfoShared.clear(); // 清除所有讯息
                     userInfoShared.commit();
                     Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
                     startActivity(intent);

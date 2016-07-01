@@ -77,9 +77,7 @@ public class MainActivity extends FragmentActivity {
             textViewNickName.setText(nickName);
         }
         String photoDiskPath = userInfoShared.getPhotoDiskPath();
-        if (photoDiskPath != "") {
-            SetImageViewPhoto(photoDiskPath);
-        }
+        SetImageViewPhoto(photoDiskPath);
 
         listViewLeftMenu1 = (ListView) findViewById(R.id.listViewLeftMenu1);
         RelativeLayout relativeLayoutLogin = (RelativeLayout) findViewById(R.id.relativeLayoutLogin);
@@ -251,8 +249,15 @@ public class MainActivity extends FragmentActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+
     private void SetImageViewPhoto(String photoDiskPath) {
         if (photoDiskPath == null || photoDiskPath == "") {
+            imageViewPhoto.setImageResource(R.drawable.u244);
             return;
         }
         BitmapFactory.Options options = new BitmapFactory.Options();

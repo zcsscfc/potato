@@ -17,6 +17,12 @@ public class UserInfoShared {
         }
     }
 
+    public void clear() {
+        if (editor != null) {
+            editor.clear();
+        }
+    }
+
     public boolean commit() {
         if (editor != null) {
             return editor.commit();
