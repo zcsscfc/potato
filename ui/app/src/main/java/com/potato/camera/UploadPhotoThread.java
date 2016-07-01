@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.os.Message;
 
-public class UploadImages extends Thread {
+public class UploadPhotoThread extends Thread {
     private ImageOperateActivityHandler handler;
     private ArrayList<String> list;
 
@@ -21,8 +21,8 @@ public class UploadImages extends Thread {
     public static final String br = "\r\n";
     public static final String twoHyphens = "--";
 
-    public UploadImages(ArrayList<String> list,
-                        ImageOperateActivityHandler handler, String server_save_path) {
+    public UploadPhotoThread(ArrayList<String> list,
+                             ImageOperateActivityHandler handler, String server_save_path) {
         this.list = list;
         this.handler = handler;
         this.server_save_path = server_save_path;

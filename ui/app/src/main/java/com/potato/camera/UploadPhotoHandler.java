@@ -14,14 +14,14 @@ import com.google.gson.Gson;
 import com.potato.model.UploadImageInput;
 import com.potato.model.UploadImageResult;
 
-public class ImageOperateActivityHandler extends Handler {
+public class UploadPhotoHandler extends Handler {
     public final int msg_upload_fail = 0;
     public final int msg_upload_success = 1;
 
     private WeakReference<UserInfoActivity> mActivity;
     private UserInfoActivity theActivity;
 
-    public ImageOperateActivityHandler(UserInfoActivity activity) {
+    public UploadPhotoHandler(UserInfoActivity activity) {
         mActivity = new WeakReference<UserInfoActivity>(activity);
         theActivity = mActivity.get();
     }
