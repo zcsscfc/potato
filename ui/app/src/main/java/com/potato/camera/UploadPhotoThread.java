@@ -7,72 +7,72 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import android.os.Bundle;
 import android.os.Message;
 
-public class UploadPhotoThread extends Thread {
-    private ImageOperateActivityHandler handler;
-    private ArrayList<String> list;
+import com.android.potato.AppConfig;
 
-    private String urlStr = "http://ec2-52-193-201-108.ap-northeast-1.compute.amazonaws.com/file/upload";
-    private String server_save_path = null;
+public class UploadPhotoThread extends Thread {
+    private UploadPhotoHandler handler = null;
+    private ArrayList<String> list = null;
+
+    private String api = AppConfig.SERVER_URL + "file/upload";
+    private String savePath = null;
 
     public static final String boundary = "*****";
     public static final String br = "\r\n";
     public static final String twoHyphens = "--";
 
-    public UploadPhotoThread(ArrayList<String> list,
-                             ImageOperateActivityHandler handler, String server_save_path) {
+    public UploadPhotoThread(ArrayList<String> list, UploadPhotoHandler handler, String savePath) {
         this.list = list;
         this.handler = handler;
-        this.server_save_path = server_save_path;
+        this.savePath = savePath;
     }
 
     @Override
     public void run() {
-        DataOutputStream dos = null;
-        InputStream is = null;
-        HttpURLConnection conn = null;
+        DataOutputStream dataOutputStream = null;
+        InputStream inputStream = null;
+        HttpURLConnection httpURLConnection = null;
 
         try {
-            URL url = new URL(urlStr);
-            URLConnection urlConn = url.openConnection();
-            conn = (HttpURLConnection) urlConn;
+            URL url = new URL(api);
+            URLConnection urlConnection = url.openConnection();
+            httpURLConnection = (HttpURLConnection) urlConnection;
 
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setUseCaches(false);
-            conn.setRequestMethod("POST");
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setUseCaches(false);
+            httpURLConnection.setRequestMethod("POST");
 
-            conn.setRequestProperty("Connection", "Keep-Alive");
-            conn.setRequestProperty("Charset", "UTF-8");
-            conn.setRequestProperty("Content-Type",
+            httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
+            httpURLConnection.setRequestProperty("Charset", "UTF-8");
+            httpURLConnection.setRequestProperty("Content-Type",
                     "multipart/form-data;boundary=" + boundary); // 类型和分割标志
 
-            dos = new DataOutputStream(conn.getOutputStream());
+            dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
 
-            dos.writeBytes(twoHyphens + boundary + br);
+            dataOutputStream.writeBytes(twoHyphens + boundary + br);
 
-            dos.writeBytes("Content-Disposition: form-data; " + "name=\"path\""
+            dataOutputStream.writeBytes("Content-Disposition: form-data; " + "name=\"path\""
                     + br);
-            dos.writeBytes(br);
-            dos.writeBytes(server_save_path + br);
-            dos.writeBytes(twoHyphens + boundary + br);
+            dataOutputStream.writeBytes(br);
+            dataOutputStream.writeBytes(savePath + br);
+            dataOutputStream.writeBytes(twoHyphens + boundary + br);
 
             int len = list.size();
             for (int i = 0; i < len; i++) {
                 String path = list.get(i);
-                WebUtils.buildImageRawData("fileUpload" + i, dos, path);
-                dos.writeBytes(br);
+                WebUtils.buildImageRawData("fileUpload" + i, dataOutputStream, path);
+                dataOutputStream.writeBytes(br);
                 if (i < len - 1)
-                    dos.writeBytes(twoHyphens + boundary + br); // 最后一个图片，如果是http最末尾，则
+                    dataOutputStream.writeBytes(twoHyphens + boundary + br); // 最后一个图片，如果是http最末尾，则
             }
 
-            dos.writeBytes(twoHyphens + boundary + twoHyphens + br); // http 最末尾
-            dos.flush();
+            dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + br); // http 最末尾
+            dataOutputStream.flush();
 
-            is = conn.getInputStream();
-            String result = WebUtils.inputStream2String(is);
+            inputStream = httpURLConnection.getInputStream();
+            String result = WebUtils.inputStream2String(inputStream);
 
             Message msg = Message.obtain();
             msg.what = handler.msg_upload_success;
@@ -86,12 +86,12 @@ public class UploadPhotoThread extends Thread {
             handler.sendMessage(msg);
         } finally {
             try {
-                if (dos != null)
-                    dos.close();
-                if (is != null)
-                    is.close();
-                if (conn != null)
-                    conn.disconnect();
+                if (dataOutputStream != null)
+                    dataOutputStream.close();
+                if (inputStream != null)
+                    inputStream.close();
+                if (httpURLConnection != null)
+                    httpURLConnection.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
             }

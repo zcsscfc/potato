@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,10 +22,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.potato.camera.CustomAlbumActivity;
-import com.potato.camera.CustomCameraActivity;
-import com.potato.camera.ImageOperateActivityHandler;
+import com.potato.camera.UploadPhotoHandler;
 import com.potato.camera.ImageUtils;
-import com.potato.camera.UploadImages;
+import com.potato.camera.UploadPhotoThread;
 import com.potato.model.UploadImageInput;
 
 import java.io.File;
@@ -44,7 +45,7 @@ public class UserInfoActivity extends Activity {
     private static final int REQ_CODE_IMAGE_TAKE = 2;
     private UserInfoShared userInfoShared = null;
     private ImageView imageViewPhoto = null;
-    private ImageOperateActivityHandler handler = null;
+    private UploadPhotoHandler handler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class UserInfoActivity extends Activity {
         imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
 
         userInfoShared = new UserInfoShared(this);
-        handler = new ImageOperateActivityHandler(this);
+        handler = new UploadPhotoHandler(this);
 
         SystemBarTintManager systemBarTintManager = new SystemBarTintManager(this);
         systemBarTintManager.setStatusBarTintEnabled(true);
@@ -103,8 +104,12 @@ public class UserInfoActivity extends Activity {
                             .setPositiveButton("拍照", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent();
-                                    intent.setClass(UserInfoActivity.this, CustomCameraActivity.class);
+                                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    String savePath = "user/" + userInfoShared.getUserId() + "/photo";
+                                    String photoPath = APP_BASE_DISK_PATH + savePath + "/temp.jpg";
+                                    File photoFile = new File(photoPath);
+                                    Uri photoUri = Uri.fromFile(photoFile);
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                                     startActivityForResult(intent, REQ_CODE_IMAGE_TAKE);
                                     dialog.dismiss();
                                 }
@@ -186,18 +191,19 @@ public class UserInfoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String savePath = "user/" + userInfoShared.getUserId() + "/photo";
         if (requestCode == REQ_CODE_IMAGE_TAKE && resultCode == RESULT_OK) {
-            ArrayList<String> photoPathList = data.getStringArrayListExtra("path");
-            int len = photoPathList.size();
-            if (len > 0) {
-                String photoDiskPath = SavePhotoMobileDisk(photoPathList.get(0), savePath, 100, 100);
+            try {
+                String path = APP_BASE_DISK_PATH + savePath + "/temp.jpg";
+                ArrayList<String> list = new ArrayList<String>();
+                String photoDiskPath = SavePhotoMobileDisk(path, savePath, 100, 100);
                 SetImageViewPhoto(photoDiskPath);
-                photoPathList.clear();
-                photoPathList.add(photoDiskPath);
+                list.add(photoDiskPath);
                 userInfoShared.edit();
                 userInfoShared.setPhotoDiskPath(photoDiskPath);
                 userInfoShared.commit();
+                new UploadPhotoThread(list, handler, savePath).start();
+            } catch (Exception ex) {
+                Log.e("E000000005", ex.toString());
             }
-            new UploadImages(photoPathList, handler, savePath).start();
         } else if (requestCode == REQ_CODE_IMAGE_CHOOSE && resultCode == RESULT_OK) {
             ArrayList<String> photoPathList = data.getStringArrayListExtra("path");
             int len = photoPathList.size();
@@ -210,7 +216,7 @@ public class UserInfoActivity extends Activity {
                 userInfoShared.setPhotoDiskPath(photoDiskPath);
                 userInfoShared.commit();
             }
-            new UploadImages(photoPathList, handler, savePath).start();
+            new UploadPhotoThread(photoPathList, handler, savePath).start();
         }
     }
 

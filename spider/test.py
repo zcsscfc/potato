@@ -4,7 +4,7 @@ pkcs12 -export -out h:\certificate_prd.pfx -inkey h:\privatekey_prd.pem -in h:\A
 
 第二步，判断 url 是否已经抓取过
 
--- 目前错误编码， E000000004 使用 + 1
+-- 目前错误编码， E000000005 使用 + 1
 
 
 
