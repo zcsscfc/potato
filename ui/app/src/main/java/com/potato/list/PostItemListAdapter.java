@@ -65,7 +65,11 @@ public class PostItemListAdapter extends BaseAdapter {
             holder.imageViewThumb.setVisibility(View.VISIBLE);
             String imageUrl = AppConfig.SERVER_URL2 + thumb;
             //根据图片url给imageView加载图片，自动本地缓存、内存缓存
-            EasyImageLoader.getInstance(context).bindBitmap(imageUrl, holder.imageViewThumb);
+            try {
+                EasyImageLoader.getInstance(context).bindBitmap(imageUrl, holder.imageViewThumb);
+            } catch (Exception ex) {
+
+            }
 
 //重载方法加载图片并根据需求宽高压缩图片
             //EasyImageLoader.getInstance(context).bindBitmap(imageUrl, imageView,reqWidth,reqHeight);

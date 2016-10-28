@@ -267,6 +267,7 @@ public class MainActivity extends FragmentActivity {
             fileInputStream = new FileInputStream(photoDiskPath);
         } catch (FileNotFoundException e) {
             Log.e("E000000003", e.toString());
+            return;
         }
         Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream, null, options);
         try {
